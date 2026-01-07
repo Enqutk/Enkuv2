@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Admin Panel — Enku Taddesse</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        .admin-container { max-width: 1200px; margin: 100px auto 40px; padding: 20px; }
+        .admin-card { background: #fff; border-radius: 14px; box-shadow: 0 14px 40px rgba(12,18,30,0.06); padding: 30px; margin-bottom: 30px; }
+        .admin-header { border-bottom: 2px solid rgba(184,134,11,0.2); padding-bottom: 20px; margin-bottom: 30px; }
+        .form-section { margin-bottom: 30px; }
+        .preview-image { max-width: 100%; max-height: 300px; border-radius: 10px; margin-top: 10px; }
+        .item-list { margin-top: 20px; }
+        .item-card { background: #f8f9fa; border-radius: 10px; padding: 15px; margin-bottom: 15px; border-left: 4px solid var(--gold); }
+        .item-card.featured { border-left-color: #b8860b; background: #fffbf0; }
+        .btn-delete { background: #dc3545; color: white; }
+        .btn-edit { background: #0d6efd; color: white; }
+        .tabs { border-bottom: 2px solid #e9ecef; margin-bottom: 30px; }
+        .tab-btn { background: none; border: none; padding: 15px 25px; cursor: pointer; font-weight: 600; color: var(--muted); border-bottom: 3px solid transparent; }
+        .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+        .gallery-selector-btn { margin-top: 8px; }
+        .gallery-selector-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; max-height: 400px; overflow-y: auto; padding: 15px; }
+        .gallery-selector-item { cursor: pointer; border: 2px solid transparent; border-radius: 8px; overflow: hidden; transition: all 0.2s; }
+        .gallery-selector-item:hover { border-color: var(--gold); transform: scale(1.05); }
+        .gallery-selector-item.selected { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(184,134,11,0.2); }
+        .gallery-selector-item img { width: 100%; height: 120px; object-fit: cover; display: block; }
+        .gallery-selector-item-title { padding: 8px; font-size: 0.85rem; text-align: center; background: #f8f9fa; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black fixed-top navbar-custom">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html" target="_blank">Enku Taddesse</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html" target="_blank">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html" target="_blank">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="projects.html" target="_blank">Projects</a></li>
+                    <li class="nav-item"><a class="nav-link" href="blog.html" target="_blank">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery.html" target="_blank">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="admin.html">Admin</a></li>
+                </ul>
+                <div class="ms-3">
+                    <button class="btn btn-outline-light btn-sm" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1 class="fw-bold">Admin Panel</h1>
+            <p class="text-muted">Manage your blog posts and gallery items</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="blog">Blog Posts</button>
+            <button class="tab-btn" data-tab="gallery">Gallery</button>
+        </div>
+
+        <!-- Blog Tab -->
+        <div id="blog-tab" class="tab-content">
+            <div class="admin-card">
+                <h3 class="fw-bold mb-4">Add New Blog Post</h3>
+                <form id="blog-form">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Title</label>
+                            <input type="text" class="form-control" id="blog-title" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Excerpt (Short Description)</label>
+                            <textarea class="form-control" id="blog-excerpt" rows="2" placeholder="Brief summary that appears on home page..."></textarea>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Content</label>
+                            <textarea class="form-control" id="blog-content" rows="8" required placeholder="Full blog post content..."></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Image</label>
+                            <div class="mb-2">
+                                <input type="file" class="form-control" id="blog-image-file" accept="image/*" style="display: none;">
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="document.getElementById('blog-image-file').click()">
+                                        📁 Choose from Computer
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#gallerySelectorModal" data-target-input="blog-image">
+                                        🖼️ Select from Gallery
+                                    </button>
+                                </div>
+                            </div>
+                            <input type="url" class="form-control mt-2" id="blog-image" placeholder="Or enter image URL manually">
+                            <div id="blog-image-preview" class="mt-2"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Category</label>
+                            <input type="text" class="form-control" id="blog-category" placeholder="e.g., Technology, Design">
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="blog-featured">
+                                <label class="form-check-label" for="blog-featured">
+                                    <strong>Feature this post</strong> (will appear at top of home page)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-gold btn-lg">Publish Blog Post</button>
+                            <button type="reset" class="btn btn-outline-secondary btn-lg ms-2">Clear</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="admin-card">
+                <h3 class="fw-bold mb-4">Existing Blog Posts</h3>
+                <div id="blog-list" class="item-list"></div>
+            </div>
+        </div>
+
+        <!-- Gallery Tab -->
+        <div id="gallery-tab" class="tab-content" style="display: none;">
+            <div class="admin-card">
+                <h3 class="fw-bold mb-4">Add New Gallery Item</h3>
+                <form id="gallery-form">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Title</label>
+                            <input type="text" class="form-control" id="gallery-title" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Description</label>
+                            <textarea class="form-control" id="gallery-description" rows="3" placeholder="Optional description..."></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Image</label>
+                            <div class="mb-2">
+                                <input type="file" class="form-control" id="gallery-image-file" accept="image/*" style="display: none;">
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="document.getElementById('gallery-image-file').click()">
+                                        📁 Choose from Computer
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#gallerySelectorModal" data-target-input="gallery-image">
+                                        🖼️ Select from Gallery
+                                    </button>
+                                </div>
+                            </div>
+                            <input type="url" class="form-control mt-2" id="gallery-image" required placeholder="Or enter image URL manually">
+                            <div id="gallery-image-preview" class="mt-2"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Category</label>
+                            <input type="text" class="form-control" id="gallery-category" placeholder="e.g., Projects, Events">
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-gold btn-lg">Add to Gallery</button>
+                            <button type="reset" class="btn btn-outline-secondary btn-lg ms-2">Clear</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="admin-card">
+                <h3 class="fw-bold mb-4">Existing Gallery Items</h3>
+                <div id="gallery-list" class="item-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery Selector Modal -->
+    <div class="modal fade" id="gallerySelectorModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">Select Image from Gallery</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="gallery-selector-grid" class="gallery-selector-grid">
+                        <!-- Gallery items will be loaded here -->
+                    </div>
+                    <div class="mt-3 text-center">
+                        <p class="text-muted small">Click on an image to select it</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="py-4 bg-dark text-white">
+        <div class="container text-center">
+            <small>&copy; <span id="footer-year"></span> Enku Taddesse. All rights reserved.</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+        $(function() {
+            // Check authentication
+            if (!api.token) {
+                window.location.href = 'admin-login.html';
+                return;
+            }
+
+            // Verify admin access
+            api.getCurrentUser().catch(() => {
+                window.location.href = 'admin-login.html';
+            });
+
+            $('#footer-year').text(new Date().getFullYear());
+
+            // Tab switching
+            $('.tab-btn').on('click', function() {
+                const tab = $(this).data('tab');
+                $('.tab-btn').removeClass('active');
+                $(this).addClass('active');
+                $('.tab-content').hide();
+                $(`#${tab}-tab`).show();
+            });
+
+            // Gallery Selector Modal functionality
+            let currentTargetInput = null;
+            $('#gallerySelectorModal').on('show.bs.modal', function(e) {
+                const button = $(e.relatedTarget);
+                currentTargetInput = button.data('target-input');
+                loadGallerySelector();
+            });
+
+            async function loadGallerySelector() {
+                try {
+                    const gallery = await api.getGalleryItems();
+                    const $grid = $('#gallery-selector-grid');
+                    $grid.empty();
+
+                    if (gallery.length === 0) {
+                        $grid.html('<div class="col-12 text-center py-4"><p class="text-muted">No gallery items yet. Add images to gallery first!</p></div>');
+                        return;
+                    }
+
+                    gallery.forEach(item => {
+                        const baseUrl = 'http://localhost:3000'; // Update this to match your backend URL
+                        const imageUrl = item.image.startsWith('http') ? item.image : (baseUrl + item.image);
+                        const $item = $(`
+                            <div class="gallery-selector-item" data-image-url="${escapeHtml(item.image)}" data-image-title="${escapeHtml(item.title)}">
+                                <img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(item.title)}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22%3E%3C/svg%3E'">
+                                <div class="gallery-selector-item-title">${escapeHtml(item.title)}</div>
+                            </div>
+                        `);
+                        $item.on('click', function() {
+                            const imageUrl = $(this).data('image-url');
+                            if (currentTargetInput) {
+                                $(`#${currentTargetInput}`).val(imageUrl);
+                                // Trigger input event to update preview
+                                $(`#${currentTargetInput}`).trigger('input');
+                            }
+                            // Close modal
+                            const modal = bootstrap.Modal.getInstance(document.getElementById('gallerySelectorModal'));
+                            modal.hide();
+                        });
+                        $grid.append($item);
+                    });
+                } catch (error) {
+                    console.error('Load gallery selector error:', error);
+                    $('#gallery-selector-grid').html('<p class="text-danger">Error loading gallery</p>');
+                }
+            }
+
+            // Handle file selection for blog images
+            $('#blog-image-file').on('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                        alert('Image file is too large. Please choose an image smaller than 5MB.');
+                        return;
+                    }
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const dataUrl = e.target.result;
+                        $('#blog-image').val(dataUrl);
+                        $('#blog-image-preview').html(`<img src="${dataUrl}" class="preview-image">`);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Handle file selection for gallery images
+            $('#gallery-image-file').on('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                        alert('Image file is too large. Please choose an image smaller than 5MB.');
+                        return;
+                    }
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const dataUrl = e.target.result;
+                        $('#gallery-image').val(dataUrl);
+                        $('#gallery-image-preview').html(`<img src="${dataUrl}" class="preview-image">`);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Image preview for blog (from URL)
+            $('#blog-image').on('input', function() {
+                const url = $(this).val();
+                if (url) {
+                    $('#blog-image-preview').html(`<img src="${url}" class="preview-image" onerror="this.style.display='none'">`);
+                } else {
+                    $('#blog-image-preview').html('');
+                }
+            });
+
+            // Image preview for gallery (from URL)
+            $('#gallery-image').on('input', function() {
+                const url = $(this).val();
+                if (url) {
+                    $('#gallery-image-preview').html(`<img src="${url}" class="preview-image" onerror="this.style.display='none'">`);
+                } else {
+                    $('#gallery-image-preview').html('');
+                }
+            });
+
+            // Blog form submission
+            $('#blog-form').on('submit', async function(e) {
+                e.preventDefault();
+                const $form = $(this);
+                const $submitBtn = $form.find('button[type="submit"]');
+                
+                const formData = new FormData();
+                formData.append('title', $('#blog-title').val());
+                formData.append('content', $('#blog-content').val());
+                formData.append('excerpt', $('#blog-excerpt').val() || $('#blog-content').val().substring(0, 150) + '...');
+                formData.append('category', $('#blog-category').val() || '');
+                formData.append('featured', $('#blog-featured').is(':checked'));
+
+                const imageFile = document.getElementById('blog-image-file').files[0];
+                const imageUrl = $('#blog-image').val();
+
+                if (imageFile) {
+                    formData.append('image', imageFile);
+                } else if (imageUrl) {
+                    formData.append('image', imageUrl);
+                }
+
+                $submitBtn.prop('disabled', true).text('Publishing...');
+
+                try {
+                    await api.createBlogPost(formData);
+                    alert('Blog post published successfully!');
+                    $form[0].reset();
+                    $('#blog-image-preview').html('');
+                    $('#blog-image-file').val('');
+                    loadBlogs();
+                } catch (error) {
+                    alert('Error: ' + error.message);
+                } finally {
+                    $submitBtn.prop('disabled', false).text('Publish Blog Post');
+                }
+            });
+
+            // Gallery form submission
+            $('#gallery-form').on('submit', async function(e) {
+                e.preventDefault();
+                const $form = $(this);
+                const $submitBtn = $form.find('button[type="submit"]');
+
+                const formData = new FormData();
+                formData.append('title', $('#gallery-title').val());
+                formData.append('description', $('#gallery-description').val() || '');
+                formData.append('category', $('#gallery-category').val() || '');
+
+                const imageFile = document.getElementById('gallery-image-file').files[0];
+                const imageUrl = $('#gallery-image').val();
+
+                if (imageFile) {
+                    formData.append('image', imageFile);
+                } else if (imageUrl) {
+                    formData.append('image', imageUrl);
+                } else {
+                    alert('Please select an image');
+                    return;
+                }
+
+                $submitBtn.prop('disabled', true).text('Adding...');
+
+                try {
+                    await api.createGalleryItem(formData);
+                    alert('Gallery item added successfully!');
+                    $form[0].reset();
+                    $('#gallery-image-preview').html('');
+                    $('#gallery-image-file').val('');
+                    loadGallery();
+                } catch (error) {
+                    alert('Error: ' + error.message);
+                } finally {
+                    $submitBtn.prop('disabled', false).text('Add to Gallery');
+                }
+            });
+
+            // Load and display blogs
+            async function loadBlogs() {
+                try {
+                    const blogs = await api.getBlogPosts();
+                    const $list = $('#blog-list');
+                    $list.empty();
+
+                    if (blogs.length === 0) {
+                        $list.html('<p class="text-muted">No blog posts yet. Create your first post!</p>');
+                        return;
+                    }
+
+                    blogs.forEach(blog => {
+                        const date = new Date(blog.created_at).toLocaleDateString();
+                        const featuredBadge = blog.featured ? '<span class="badge bg-warning text-dark ms-2">Featured</span>' : '';
+                        const $card = $(`
+                            <div class="item-card ${blog.featured ? 'featured' : ''}">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="flex-grow-1">
+                                        <h5 class="mb-2">${escapeHtml(blog.title)} ${featuredBadge}</h5>
+                                        <p class="text-muted small mb-2">${escapeHtml(blog.excerpt || '')}</p>
+                                        <div class="d-flex gap-2 align-items-center">
+                                            <small class="text-muted">${date}</small>
+                                            ${blog.category ? `<span class="badge bg-secondary">${escapeHtml(blog.category)}</span>` : ''}
+                                            <small class="text-muted">Views: ${blog.views || 0}</small>
+                                        </div>
+                                    </div>
+                                    <div class="ms-3">
+                                        <button class="btn btn-sm btn-delete" onclick="deleteBlog(${blog.id})">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `);
+                        $list.append($card);
+                    });
+                } catch (error) {
+                    console.error('Load blogs error:', error);
+                    $('#blog-list').html('<p class="text-danger">Error loading blog posts</p>');
+                }
+            }
+
+            // Load and display gallery
+            async function loadGallery() {
+                try {
+                    const gallery = await api.getGalleryItems();
+                    const $list = $('#gallery-list');
+                    $list.empty();
+
+                    if (gallery.length === 0) {
+                        $list.html('<p class="text-muted">No gallery items yet. Add your first item!</p>');
+                        return;
+                    }
+
+                    gallery.forEach(item => {
+                        const date = new Date(item.created_at).toLocaleDateString();
+                        const imageUrl = item.image.startsWith('http') ? item.image : (API_BASE_URL.replace('/api', '') + item.image);
+                        const $card = $(`
+                            <div class="item-card">
+                                <div class="d-flex gap-3">
+                                    <img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(item.title)}" style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px;" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%22120%22%3E%3Crect fill=%22%23ddd%22 width=%22120%22 height=%22120%22/%3E%3Ctext fill=%22%23999%22 font-family=%22sans-serif%22 font-size=%2214%22 dy=%2210.5%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22%3ENo Image%3C/text%3E%3C/svg%3E'">
+                                    <div class="flex-grow-1">
+                                        <h5 class="mb-2">${escapeHtml(item.title)}</h5>
+                                        ${item.description ? `<p class="text-muted small mb-2">${escapeHtml(item.description)}</p>` : ''}
+                                        <div class="d-flex gap-2 align-items-center">
+                                            <small class="text-muted">${date}</small>
+                                            ${item.category ? `<span class="badge bg-secondary">${escapeHtml(item.category)}</span>` : ''}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-sm btn-delete" onclick="deleteGalleryItem(${item.id})">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `);
+                        $list.append($card);
+                    });
+                } catch (error) {
+                    console.error('Load gallery error:', error);
+                    $('#gallery-list').html('<p class="text-danger">Error loading gallery items</p>');
+                }
+            }
+
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            window.deleteBlog = async function(id) {
+                if (confirm('Are you sure you want to delete this blog post?')) {
+                    try {
+                        await api.deleteBlogPost(id);
+                        loadBlogs();
+                    } catch (error) {
+                        alert('Error: ' + error.message);
+                    }
+                }
+            };
+
+            window.deleteGalleryItem = async function(id) {
+                if (confirm('Are you sure you want to delete this gallery item?')) {
+                    try {
+                        await api.deleteGalleryItem(id);
+                        loadGallery();
+                    } catch (error) {
+                        alert('Error: ' + error.message);
+                    }
+                }
+            };
+
+            // Logout function
+            window.logout = function() {
+                api.setToken(null);
+                window.location.href = 'admin-login.html';
+            };
+
+            // Initial load
+            loadBlogs();
+            loadGallery();
+        });
+    </script>
+</body>
+</html>
+

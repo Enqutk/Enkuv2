@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Gallery — Enku Taddesse</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        .gallery-container { max-width: 1200px; margin: 100px auto 40px; padding: 20px; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+        .gallery-item { position: relative; border-radius: 14px; overflow: hidden; cursor: pointer; transition: transform .28s, box-shadow .28s; }
+        .gallery-item:hover { transform: translateY(-6px); box-shadow: 0 24px 60px rgba(12,18,30,0.12); }
+        .gallery-item img { width: 100%; height: 280px; object-fit: cover; display: block; }
+        .gallery-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(180deg, transparent, rgba(0,0,0,0.8)); padding: 20px; color: white; transform: translateY(100%); transition: transform .28s; }
+        .gallery-item:hover .gallery-overlay { transform: translateY(0); }
+        .gallery-title { font-weight: 700; margin-bottom: 8px; }
+        .gallery-description { font-size: 0.9rem; opacity: 0.9; }
+        .gallery-modal img { max-width: 100%; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black fixed-top navbar-custom">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">Enku Taddesse</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="projects.html">Projects</a></li>
+                    <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="gallery.html">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#contact">Contact</a></li>
+                </ul>
+                <div class="ms-3 d-none d-lg-block">
+                    <button id="theme-toggle" class="btn btn-outline-light btn-sm rounded-square" title="Toggle theme">🌙</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="gallery-container">
+        <div class="mb-5">
+            <h1 class="fw-bold mb-3">Gallery</h1>
+            <p class="text-muted">Visual highlights and moments</p>
+        </div>
+        <div id="gallery-grid" class="gallery-grid"></div>
+    </div>
+
+    <!-- Gallery Modal -->
+    <div class="modal fade" id="galleryModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0">
+                <div class="modal-body p-4">
+                    <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div id="gallery-modal-content" class="mt-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="py-4 bg-dark text-white">
+        <div class="container text-center">
+            <small>&copy; <span id="footer-year"></span> Enku Taddesse. All rights reserved.</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="data.js"></script>
+    <script>
+        $(function() {
+            $('#footer-year').text(new Date().getFullYear());
+
+            const gallery = DataManager.getGallery();
+            const $grid = $('#gallery-grid');
+            $grid.empty();
+
+            if (gallery.length === 0) {
+                $grid.html('<div class="col-12 text-center py-5"><p class="text-muted">No gallery items yet. Check back soon!</p></div>');
+                return;
+            }
+
+            gallery.forEach(item => {
+                const date = new Date(item.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                const $item = $(`
+                    <div class="gallery-item" onclick="showGalleryModal('${item.id}')">
+                        <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" loading="lazy">
+                        <div class="gallery-overlay">
+                            <div class="gallery-title">${escapeHtml(item.title)}</div>
+                            ${item.description ? `<div class="gallery-description">${escapeHtml(item.description)}</div>` : ''}
+                            <small class="d-block mt-2 opacity-75">${date}</small>
+                        </div>
+                    </div>
+                `);
+                $grid.append($item);
+            });
+
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            window.showGalleryModal = function(id) {
+                const item = DataManager.getGalleryItem(id);
+                if (!item) return;
+
+                const date = new Date(item.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                const html = `
+                    <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" class="mb-3">
+                    <h4 class="fw-bold">${escapeHtml(item.title)}</h4>
+                    ${item.description ? `<p class="text-muted">${escapeHtml(item.description)}</p>` : ''}
+                    <div class="d-flex gap-2 align-items-center mt-3">
+                        <small class="text-muted">${date}</small>
+                        ${item.category ? `<span class="badge bg-secondary">${escapeHtml(item.category)}</span>` : ''}
+                    </div>
+                `;
+                $('#gallery-modal-content').html(html);
+                const modal = new bootstrap.Modal(document.getElementById('galleryModal'), {});
+                modal.show();
+            };
+        });
+    </script>
+</body>
+</html>
+

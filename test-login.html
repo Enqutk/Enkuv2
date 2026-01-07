@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Test Login Connection</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: 0 auto; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .success { color: green; }
+        .error { color: red; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        pre { background: #f5f5f5; padding: 10px; border-radius: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>Backend Connection Tester</h1>
+    
+    <div class="test-section">
+        <h2>1. Test Server Connection</h2>
+        <button onclick="testServer()">Test Server</button>
+        <div id="server-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Test Database Setup</h2>
+        <p>Run this in your terminal: <code>npm run setup-db</code></p>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Test Login</h2>
+        <input type="email" id="test-email" placeholder="Email" value="admin@example.com" style="padding: 8px; margin: 5px; width: 200px;">
+        <input type="password" id="test-password" placeholder="Password" value="admin123" style="padding: 8px; margin: 5px; width: 200px;">
+        <button onclick="testLogin()">Test Login</button>
+        <div id="login-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. Check Configuration</h2>
+        <button onclick="checkConfig()">Check Config</button>
+        <div id="config-result"></div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:3000/api';
+
+        async function testServer() {
+            const result = document.getElementById('server-result');
+            result.innerHTML = 'Testing...';
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/health`);
+                const data = await response.json();
+                result.innerHTML = `<span class="success">✅ Server is running!</span><pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (error) {
+                result.innerHTML = `<span class="error">❌ Server connection failed</span><br>
+                    <strong>Error:</strong> ${error.message}<br>
+                    <strong>Make sure:</strong><br>
+                    - Backend is running: <code>npm run dev</code><br>
+                    - Server is on port 3000<br>
+                    - No firewall blocking connection`;
+            }
+        }
+
+        async function testLogin() {
+            const email = document.getElementById('test-email').value;
+            const password = document.getElementById('test-password').value;
+            const result = document.getElementById('login-result');
+            result.innerHTML = 'Testing login...';
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    result.innerHTML = `<span class="success">✅ Login successful!</span><br>
+                        <strong>User:</strong> ${data.user.email}<br>
+                        <strong>Role:</strong> ${data.user.role}<br>
+                        <strong>Token:</strong> ${data.token.substring(0, 20)}...`;
+                } else {
+                    result.innerHTML = `<span class="error">❌ Login failed</span><br>
+                        <strong>Error:</strong> ${data.error || 'Unknown error'}<br>
+                        <strong>Possible causes:</strong><br>
+                        - Wrong email/password<br>
+                        - Database not set up (run: npm run setup-db)<br>
+                        - Admin user not created`;
+                }
+            } catch (error) {
+                result.innerHTML = `<span class="error">❌ Request failed</span><br>
+                    <strong>Error:</strong> ${error.message}<br>
+                    <strong>Check:</strong> Server is running and accessible`;
+            }
+        }
+
+        function checkConfig() {
+            const result = document.getElementById('config-result');
+            const checks = [
+                { name: 'API URL', value: API_BASE_URL, ok: API_BASE_URL.includes('localhost:3000') },
+                { name: 'Backend running', value: 'Check manually', ok: null }
+            ];
+            
+            let html = '<h3>Configuration Check:</h3><ul>';
+            checks.forEach(check => {
+                const status = check.ok === null ? '⚠️' : (check.ok ? '✅' : '❌');
+                html += `<li>${status} <strong>${check.name}:</strong> ${check.value}</li>`;
+            });
+            html += '</ul>';
+            html += '<p><strong>Make sure:</strong></p>';
+            html += '<ul>';
+            html += '<li>.env file exists with correct settings</li>';
+            html += '<li>Database is set up (npm run setup-db)</li>';
+            html += '<li>Backend server is running (npm run dev)</li>';
+            html += '</ul>';
+            
+            result.innerHTML = html;
+        }
+
+        // Auto-test server on load
+        window.onload = () => {
+            testServer();
+        };
+    </script>
+</body>
+</html>
+
+
+

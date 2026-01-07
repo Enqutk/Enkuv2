@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Enku Taddesse — Portfolio</title>
+
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-black fixed-top navbar-custom">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="index.html">Enku Taddesse</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="projects.html">Projects</a></li>
+                    <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#contact">Contact</a></li>
+                </ul>
+
+      
+      <div class="ms-3 d-flex align-items-center gap-2">
+        <a href="admin.html" id="admin-link" class="btn btn-gold btn-sm" style="display: none;">Admin Panel</a>
+        <button id="theme-toggle" class="btn btn-outline-light btn-sm rounded-square" title="Toggle theme">🌙</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+<header id="home" class="hero hero-left py-6">
+  <div class="container">
+    <div class="row align-items-center">
+  
+      <div class="col-lg-6">
+        <div class="hero-inner">
+          
+          <h1 class="hero-title mb-3">
+            <span id="typed-text" aria-hidden="true"></span><span class="typed-cursor" aria-hidden="true">▍</span>
+          </h1>
+
+          <p class="hero-sub text-muted mb-2">
+            <span class="hero-role">Full Stack Developer</span>
+          </p>
+          
+          <div class="hero-location mb-2">
+            <small class="text-muted d-flex align-items-center gap-2">
+              <span>📍</span>
+              <span>Debre Tabor, Ethiopia</span>
+            </small>
+          </div>
+
+       
+          <blockquote class="hero-quote mb-3">
+            "I build useful, simple tools that solve real problems."
+          </blockquote>
+
+          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start gap-3 mb-3">
+            <a href="projects.html" class="btn btn-gold btn-lg">View Projects</a>
+            <a href="about.html" class="btn btn-outline-dark btn-lg">About Me</a>
+          </div>
+
+          <div class="mt-4 d-flex gap-3 align-items-center justify-content-center justify-content-lg-start">
+            <a class="social-btn" href="https://t.me/your_channel" title="Telegram Channel" aria-label="Telegram Channel" target="_blank" rel="noopener">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.329-.913.489-1.302.481-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.648 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+            </a>
+            <a class="social-btn" href="#" title="GitHub" aria-label="GitHub" target="_blank" rel="noopener">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            </a>
+            <a class="social-btn" href="mailto:you@example.com" title="Email" aria-label="Email">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    
+      <div class="col-12 col-lg-6 mt-4 mt-lg-0">
+        <!-- Featured Posts Section -->
+        <div id="hero-featured-posts" class="hero-featured-posts" style="display: block;">
+          <h5 class="fw-bold mb-3">Featured Posts</h5>
+          <div id="hero-featured-list" class="hero-featured-list">
+            <!-- Featured posts will be loaded here -->
+            <div class="text-muted text-center py-3">Loading featured posts...</div>
+          </div>
+        </div>
+        
+        <!-- Profile Image - Show when no featured posts -->
+        <div class="text-center" id="hero-profile-image" style="display: none;">
+          <div class="float-wrap mx-auto d-none d-lg-block" style="max-width:380px;">
+            <img src="profile.jpg" alt="Profile" class="hero-illustration parallax">
+          </div>
+          <img src="profile.jpg" alt="Profile" class="hero-illustration-mobile d-lg-none" style="max-width: 280px; width: 100%; height: auto; border-radius: 50%; margin: 0 auto;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="hero-decor"></div>
+</header>
+
+
+<section id="about" class="py-5 bg-light">
+  <div class="container">
+    <div class="row align-items-center gy-4">
+      
+      <div class="col-lg-4 text-center about-reveal">
+        <img src="profile.jpg" alt="Profile" class="profile-img rounded-circle shadow-sm mb-3">
+        <h5 class="mb-1">Enku Taddesse</h5>
+        <p class="text-muted mb-2">Full Stack Developer · Core Team Lead</p>
+        <div class="d-flex justify-content-center gap-2">
+          <span class="badge badge-gold">DDU ICT Club</span>
+          <span class="badge bg-secondary">ABOL Solution</span>
+        </div>
+        <div class="mt-3">
+          <a href="Enku_Taddesse_CV.pdf" class="btn btn-outline-dark btn-sm me-2">Download CV</a>
+          <a href="index.html#contact" class="btn btn-gold btn-sm">Contact Me</a>
+        </div>
+      </div>
+
+      <div class="col-lg-5 about-reveal">
+        <h2 class="fw-bold">My Story</h2>
+        <p class="text-muted">I lead the DDU ICT Club core activities and mentor student developers — organizing study sessions, project-based learning and building useful tools for local communities.</p>
+
+        <ul class="timeline mt-3">
+          <li><strong>2024</strong> — Built Agripedia plugin & LegnaPath mentorship features.</li>
+          <li><strong>2023</strong> — CookBook Pro training & custom WordPress plugins.</li>
+          <li><strong>2022</strong> — Memory Maze interactive game and reading system.</li>
+        </ul>
+
+        <div class="stats-grid mt-4">
+          <div class="stat-item text-center">
+            <div class="stat-number h3 mb-1" id="stat-projects">0</div>
+            <small class="text-muted d-block">Projects</small>
+          </div>
+          <div class="stat-item text-center">
+            <div class="stat-number h3 mb-1" id="stat-clients">0</div>
+            <small class="text-muted d-block">Happy Clients</small>
+          </div>
+          <div class="stat-item text-center">
+            <div class="stat-number h3 mb-1" id="stat-experience">5+</div>
+            <small class="text-muted d-block">Years Experience</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3" id="skills-column">
+  
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="services" class="py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h3 class="fw-bold">Services</h3>
+      <p class="text-muted">What I offer — focused, practical services with measurable results.</p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card service-card h-100 border-0 shadow-sm">
+          <div class="card-body text-center">
+           
+            <div class="mb-3 icon-wrap">
+              <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 7h18M3 12h18M3 17h18" stroke-width="1.6" stroke-linecap="round"/></svg>
+            </div>
+            <h5 class="card-title">Web Development</h5>
+            <p class="card-text text-muted">Full stack sites, CMS plugins and web apps with clean UI and robust backends.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card service-card h-100 border-0 shadow-sm">
+          <div class="card-body text-center">
+            <div class="mb-3 icon-wrap">
+              <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v20M2 12h20" stroke-width="1.6" stroke-linecap="round"/></svg>
+            </div>
+            <h5 class="card-title">Product Design</h5>
+            <p class="card-text text-muted">Simple, user-centered designs focused on clarity and usefulness for local needs.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card service-card h-100 border-0 shadow-sm">
+          <div class="card-body text-center">
+            <div class="mb-3 icon-wrap">
+              <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 6v6l4 2" stroke-width="1.6" stroke-linecap="round"/></svg>
+            </div>
+            <h5 class="card-title">Mentorship & Training</h5>
+            <p class="card-text text-muted">Workshops, guided projects and mentorship for students and junior developers.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="stack" class="py-5">
+  <div class="container">
+    <div class="text-center mb-4">
+      <h4 class="fw-bold section-title-animated">Tech Stack</h4>
+      <p class="text-muted">Technologies I use regularly — hover or tap to explore.</p>
+    </div>
+
+    <div id="stack-grid" class="mx-auto">
+      
+    </div>
+  </div>
+</section>
+
+
+<!-- Clients (clean grid) -->
+<section id="clients" class="py-5">
+  <div class="container">
+    <div class="text-center mb-4">
+      <h4 class="fw-bold section-title-animated">Clients & Partners</h4>
+      <p class="text-muted">Organizations and teams I've worked with — tap a logo for details.</p>
+    </div>
+
+   
+    <div class="clients-marquee mb-4 d-none d-lg-block">
+      <div class="marquee-track" id="marquee-track">
+        
+      </div>
+    </div>
+
+   
+    <div id="clients-grid" class="row g-3 align-items-center justify-content-center">
+     
+    </div>
+
+ 
+    <div id="clients-carousel" class="d-lg-none mt-3">
+    
+    </div>
+  </div>
+
+ 
+  <div class="modal fade" id="partnerModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+      <div class="modal-content border-0">
+        <div class="modal-body p-4">
+          <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+          <div id="partner-modal-content" class="mt-2"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Projects Preview -->
+<section id="projects-preview" class="py-5 bg-white">
+  <div class="container">
+    <div class="preview-section-header">
+      <div>
+        <h3 class="fw-bold mb-1">Featured Projects</h3>
+        <p class="text-muted mb-0">Selected work and prototypes</p>
+      </div>
+      <a href="projects.html" class="btn btn-outline-secondary">View All Projects</a>
+    </div>
+    <div id="projects-preview-grid" class="row g-4">
+      <!-- Project previews will be loaded here -->
+    </div>
+  </div>
+</section>
+
+<!-- Featured Blog Posts Preview -->
+<section id="blog-preview" class="py-5 bg-light">
+  <div class="container">
+    <div class="preview-section-header">
+      <div>
+        <h3 class="fw-bold mb-1">Latest Blog Posts</h3>
+        <p class="text-muted mb-0">Recent thoughts and updates</p>
+      </div>
+      <a href="blog.html" class="btn btn-outline-secondary">View All Posts</a>
+    </div>
+    <div id="blog-preview-grid" class="row g-4">
+      <!-- Blog previews will be loaded here -->
+    </div>
+  </div>
+</section>
+
+<!-- Gallery Preview -->
+<section id="gallery-preview" class="py-5">
+  <div class="container">
+    <div class="preview-section-header">
+      <div>
+        <h3 class="fw-bold mb-1">Gallery</h3>
+        <p class="text-muted mb-0">Visual highlights and moments</p>
+      </div>
+      <a href="gallery.html" class="btn btn-outline-secondary">View Full Gallery</a>
+    </div>
+    <div id="gallery-preview-grid" class="row g-4">
+      <!-- Gallery previews will be loaded here -->
+    </div>
+  </div>
+</section>
+
+<section id="testimonials" class="py-5 bg-light">
+  <div class="container">
+    <div class="text-center mb-4">
+      <h4 class="fw-bold section-title-animated">Testimonials</h4>
+      <p class="text-muted">What people say about working with me.</p>
+    </div>
+
+    <div id="testimonialsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5200">
+      <div class="carousel-inner">
+     
+      </div>
+
+      <button class="carousel-control-prev" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+
+<section id="contact" class="py-5">
+  <div class="container">
+    <div class="text-center mb-4">
+      <h4 class="fw-bold">Contact</h4>
+      <p class="text-muted">Get in touch for projects, mentorship or collaboration.</p>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="contact-wrap d-grid gap-4" style="grid-template-columns: 1fr 420px;">
+       
+          <div class="contact-card p-4">
+            <form id="contact-form" novalidate>
+              <input type="text" name="hp_field" class="d-none" autocomplete="off" tabindex="-1" aria-hidden="true">
+
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-field">
+                    <input id="cf-name" name="name" type="text" class="form-input" required autocomplete="name" />
+                    <span class="form-label">Your name</span>
+                  </label>
+                  <div class="form-error" data-for="name" aria-live="polite"></div>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-field">
+                    <input id="cf-email" name="email" type="email" class="form-input" required autocomplete="email" />
+                    <span class="form-label">Email address</span>
+                  </label>
+                  <div class="form-error" data-for="email" aria-live="polite"></div>
+                </div>
+
+                <div class="col-12">
+                  <label class="form-field">
+                    <input id="cf-subject" name="subject" type="text" class="form-input" required />
+                    <span class="form-label">Subject</span>
+                  </label>
+                  <div class="form-error" data-for="subject" aria-live="polite"></div>
+                </div>
+
+                <div class="col-12">
+                  <label class="form-field textarea">
+                    <textarea id="cf-message" name="message" rows="6" class="form-input" required></textarea>
+                    <span class="form-label">Message</span>
+                  </label>
+                  <div class="form-error" data-for="message" aria-live="polite"></div>
+                </div>
+
+                <div class="col-12 d-flex align-items-center gap-2">
+                  <input id="cf-consent" name="consent" type="checkbox" class="form-check-input" />
+                  <label for="cf-consent" class="form-check-label small text-muted">I agree to be contacted about this inquiry.</label>
+                </div>
+
+                <div class="col-12 d-flex gap-3">
+                  <button id="contact-send" type="submit" class="btn btn-gold btn-lg btn-submit">
+                    <span class="btn-icon" aria-hidden="true">✉️</span>
+                    <span class="btn-text">Send Message</span>
+                    <span class="btn-check" aria-hidden="true"></span>
+                  </button>
+                  <button id="contact-reset" type="button" class="btn btn-outline-secondary btn-lg">Reset</button>
+                </div>
+              </div>
+            </form>
+
+            <div id="contact-result" class="mt-3" aria-live="polite"></div>
+          </div>
+
+
+          <aside class="contact-info p-4">
+            <div class="mb-3">
+              <h5 class="mb-1 fw-bold">Let's build something</h5>
+              <p class="text-muted mb-0">Available for freelance and mentoring. Quick replies within 48 hours.</p>
+            </div>
+
+            <div class="info-list mt-4">
+              <div class="info-row mb-3">
+                <strong>Email</strong>
+                <a href="mailto:you@example.com" class="d-block">you@example.com</a>
+              </div>
+              <div class="info-row mb-3">
+                <strong>Phone</strong>
+                <div class="d-block">+251 9XX XXX XXX</div>
+              </div>
+              <div class="info-row mb-3">
+                <strong>Location</strong>
+                <div class="d-block">Debre Tabor, Ethiopia</div>
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <h6 class="mb-2">Follow</h6>
+              <div class="d-flex gap-2">
+                <a class="social-btn" href="https://t.me/your_channel" aria-label="Telegram Channel" target="_blank" rel="noopener" title="Telegram Channel">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.329-.913.489-1.302.481-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.648 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                </a>
+                <a class="social-btn" href="#" aria-label="GitHub">gh</a>
+                <a class="social-btn" href="#" aria-label="Twitter">tw</a>
+              </div>
+            </div>
+
+            <div class="mt-4 map-wrap">
+         
+              <img src="assets/map-placeholder.jpg" alt="Map" style="width:100%; border-radius:10px; display:block;">
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<footer class="py-4 bg-dark text-white">
+  <div class="container text-center">
+    <small>&copy; <span id="footer-year"></span> Enku Taddesse. All rights reserved.</small>
+  </div>
+</footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="data.js"></script>
+    <script src="js/api.js"></script>
+    <script src="script.js"></script>
+<script>
+  // Load blog and gallery previews on home page
+  $(async function() {
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Load project previews (first 6 projects)
+    const projects = [
+      { id: 'agripedia', title: "Agripedia Term Management Plugin", year: "2024", desc: "WordPress plugin with admin UI and taxonomy features.", img: "assets/projects/agripedia.png", tags:['wp','web'], collab:'team' },
+      { id: 'legnapath', title: "LegnaPath Mentorship Platform", year: "2024", desc: "Mentorship features, match-making and micro-payments.", img: "assets/projects/legnapath.png", tags:['web'], collab:'team' },
+      { id: 'custom-user-form', title: "Custom User Form Plugin", year: "2023", desc: "Shortcode based capture & management.", img: "assets/projects/custom-user-form.png", tags:['wp'], collab:'solo' },
+      { id: 'food-ordering', title: "Food Ordering System", year: "2023", desc: "Ordering web app with guest checkout.", img: "assets/projects/food-ordering.png", tags:['web','mobile'], collab:'team' },
+      { id: 'memory-maze', title: "Memory Maze", year: "2022", desc: "Interactive memory game and book unlocks.", img: "assets/projects/memory-maze.png", tags:['game'], collab:'solo' },
+      { id: 'cookbook', title: "CookBook Pro", year: "2023", desc: "Recipe training web app.", img: "assets/projects/cookbook.png", tags:['web'], collab:'solo' },
+      { id: 'waste-collection', title: "Waste Collection App", year: "2024", desc: "Localized waste collection planning and mapping.", img: "assets/projects/waste-collection.png", tags:['web','mobile'], collab:'team' },
+      { id: 'freelance-dire', title: "Freelance Dire", year: "2024", desc: "Student hiring platform & community features.", img: "assets/projects/freelance-dire.png", tags:['web'], collab:'team' },
+      { id: 'keyboard-crush', title: "Keyboard Crush Pro", year: "2022", desc: "Typing speed and accuracy test platform.", img: "assets/projects/keyboard-crush.png", tags:['web','game'], collab:'solo' },
+      { id: 'java-delivery', title: "Online Food Delivery (Java)", year: "2021", desc: "OOP simulation of delivery process.", img: "assets/projects/java-delivery.png", tags:['java'], collab:'solo' },
+      { id: 'memory-reading', title: "Memory Based Reading System", year: "2022", desc: "Book unlocking app based on recall.", img: "assets/projects/memory-reading.png", tags:['web'], collab:'solo' }
+    ];
+
+    const $projectGrid = $('#projects-preview-grid');
+    $projectGrid.empty();
+    
+    const projectsToShow = projects.slice(0, 6);
+    projectsToShow.forEach(project => {
+      const $card = $(`
+        <div class="col-md-4 col-lg-3">
+          <div class="project-tile" style="cursor: pointer;" onclick="window.location.href='projects.html'">
+            <img src="${escapeHtml(project.img)}" alt="${escapeHtml(project.title)}" style="width: 100%; height: 220px; object-fit: cover; border-radius: 12px;">
+            <div class="project-overlay">
+              <div>
+                <div class="project-title">${escapeHtml(project.title)}</div>
+                <div class="small project-meta">${escapeHtml(project.year)} • ${escapeHtml(project.desc)}</div>
+              </div>
+            </div>
+            <div class="project-body d-md-none d-lg-block d-xl-block">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <div class="project-title">${escapeHtml(project.title)}</div>
+                  <div class="text-muted project-meta">${escapeHtml(project.year)} • ${escapeHtml(project.tags.join(', '))}</div>
+                </div>
+                <span class="badge badge-collab ${project.collab==='team' ? 'team' : 'solo'}">${project.collab==='team' ? 'Team' : 'Individual'}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      `);
+      $projectGrid.append($card);
+    });
+    // Load featured posts in hero section
+    (async function() {
+      const $heroFeatured = $('#hero-featured-list');
+      const $heroFeaturedContainer = $('#hero-featured-posts');
+      let featuredBlogs = [];
+      
+      // Try API first, fallback to localStorage
+      try {
+        if (typeof api !== 'undefined' && api.getBlogPosts) {
+          const apiBlogs = await api.getBlogPosts(true, 3);
+          featuredBlogs = Array.isArray(apiBlogs) ? apiBlogs : [];
+        }
+      } catch (error) {
+        console.log('API not available, using localStorage');
+      }
+      
+      // Fallback to localStorage if API didn't work
+      if (featuredBlogs.length === 0) {
+        const allBlogsLocal = DataManager.getBlogs();
+        featuredBlogs = allBlogsLocal.filter(blog => blog.featured).slice(0, 3);
+      }
+    
+      if (featuredBlogs.length > 0) {
+        // Show featured posts, hide profile image
+        $heroFeatured.empty();
+        $heroFeaturedContainer.show();
+        $('#hero-profile-image').hide();
+        
+        featuredBlogs.forEach(blog => {
+          const dateStr = blog.date || blog.created_at || new Date().toISOString();
+          const date = new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+          const imageHtml = blog.image ? `<div class="hero-featured-image" style="background-image: url('${escapeHtml(blog.image)}');"></div>` : '';
+          const $item = $(`
+            <div class="hero-featured-item" onclick="window.location.href='blog.html?id=${blog.id}'">
+              ${imageHtml}
+              <div class="hero-featured-content">
+                <div class="hero-featured-badge">Featured</div>
+                <h6 class="hero-featured-title">${escapeHtml(blog.title)}</h6>
+                <p class="hero-featured-excerpt">${escapeHtml((blog.excerpt || blog.content || '').substring(0, 80))}...</p>
+                <div class="hero-featured-meta">
+                  <small class="text-muted">${date}</small>
+                  ${blog.category ? `<span class="badge bg-secondary ms-2">${escapeHtml(blog.category)}</span>` : ''}
+                </div>
+              </div>
+            </div>
+          `);
+          $heroFeatured.append($item);
+        });
+      } else {
+        // No featured posts - hide featured section and show profile image instead
+        $heroFeaturedContainer.hide();
+        $('#hero-profile-image').show();
+      }
+    })();
+
+    // Get all blogs for blog preview section
+    let allBlogs = [];
+    try {
+      if (typeof api !== 'undefined' && api.getBlogPosts) {
+        const apiBlogs = await api.getBlogPosts(false, 10);
+        allBlogs = Array.isArray(apiBlogs) ? apiBlogs : [];
+      }
+    } catch (error) {
+      console.log('Using localStorage for blogs');
+    }
+    if (allBlogs.length === 0) {
+      allBlogs = DataManager.getBlogs();
+    }
+
+    // Load blog previews (non-featured, latest 3, or all if no featured exist)
+    const nonFeaturedBlogs = allBlogs.filter(blog => !blog.featured).slice(0, 3);
+    const $blogGrid = $('#blog-preview-grid');
+    $blogGrid.empty();
+    
+    if (nonFeaturedBlogs.length === 0 && featuredBlogs.length === 0) {
+      $blogGrid.html('<div class="col-12"><p class="text-muted text-center">No blog posts yet. Check back soon!</p></div>');
+    } else {
+      (nonFeaturedBlogs.length > 0 ? nonFeaturedBlogs : allBlogs.slice(0, 3)).forEach(blog => {
+        const date = new Date(blog.date).toLocaleDateString();
+        const featuredBadge = blog.featured ? '<span class="badge bg-warning text-dark position-absolute top-0 end-0 m-2">Featured</span>' : '';
+        const imageHtml = blog.image ? `<img src="${escapeHtml(blog.image)}" alt="${escapeHtml(blog.title)}" class="card-img-top" style="height: 200px; object-fit: cover;">` : '';
+        const $card = $(`
+          <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm project-tile" style="cursor: pointer;" onclick="window.location.href='blog.html?id=${blog.id}'">
+              <div class="position-relative">
+                ${imageHtml}
+                ${featuredBadge}
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">${escapeHtml(blog.title)}</h5>
+                <p class="card-text text-muted small">${escapeHtml(blog.excerpt)}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted">${date}</small>
+                  ${blog.category ? `<span class="badge bg-secondary">${escapeHtml(blog.category)}</span>` : ''}
+                </div>
+              </div>
+            </div>
+          </div>
+        `);
+        $blogGrid.append($card);
+      });
+    }
+
+    // Load gallery previews (latest 6)
+    const gallery = DataManager.getGallery();
+    const $galleryGrid = $('#gallery-preview-grid');
+    $galleryGrid.empty();
+    
+    const galleryToShow = gallery.slice(0, 6);
+    if (galleryToShow.length === 0) {
+      $galleryGrid.html('<div class="col-12"><p class="text-muted text-center">No gallery items yet. Check back soon!</p></div>');
+    } else {
+      galleryToShow.forEach(item => {
+        const $card = $(`
+          <div class="col-md-4 col-lg-3">
+            <div class="project-tile" style="cursor: pointer;" onclick="window.location.href='gallery.html'">
+              <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" style="width: 100%; height: 220px; object-fit: cover; border-radius: 12px;">
+              <div class="project-overlay">
+                <div>
+                  <div class="project-title">${escapeHtml(item.title)}</div>
+                  ${item.description ? `<div class="small project-meta">${escapeHtml(item.description.substring(0, 60))}...</div>` : ''}
+                </div>
+              </div>
+            </div>
+          </div>
+        `);
+        $galleryGrid.append($card);
+      });
+    }
+
+    // Check if user is logged in as admin and show admin link
+    (async function() {
+      if (typeof api !== 'undefined' && api.token) {
+        try {
+          const user = await api.getCurrentUser();
+          if (user && user.user && user.user.role === 'admin') {
+            $('#admin-link').show();
+          }
+        } catch (error) {
+          // Not logged in or not admin, hide the link
+          console.log('Admin check failed:', error);
+        }
+      }
+    })();
+  });
+</script>
+</body>
+</html>

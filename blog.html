@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Blog — Enku Taddesse</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black fixed-top navbar-custom">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">Enku Taddesse</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="projects.html">Projects</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="blog.html">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#contact">Contact</a></li>
+                </ul>
+                <div class="ms-3 d-flex align-items-center gap-2">
+                    <a href="admin.html" id="admin-link" class="btn btn-gold btn-sm d-none" style="display: none !important;">Admin Panel</a>
+                    <button id="theme-toggle" class="btn btn-outline-light btn-sm rounded-square" title="Toggle theme">🌙</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Blog Hero Section -->
+    <section class="blog-hero py-5" style="margin-top: 80px;">
+        <div class="container">
+            <div class="blog-hero-content text-center mb-5">
+                <h1 class="blog-hero-title mb-3">Blog</h1>
+                <p class="blog-hero-subtitle text-muted">Thoughts, updates, and insights from my journey</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog List View -->
+    <section id="blog-list-view" class="py-5">
+        <div class="container">
+            <!-- Category Filters -->
+            <div class="blog-filters-wrapper mb-5">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
+                    <div class="blog-filters-label">
+                        <span class="text-muted small fw-semibold text-uppercase letter-spacing-1">Filter by category</span>
+                    </div>
+                    <div id="blog-filters" class="blog-filters-group" role="group" aria-label="blog filters">
+                        <button class="filter-btn active" data-filter="*">
+                            <span>All</span>
+                            <span class="filter-count" id="filter-count-all"></span>
+                        </button>
+                        <!-- Category buttons will be dynamically added -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Featured Posts Section -->
+            <div id="featured-posts-section" class="mb-5" style="display: none;">
+                <h3 class="section-subtitle mb-4">
+                    <span class="section-subtitle-icon">⭐</span>
+                    Featured Posts
+                </h3>
+                <div id="featured-posts-grid" class="blog-grid featured-grid">
+                    <!-- Featured posts will be loaded here -->
+                </div>
+            </div>
+
+            <!-- All Posts Section -->
+            <div id="all-posts-section">
+                <h3 class="section-subtitle mb-4">
+                    <span class="section-subtitle-icon">📝</span>
+                    All Posts
+                </h3>
+                <div id="blog-list" class="blog-grid">
+                    <!-- Blog posts will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div id="blog-empty" class="blog-empty-state text-center py-5" style="display: none;">
+                <div class="empty-icon mb-3">📭</div>
+                <h4 class="fw-bold mb-2">No posts found</h4>
+                <p class="text-muted">Try selecting a different category</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Detail View -->
+    <section id="blog-detail-view" class="py-5" style="display: none; margin-top: 80px;">
+        <div class="container">
+            <div class="blog-detail-wrapper">
+                <a href="blog.html" class="back-link mb-4 d-inline-flex align-items-center gap-2">
+                    <span>←</span>
+                    <span>Back to Blog</span>
+                </a>
+                <div id="blog-detail-content"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-4 bg-dark text-white">
+        <div class="container text-center">
+            <small>&copy; <span id="footer-year"></span> Enku Taddesse. All rights reserved.</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="data.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+        $(async function() {
+            $('#footer-year').text(new Date().getFullYear());
+
+            // Theme toggle functionality
+            const themeToggleBtn = $('#theme-toggle');
+            const body = $('body');
+            const savedTheme = localStorage.getItem('theme');
+
+            if (savedTheme === 'dark-mode') {
+                body.addClass('dark-mode');
+                themeToggleBtn.text('☀️');
+            } else {
+                themeToggleBtn.text('🌙');
+            }
+
+            themeToggleBtn.on('click', function(){
+                body.toggleClass('dark-mode');
+                const isDarkMode = body.hasClass('dark-mode');
+                const icon = isDarkMode ? '☀️' : '🌙';
+                $(this).text(icon);
+                localStorage.setItem('theme', isDarkMode ? 'dark-mode' : 'light-mode');
+            });
+
+            // Check if user is logged in as admin
+            (async function() {
+                if (typeof api !== 'undefined' && api.token) {
+                    try {
+                        const user = await api.getCurrentUser();
+                        if (user && user.user && user.user.role === 'admin') {
+                            $('#admin-link').removeClass('d-none').show();
+                        }
+                    } catch (error) {
+                        console.log('Admin check failed:', error);
+                    }
+                }
+            })();
+
+            // Check if we're viewing a specific blog post
+            const urlParams = new URLSearchParams(window.location.search);
+            const blogId = urlParams.get('id');
+
+            if (blogId) {
+                showBlogDetail(blogId);
+            } else {
+                await showBlogList();
+            }
+
+            async function showBlogList() {
+                $('#blog-list-view').show();
+                $('#blog-detail-view').hide();
+                
+                // Try to load from API first, fallback to localStorage
+                let blogs = [];
+                try {
+                    if (typeof api !== 'undefined' && api.getBlogPosts) {
+                        const apiBlogs = await api.getBlogPosts(false);
+                        blogs = Array.isArray(apiBlogs) ? apiBlogs : [];
+                    }
+                } catch (error) {
+                    console.log('API not available, using localStorage');
+                }
+                
+                if (blogs.length === 0) {
+                    blogs = DataManager.getBlogs();
+                }
+
+                // Sort: featured first, then by date
+                blogs.sort((a, b) => {
+                    const aDate = new Date(a.date || a.created_at || 0);
+                    const bDate = new Date(b.date || b.created_at || 0);
+                    if (a.featured && !b.featured) return -1;
+                    if (!a.featured && b.featured) return 1;
+                    return bDate - aDate;
+                });
+
+                // Separate featured and regular posts
+                const featuredPosts = blogs.filter(blog => blog.featured);
+                const regularPosts = blogs.filter(blog => !blog.featured);
+
+                // Setup category filters
+                setupCategoryFilters(blogs);
+
+                // Render featured posts
+                if (featuredPosts.length > 0) {
+                    $('#featured-posts-section').show();
+                    renderBlogCards(featuredPosts, '#featured-posts-grid');
+                } else {
+                    $('#featured-posts-section').hide();
+                }
+
+                // Render all posts
+                renderBlogCards(regularPosts, '#blog-list');
+
+                // Setup filter functionality
+                setupFilters(blogs);
+            }
+
+            function setupCategoryFilters(blogs) {
+                const categories = new Set();
+                blogs.forEach(blog => {
+                    if (blog.category) {
+                        categories.add(blog.category);
+                    }
+                });
+
+                const $filters = $('#blog-filters');
+                const existingFilters = $filters.find('.filter-btn').length;
+                
+                if (existingFilters === 1) { // Only "All" button exists
+                    categories.forEach(category => {
+                        const $btn = $(`
+                            <button class="filter-btn" data-filter="${escapeHtml(category)}">
+                                <span>${escapeHtml(category)}</span>
+                            </button>
+                        `);
+                        $filters.append($btn);
+                    });
+                }
+
+                // Update count for "All"
+                $('#filter-count-all').text(blogs.length);
+            }
+
+            function renderBlogCards(blogs, containerSelector) {
+                const $container = $(containerSelector);
+                $container.empty();
+
+                if (blogs.length === 0) {
+                    return;
+                }
+
+                blogs.forEach(blog => {
+                    const dateStr = blog.date || blog.created_at || new Date().toISOString();
+                    const date = new Date(dateStr).toLocaleDateString('en-US', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                    });
+                    
+                    const imageHtml = blog.image ? 
+                        `<img src="${escapeHtml(blog.image)}" alt="${escapeHtml(blog.title)}" loading="lazy">` : 
+                        '<div style="height: 240px; background: linear-gradient(135deg, rgba(184,134,11,0.1) 0%, rgba(184,134,11,0.05) 100%); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 3rem;">📝</div>';
+                    
+                    const featuredBadge = blog.featured ? 
+                        '<span class="blog-featured-badge">Featured</span>' : '';
+                    
+                    const categoryBadge = blog.category ? 
+                        `<span class="blog-card-category">${escapeHtml(blog.category)}</span>` : '';
+                    
+                    const excerpt = blog.excerpt || (blog.content ? blog.content.substring(0, 150) + '...' : '');
+                    
+                    const $card = $(`
+                        <div class="blog-card ${blog.featured ? 'featured' : ''}" 
+                             data-category="${blog.category || ''}" 
+                             onclick="window.location.href='blog.html?id=${blog.id}'">
+                            ${imageHtml}
+                            <div class="blog-card-body">
+                                <h3 class="blog-card-title">
+                                    ${escapeHtml(blog.title)}
+                                    ${featuredBadge}
+                                </h3>
+                                <p class="blog-card-excerpt">${escapeHtml(excerpt)}</p>
+                                <div class="blog-card-meta">
+                                    <div class="d-flex flex-wrap align-items-center gap-2">
+                                        <span class="blog-card-date">${date}</span>
+                                        ${categoryBadge}
+                                    </div>
+                                    <a href="blog.html?id=${blog.id}" class="blog-card-read-more" onclick="event.stopPropagation();">
+                                        Read More →
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                    $container.append($card);
+                });
+            }
+
+            function setupFilters(blogs) {
+                $('#blog-filters').off('click').on('click', '.filter-btn', function() {
+                    const filter = $(this).data('filter');
+                    $('#blog-filters .filter-btn').removeClass('active');
+                    $(this).addClass('active');
+
+                    let visibleCount = 0;
+                    const featuredPosts = [];
+                    const regularPosts = [];
+
+                    if (filter === '*') {
+                        blogs.forEach(blog => {
+                            if (blog.featured) featuredPosts.push(blog);
+                            else regularPosts.push(blog);
+                        });
+                        visibleCount = blogs.length;
+                    } else {
+                        blogs.forEach(blog => {
+                            if ((blog.category || '') === filter) {
+                                if (blog.featured) featuredPosts.push(blog);
+                                else regularPosts.push(blog);
+                                visibleCount++;
+                            }
+                        });
+                    }
+
+                    // Update featured section
+                    if (featuredPosts.length > 0) {
+                        $('#featured-posts-section').show();
+                        renderBlogCards(featuredPosts, '#featured-posts-grid');
+                    } else {
+                        $('#featured-posts-section').hide();
+                    }
+
+                    // Update regular posts
+                    renderBlogCards(regularPosts, '#blog-list');
+
+                    // Show/hide empty state
+                    if (visibleCount === 0) {
+                        $('#blog-empty').fadeIn(300);
+                        $('#all-posts-section').fadeOut(200);
+                    } else {
+                        $('#blog-empty').fadeOut(200);
+                        $('#all-posts-section').fadeIn(300);
+                    }
+                });
+            }
+
+            async function showBlogDetail(id) {
+                $('#blog-list-view').hide();
+                $('#blog-detail-view').show();
+                
+                let blog = null;
+                try {
+                    if (typeof api !== 'undefined' && api.getBlogPost) {
+                        blog = await api.getBlogPost(id);
+                    }
+                } catch (error) {
+                    console.log('API not available, using localStorage');
+                }
+                
+                if (!blog) {
+                    blog = DataManager.getBlog(id);
+                }
+
+                if (!blog) {
+                    $('#blog-detail-content').html(`
+                        <div class="text-center py-5">
+                            <h2 class="mb-3">Post Not Found</h2>
+                            <p class="text-muted mb-4">The blog post you're looking for doesn't exist.</p>
+                            <a href="blog.html" class="btn btn-gold">Back to Blog</a>
+                        </div>
+                    `);
+                    return;
+                }
+
+                const dateStr = blog.date || blog.created_at || new Date().toISOString();
+                const date = new Date(dateStr).toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+                
+                const featuredBadge = blog.featured ? 
+                    '<span class="blog-featured-badge">Featured</span>' : '';
+                
+                const imageHtml = blog.image ? 
+                    `<img src="${escapeHtml(blog.image)}" alt="${escapeHtml(blog.title)}" class="blog-detail-hero-image">` : '';
+                
+                const categoryBadge = blog.category ? 
+                    `<span class="blog-card-category">${escapeHtml(blog.category)}</span>` : '';
+                
+                $('#blog-detail-content').html(`
+                    <div class="blog-detail-header">
+                        ${imageHtml}
+                        <h1 class="blog-detail-title">
+                            ${escapeHtml(blog.title)}
+                            ${featuredBadge}
+                        </h1>
+                        <div class="blog-detail-meta">
+                            <div class="blog-detail-date">
+                                <span>📅</span>
+                                <span>${date}</span>
+                            </div>
+                            ${categoryBadge}
+                        </div>
+                    </div>
+                    <div class="blog-detail-content">
+                        ${formatBlogContent(blog.content)}
+                    </div>
+                `);
+            }
+
+            function formatBlogContent(content) {
+                if (!content) return '<p class="text-muted">No content available.</p>';
+                
+                // Convert line breaks to paragraphs
+                return content.split('\n\n').map(para => {
+                    const trimmed = para.trim();
+                    if (!trimmed) return '';
+                    
+                    // Check if it's a heading
+                    if (trimmed.startsWith('# ')) {
+                        return `<h2>${escapeHtml(trimmed.substring(2))}</h2>`;
+                    }
+                    if (trimmed.startsWith('## ')) {
+                        return `<h3>${escapeHtml(trimmed.substring(3))}</h3>`;
+                    }
+                    
+                    // Check if it's a list item
+                    if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+                        return `<ul><li>${escapeHtml(trimmed.substring(2))}</li></ul>`;
+                    }
+                    
+                    return `<p>${escapeHtml(trimmed)}</p>`;
+                }).join('');
+            }
+
+            function escapeHtml(text) {
+                if (!text) return '';
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+        });
+    </script>
+</body>
+</html>
+
