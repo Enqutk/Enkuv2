@@ -47,17 +47,23 @@ app.use(express.urlencoded({ extended: true }));
 // Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// Explicit route for CSS file FIRST (before static middleware)
+app.get('/style.css', (req, res) => {
+  const cssPath = path.join(__dirname, 'style.css');
+  res.setHeader('Content-Type', 'text/css; charset=utf-8');
+  res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+  res.sendFile(cssPath, (err) => {
+    if (err) {
+      console.error('Error serving CSS:', err);
+      res.status(404).send('/* CSS file not found */');
+    }
+  });
+});
+
 // Serve static files (CSS, JS, images) - must be before API routes
-// This will serve style.css and other static files
 app.use(express.static(path.join(__dirname), {
   dotfiles: 'ignore',
-  index: false,
-  setHeaders: (res, filePath) => {
-    // Set proper content type for CSS
-    if (filePath.endsWith('.css')) {
-      res.setHeader('Content-Type', 'text/css; charset=utf-8');
-    }
-  }
+  index: false
 }));
 
 // Routes (with error handling) - MUST come after static files for API routes
