@@ -15,11 +15,41 @@
 
     <!-- Apply theme immediately to prevent flash - DEFAULT TO DARK MODE -->
     <script>
+      // Global theme toggle function - works with inline onclick
+      window.toggleTheme = function(e) {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        
+        const body = document.body;
+        const html = document.documentElement;
+        const toggle = document.getElementById('theme-toggle');
+        
+        const isDark = !body.classList.contains('dark-mode');
+        
+        if (isDark) {
+          body.classList.add('dark-mode');
+          html.classList.add('dark-mode');
+          if (toggle) toggle.textContent = '☀️';
+          try {
+            localStorage.setItem('theme', 'dark-mode');
+            localStorage.setItem('theme_preference', 'dark');
+          } catch(err) {}
+        } else {
+          body.classList.remove('dark-mode');
+          html.classList.remove('dark-mode');
+          if (toggle) toggle.textContent = '🌙';
+          try {
+            localStorage.setItem('theme', 'light-mode');
+            localStorage.setItem('theme_preference', 'light');
+          } catch(err) {}
+        }
+      };
+      
+      // Initialize theme on page load
       (function() {
         try {
-          // Check if user wants to reset to default (first visit or forced reset)
-          const forceDark = !localStorage.getItem('theme') && !localStorage.getItem('theme_preference');
-          
           let theme = localStorage.getItem('theme');
           if (!theme) {
             const oldTheme = localStorage.getItem('theme_preference');
@@ -36,7 +66,7 @@
           }
           
           // Apply theme immediately
-          if (theme === 'dark-mode' || forceDark) {
+          if (theme === 'dark-mode') {
             document.documentElement.classList.add('dark-mode');
             document.body.classList.add('dark-mode');
           }
@@ -47,60 +77,25 @@
         }
       })();
       
-      // Initialize toggle button - runs multiple times to ensure it works
-      window.setupThemeToggle = function() {
+      // Update button icon when DOM is ready
+      function updateToggleIcon() {
         const toggle = document.getElementById('theme-toggle');
-        if (!toggle) {
-          // Button not found yet, try again
-          setTimeout(window.setupThemeToggle, 50);
-          return;
-        }
-        
-        // Remove any existing handlers to prevent duplicates
-        const newToggle = toggle.cloneNode(true);
-        toggle.parentNode.replaceChild(newToggle, toggle);
-        
-        // Set up click handler on the new button
-        newToggle.addEventListener('click', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-          
-          const body = document.body;
-          const html = document.documentElement;
-          const isDark = !body.classList.contains('dark-mode');
-          
-          if (isDark) {
-            body.classList.add('dark-mode');
-            html.classList.add('dark-mode');
-            newToggle.textContent = '☀️';
-            localStorage.setItem('theme', 'dark-mode');
-            localStorage.setItem('theme_preference', 'dark');
+        if (toggle) {
+          if (document.body.classList.contains('dark-mode')) {
+            toggle.textContent = '☀️';
           } else {
-            body.classList.remove('dark-mode');
-            html.classList.remove('dark-mode');
-            newToggle.textContent = '🌙';
-            localStorage.setItem('theme', 'light-mode');
-            localStorage.setItem('theme_preference', 'light');
+            toggle.textContent = '🌙';
           }
-        });
-        
-        // Update button icon based on current theme
-        if (document.body.classList.contains('dark-mode')) {
-          newToggle.textContent = '☀️';
         } else {
-          newToggle.textContent = '🌙';
+          setTimeout(updateToggleIcon, 50);
         }
-      };
-      
-      // Start setup when DOM is ready
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', window.setupThemeToggle);
-      } else {
-        window.setupThemeToggle();
       }
       
-      // Also try after a short delay as backup
-      setTimeout(window.setupThemeToggle, 200);
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', updateToggleIcon);
+      } else {
+        updateToggleIcon();
+      }
     </script>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -175,7 +170,7 @@
       
       <div class="ms-3 d-flex align-items-center gap-2">
         <a href="admin.html" id="admin-link" class="btn btn-gold btn-sm" style="display: none;">Admin Panel</a>
-        <button id="theme-toggle" class="btn btn-outline-light btn-sm rounded-square" title="Toggle theme">🌙</button>
+        <button id="theme-toggle" class="btn btn-outline-light btn-sm rounded-square" title="Toggle theme" onclick="window.toggleTheme(event)">🌙</button>
       </div>
     </div>
   </div>
