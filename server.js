@@ -47,8 +47,25 @@ app.use(express.urlencoded({ extended: true }));
 // Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// Explicit CSS route with file existence check
+app.get('/style.css', (req, res) => {
+  const cssPath = path.join(__dirname, 'style.css');
+  const fs = require('fs');
+  
+  // Check if file exists
+  if (!fs.existsSync(cssPath)) {
+    console.error('CSS file not found at:', cssPath);
+    console.error('Current directory:', __dirname);
+    console.error('Files in directory:', fs.readdirSync(__dirname).slice(0, 10));
+    return res.status(404).send('/* CSS file not found */');
+  }
+  
+  res.setHeader('Content-Type', 'text/css; charset=utf-8');
+  res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+  res.sendFile(cssPath);
+});
+
 // Serve static files FIRST (CSS, JS, images) - before API routes
-// This ensures static files are served correctly
 app.use(express.static(path.join(__dirname), {
   dotfiles: 'ignore',
   index: false,
