@@ -47,13 +47,7 @@ app.use(express.urlencoded({ extended: true }));
 // Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Serve static files (HTML, CSS, JS, images, etc.)
-app.use(express.static(path.join(__dirname), {
-  extensions: ['html', 'htm'],
-  index: 'index.html'
-}));
-
-// Routes (with error handling)
+// Routes (with error handling) - MUST come before static file serving
 try {
   app.use('/api/auth', require('./routes/auth'));
   app.use('/api/blog', require('./routes/blog'));
@@ -74,6 +68,12 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+// Serve static files (HTML, CSS, JS, images, etc.) - AFTER API routes
+app.use(express.static(path.join(__dirname), {
+  extensions: ['html', 'htm'],
+  index: 'index.html'
+}));
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error('Error:', err);
@@ -88,16 +88,14 @@ app.use('/api/*', (req, res) => {
 });
 
 // For non-API routes, serve index.html (SPA fallback)
-if (process.env.VERCEL !== '1') {
-  app.get('*', (req, res) => {
-    // Don't serve HTML for API routes
-    if (req.path.startsWith('/api')) {
-      return res.status(404).json({ error: 'Route not found' });
-    }
-    // Serve index.html for all other routes
-    res.sendFile(path.join(__dirname, 'index.html'));
-  });
-}
+app.get('*', (req, res) => {
+  // Don't serve HTML for API routes
+  if (req.path.startsWith('/api')) {
+    return res.status(404).json({ error: 'Route not found' });
+  }
+  // Serve index.html for all other routes
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 const PORT = process.env.PORT || 3000;
 
