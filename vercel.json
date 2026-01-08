@@ -16,6 +16,10 @@
       "dest": "server.js"
     },
     {
+      "src": "/style.css",
+      "dest": "/api/style.css.js"
+    },
+    {
       "src": "/(.*\\.(css|js|jpg|jpeg|png|gif|svg|ico|pdf|woff|woff2|ttf|eot|json))",
       "dest": "server.js"
     },
