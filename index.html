@@ -17,6 +17,7 @@
     <script>
       // Global theme toggle function - works with inline onclick
       window.toggleTheme = function(e) {
+        console.log('toggleTheme called!');
         if (e) {
           e.preventDefault();
           e.stopPropagation();
@@ -26,26 +27,44 @@
         const html = document.documentElement;
         const toggle = document.getElementById('theme-toggle');
         
+        console.log('Current body classes:', body.className);
         const isDark = !body.classList.contains('dark-mode');
+        console.log('Will set to dark mode:', isDark);
         
         if (isDark) {
           body.classList.add('dark-mode');
           html.classList.add('dark-mode');
-          if (toggle) toggle.textContent = '☀️';
+          console.log('Added dark-mode class');
+          if (toggle) {
+            toggle.textContent = '☀️';
+            console.log('Updated toggle to sun');
+          }
           try {
             localStorage.setItem('theme', 'dark-mode');
             localStorage.setItem('theme_preference', 'dark');
-          } catch(err) {}
+          } catch(err) {
+            console.error('localStorage error:', err);
+          }
         } else {
           body.classList.remove('dark-mode');
           html.classList.remove('dark-mode');
-          if (toggle) toggle.textContent = '🌙';
+          console.log('Removed dark-mode class');
+          if (toggle) {
+            toggle.textContent = '🌙';
+            console.log('Updated toggle to moon');
+          }
           try {
             localStorage.setItem('theme', 'light-mode');
             localStorage.setItem('theme_preference', 'light');
-          } catch(err) {}
+          } catch(err) {
+            console.error('localStorage error:', err);
+          }
         }
+        console.log('Final body classes:', body.className);
       };
+      
+      // Make sure function is available immediately
+      console.log('toggleTheme function defined:', typeof window.toggleTheme);
       
       // Initialize theme on page load
       (function() {
