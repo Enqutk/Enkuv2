@@ -47,10 +47,11 @@ app.use(express.urlencoded({ extended: true }));
 // Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Serve static files (CSS, JS, images) BEFORE API routes to ensure they're served correctly
+// Serve static files (CSS, JS, images) - must be before API routes
+// Serve CSS, JS, and other static assets
 app.use(express.static(path.join(__dirname), {
-  extensions: ['html', 'htm', 'css', 'js', 'jpg', 'jpeg', 'png', 'gif', 'svg', 'ico', 'pdf', 'woff', 'woff2', 'ttf', 'eot'],
-  index: false // Don't serve index.html for directory requests
+  dotfiles: 'ignore',
+  index: false
 }));
 
 // Routes (with error handling) - MUST come after static files for API routes
