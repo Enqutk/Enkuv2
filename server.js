@@ -47,7 +47,13 @@ app.use(express.urlencoded({ extended: true }));
 // Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Routes (with error handling) - MUST come before static file serving
+// Serve static files (CSS, JS, images) BEFORE API routes to ensure they're served correctly
+app.use(express.static(path.join(__dirname), {
+  extensions: ['html', 'htm', 'css', 'js', 'jpg', 'jpeg', 'png', 'gif', 'svg', 'ico', 'pdf', 'woff', 'woff2', 'ttf', 'eot'],
+  index: false // Don't serve index.html for directory requests
+}));
+
+// Routes (with error handling) - MUST come after static files for API routes
 try {
   app.use('/api/auth', require('./routes/auth'));
   app.use('/api/blog', require('./routes/blog'));
@@ -68,12 +74,6 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Serve static files (HTML, CSS, JS, images, etc.) - AFTER API routes
-app.use(express.static(path.join(__dirname), {
-  extensions: ['html', 'htm'],
-  index: 'index.html'
-}));
-
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error('Error:', err);
@@ -93,7 +93,11 @@ app.get('*', (req, res) => {
   if (req.path.startsWith('/api')) {
     return res.status(404).json({ error: 'Route not found' });
   }
-  // Serve index.html for all other routes
+  // Don't serve HTML for static file requests (they should have been caught above)
+  if (req.path.match(/\.(css|js|jpg|jpeg|png|gif|svg|ico|pdf|woff|woff2|ttf|eot|json)$/)) {
+    return res.status(404).send('File not found');
+  }
+  // Serve index.html for all other routes (SPA fallback)
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
