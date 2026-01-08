@@ -16,11 +16,8 @@
       "dest": "server.js"
     },
     {
-      "src": "/(.*\\.(css|js|jpg|jpeg|png|gif|svg|ico|pdf|woff|woff2|ttf|eot|json))",
-      "headers": {
-        "Cache-Control": "public, max-age=31536000, immutable"
-      },
-      "dest": "/$1"
+      "src": "/(.*\\.(css|js|jpg|jpeg|png|gif|svg|ico|pdf|woff|woff2|ttf|eot|json|html))",
+      "dest": "server.js"
     },
     {
       "src": "/(.*)",

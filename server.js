@@ -93,7 +93,8 @@ app.get('*', (req, res) => {
   if (req.path.startsWith('/api')) {
     return res.status(404).json({ error: 'Route not found' });
   }
-  // Don't serve HTML for static file requests (they should have been caught above)
+  // Static files should already be served by express.static above
+  // If we reach here for a static file, it doesn't exist
   if (req.path.match(/\.(css|js|jpg|jpeg|png|gif|svg|ico|pdf|woff|woff2|ttf|eot|json)$/)) {
     return res.status(404).send('File not found');
   }
