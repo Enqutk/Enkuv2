@@ -501,6 +501,7 @@ $(function() {
 
 
 // Universal theme toggle function - can be called from any page
+// NOTE: This now just calls the global toggleTheme function to avoid conflicts
 window.initThemeToggle = function() {
   const $toggle = $('#theme-toggle');
   const $body = $('body');
@@ -510,7 +511,7 @@ window.initThemeToggle = function() {
     return;
   }
   
-  // Remove any existing handlers to prevent duplicates
+  // Remove any existing jQuery handlers to prevent conflicts
   $toggle.off('click.theme-toggle');
   
   // Initialize theme from localStorage - DEFAULT TO DARK MODE
@@ -554,23 +555,29 @@ window.initThemeToggle = function() {
   // Initialize on load
   initTheme();
 
-  // Toggle handler with namespace to prevent conflicts
-  $toggle.on('click.theme-toggle', function(){
-    const isDark = $body.toggleClass('dark-mode').hasClass('dark-mode');
-    // Also toggle on documentElement for CSS variables
-    if (isDark) {
-      document.documentElement.classList.add('dark-mode');
-    } else {
-      document.documentElement.classList.remove('dark-mode');
-    }
-    $toggle.text(isDark ? '☀️' : '🌙');
-    try { 
-      localStorage.setItem('theme', isDark ? 'dark-mode' : 'light-mode');
-      localStorage.setItem('theme_preference', isDark ? 'dark' : 'light');
-    } catch(e){
-      console.error('Theme save error:', e);
-    }
-  });
+  // Use the global toggleTheme function if available, otherwise fallback
+  if (typeof window.toggleTheme === 'function') {
+    // Just ensure the button calls the global function
+    $toggle.attr('onclick', 'window.toggleTheme(event)');
+  } else {
+    // Fallback jQuery handler
+    $toggle.on('click.theme-toggle', function(){
+      const isDark = $body.toggleClass('dark-mode').hasClass('dark-mode');
+      // Also toggle on documentElement for CSS variables
+      if (isDark) {
+        document.documentElement.classList.add('dark-mode');
+      } else {
+        document.documentElement.classList.remove('dark-mode');
+      }
+      $toggle.text(isDark ? '☀️' : '🌙');
+      try { 
+        localStorage.setItem('theme', isDark ? 'dark-mode' : 'light-mode');
+        localStorage.setItem('theme_preference', isDark ? 'dark' : 'light');
+      } catch(e){
+        console.error('Theme save error:', e);
+      }
+    });
+  }
 };
 
 // Auto-initialize on pages that include script.js
