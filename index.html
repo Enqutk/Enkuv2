@@ -13,21 +13,33 @@
     <!-- Fallback to local if CDN fails -->
     <link rel="stylesheet" href="style.css" onerror="this.onerror=null; this.href='style.css';">
 
-    <!-- Apply theme immediately to prevent flash -->
+    <!-- Apply theme immediately to prevent flash - DEFAULT TO DARK MODE -->
     <script>
       (function() {
         try {
           let theme = localStorage.getItem('theme');
           if (!theme) {
             const oldTheme = localStorage.getItem('theme_preference');
-            if (oldTheme === 'dark') theme = 'dark-mode';
-            else if (oldTheme === 'light') theme = 'light-mode';
+            if (oldTheme === 'dark') {
+              theme = 'dark-mode';
+            } else if (oldTheme === 'light') {
+              theme = 'light-mode';
+            } else {
+              // DEFAULT TO DARK MODE if no preference exists
+              theme = 'dark-mode';
+              localStorage.setItem('theme', 'dark-mode');
+              localStorage.setItem('theme_preference', 'dark');
+            }
           }
           if (theme === 'dark-mode') {
             document.documentElement.classList.add('dark-mode');
             document.body.classList.add('dark-mode');
           }
-        } catch(e) {}
+        } catch(e) {
+          // If localStorage fails, default to dark mode
+          document.documentElement.classList.add('dark-mode');
+          document.body.classList.add('dark-mode');
+        }
       })();
     </script>
 
@@ -710,6 +722,17 @@
     <script src="data.js"></script>
     <script src="js/api.js"></script>
     <script src="script.js"></script>
+    <!-- Ensure theme toggle is initialized even if script.js loads late -->
+    <script>
+      // Double-check theme toggle initialization
+      $(document).ready(function() {
+        setTimeout(function() {
+          if (typeof window.initThemeToggle === 'function') {
+            window.initThemeToggle();
+          }
+        }, 100);
+      });
+    </script>
 <script>
   // Load blog and gallery previews on home page
   $(async function() {

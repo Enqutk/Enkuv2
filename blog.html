@@ -216,20 +216,32 @@
                     } else if (oldSaved === 'light') {
                         savedTheme = 'light-mode';
                         localStorage.setItem('theme', savedTheme);
+                    } else {
+                        // DEFAULT TO DARK MODE
+                        savedTheme = 'dark-mode';
+                        localStorage.setItem('theme', 'dark-mode');
+                        localStorage.setItem('theme_preference', 'dark');
                     }
                 }
                 
                 if (savedTheme === 'dark-mode') {
                     body.addClass('dark-mode');
+                    document.documentElement.classList.add('dark-mode');
                     themeToggleBtn.text('☀️');
                 } else {
                     body.removeClass('dark-mode');
+                    document.documentElement.classList.remove('dark-mode');
                     themeToggleBtn.text('🌙');
                 }
                 
                 themeToggleBtn.off('click').on('click', function(){
                     body.toggleClass('dark-mode');
                     const isDarkMode = body.hasClass('dark-mode');
+                    if (isDarkMode) {
+                        document.documentElement.classList.add('dark-mode');
+                    } else {
+                        document.documentElement.classList.remove('dark-mode');
+                    }
                     $(this).text(isDarkMode ? '☀️' : '🌙');
                     localStorage.setItem('theme', isDarkMode ? 'dark-mode' : 'light-mode');
                     localStorage.setItem('theme_preference', isDarkMode ? 'dark' : 'light');

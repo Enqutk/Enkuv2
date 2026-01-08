@@ -513,7 +513,7 @@ window.initThemeToggle = function() {
   // Remove any existing handlers to prevent duplicates
   $toggle.off('click.theme-toggle');
   
-  // Initialize theme from localStorage
+  // Initialize theme from localStorage - DEFAULT TO DARK MODE
   function initTheme() {
     try {
       let saved = localStorage.getItem('theme');
@@ -525,18 +525,29 @@ window.initThemeToggle = function() {
         } else if (oldSaved === 'light') {
           saved = 'light-mode';
           localStorage.setItem('theme', saved);
+        } else {
+          // DEFAULT TO DARK MODE if no preference exists
+          saved = 'dark-mode';
+          localStorage.setItem('theme', 'dark-mode');
+          localStorage.setItem('theme_preference', 'dark');
         }
       }
       
       if (saved === 'dark-mode') {
         $body.addClass('dark-mode');
+        document.documentElement.classList.add('dark-mode');
         $toggle.text('☀️');
       } else {
         $body.removeClass('dark-mode');
+        document.documentElement.classList.remove('dark-mode');
         $toggle.text('🌙');
       }
     } catch(e) {
       console.error('Theme initialization error:', e);
+      // Default to dark mode on error
+      $body.addClass('dark-mode');
+      document.documentElement.classList.add('dark-mode');
+      $toggle.text('☀️');
     }
   }
   
@@ -546,6 +557,12 @@ window.initThemeToggle = function() {
   // Toggle handler with namespace to prevent conflicts
   $toggle.on('click.theme-toggle', function(){
     const isDark = $body.toggleClass('dark-mode').hasClass('dark-mode');
+    // Also toggle on documentElement for CSS variables
+    if (isDark) {
+      document.documentElement.classList.add('dark-mode');
+    } else {
+      document.documentElement.classList.remove('dark-mode');
+    }
     $toggle.text(isDark ? '☀️' : '🌙');
     try { 
       localStorage.setItem('theme', isDark ? 'dark-mode' : 'light-mode');
