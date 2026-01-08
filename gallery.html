@@ -9,22 +9,89 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Enqutk/Enkuv2@main/style.css">
     <link rel="stylesheet" href="style.css" onerror="this.onerror=null; this.href='style.css';">
     
-    <!-- Apply theme immediately to prevent flash -->
+    <!-- Apply theme immediately to prevent flash - DEFAULT TO DARK MODE -->
     <script>
+      // Global theme toggle function - works with inline onclick
+      window.toggleTheme = function(e) {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        
+        const body = document.body;
+        const html = document.documentElement;
+        const toggle = document.getElementById('theme-toggle');
+        
+        const isDark = !body.classList.contains('dark-mode');
+        
+        if (isDark) {
+          body.classList.add('dark-mode');
+          html.classList.add('dark-mode');
+          if (toggle) toggle.textContent = '☀️';
+          try {
+            localStorage.setItem('theme', 'dark-mode');
+            localStorage.setItem('theme_preference', 'dark');
+          } catch(err) {}
+        } else {
+          body.classList.remove('dark-mode');
+          html.classList.remove('dark-mode');
+          if (toggle) toggle.textContent = '🌙';
+          try {
+            localStorage.setItem('theme', 'light-mode');
+            localStorage.setItem('theme_preference', 'light');
+          } catch(err) {}
+        }
+      };
+      
+      // Initialize theme on page load
       (function() {
         try {
           let theme = localStorage.getItem('theme');
           if (!theme) {
             const oldTheme = localStorage.getItem('theme_preference');
-            if (oldTheme === 'dark') theme = 'dark-mode';
-            else if (oldTheme === 'light') theme = 'light-mode';
+            if (oldTheme === 'dark') {
+              theme = 'dark-mode';
+            } else if (oldTheme === 'light') {
+              theme = 'light-mode';
+            } else {
+              // DEFAULT TO DARK MODE if no preference exists
+              theme = 'dark-mode';
+              localStorage.setItem('theme', 'dark-mode');
+              localStorage.setItem('theme_preference', 'dark');
+            }
           }
+          
+          // Apply theme immediately
           if (theme === 'dark-mode') {
             document.documentElement.classList.add('dark-mode');
             document.body.classList.add('dark-mode');
           }
-        } catch(e) {}
+        } catch(e) {
+          // If localStorage fails, default to dark mode
+          document.documentElement.classList.add('dark-mode');
+          document.body.classList.add('dark-mode');
+        }
       })();
+      
+      // Update button icon when DOM is ready
+      function updateToggleIcon() {
+        const toggle = document.getElementById('theme-toggle');
+        if (toggle) {
+          if (document.body.classList.contains('dark-mode')) {
+            toggle.textContent = '☀️';
+          } else {
+            toggle.textContent = '🌙';
+          }
+        } else {
+          setTimeout(updateToggleIcon, 50);
+        }
+      }
+      
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', updateToggleIcon);
+      } else {
+        updateToggleIcon();
+      }
     </script>
     
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
