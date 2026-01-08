@@ -2,7 +2,7 @@ const mysql = require('mysql2/promise');
 require('dotenv').config();
 
 // Create connection pool
-const pool = mysql.createPool({
+const poolConfig = {
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASSWORD || '',
@@ -13,7 +13,16 @@ const pool = mysql.createPool({
   queueLimit: 0,
   enableKeepAlive: true,
   keepAliveInitialDelay: 0
-});
+};
+
+// Add SSL configuration for PlanetScale (or other cloud databases)
+if (process.env.DB_SSL === 'true' || process.env.DB_HOST?.includes('psdb.cloud')) {
+  poolConfig.ssl = {
+    rejectUnauthorized: true
+  };
+}
+
+const pool = mysql.createPool(poolConfig);
 
 // Test connection (non-blocking - won't crash app)
 pool.getConnection()

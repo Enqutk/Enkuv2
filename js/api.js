@@ -5,8 +5,8 @@ const API_BASE_URL = (() => {
   if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
     return '/api';
   }
-  // Local development
-  return 'http://localhost:3000/api';
+  // Local development - use port 3001
+  return 'http://localhost:3001/api';
 })();
 
 class ApiService {
