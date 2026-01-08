@@ -7,6 +7,86 @@
 */
 
 $(function() {
+  // ---------- Mobile menu backdrop and body lock ----------
+  const $navbarCollapse = $('#mainNav');
+  const $body = $('body');
+  
+  // Create backdrop element if it doesn't exist
+  let $backdrop = $('.menu-backdrop');
+  if ($backdrop.length === 0) {
+    $backdrop = $('<div class="menu-backdrop"></div>');
+    $body.append($backdrop);
+  }
+  
+  // Handle menu show
+  $navbarCollapse.on('show.bs.collapse', function() {
+    if (window.innerWidth < 992) {
+      $body.addClass('menu-open');
+      $backdrop.addClass('show');
+      // Reset animations for menu items
+      $('.navbar-collapse .nav-item').css('animation', 'none');
+      setTimeout(function() {
+        $('.navbar-collapse .nav-item').css('animation', '');
+      }, 10);
+    }
+  });
+  
+  // Handle menu hide
+  $navbarCollapse.on('hide.bs.collapse', function() {
+    $body.removeClass('menu-open');
+    $backdrop.removeClass('show');
+  });
+  
+  // Handle menu shown (after animation)
+  $navbarCollapse.on('shown.bs.collapse', function() {
+    if (window.innerWidth < 992) {
+      $navbarCollapse.addClass('show');
+    }
+  });
+  
+  // Handle menu hidden (after animation)
+  $navbarCollapse.on('hidden.bs.collapse', function() {
+    $navbarCollapse.removeClass('show');
+  });
+  
+  // Close menu when clicking backdrop
+  $backdrop.on('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (window.innerWidth < 992) {
+      $navbarCollapse.collapse('hide');
+    }
+  });
+  
+  // Close menu when clicking nav links on mobile
+  $(document).on('click', '.navbar-collapse .nav-link', function() {
+    if (window.innerWidth < 992) {
+      setTimeout(function() {
+        $navbarCollapse.collapse('hide');
+      }, 100);
+    }
+  });
+  
+  // Close menu when clicking close button
+  $(document).on('click', '.menu-close-btn', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (window.innerWidth < 992) {
+      $navbarCollapse.collapse('hide');
+    }
+  });
+  
+  // Handle window resize
+  $(window).on('resize', function() {
+    if (window.innerWidth >= 992) {
+      $body.removeClass('menu-open');
+      $backdrop.removeClass('show');
+      if ($navbarCollapse.hasClass('show')) {
+        $navbarCollapse.removeClass('show');
+      }
+    }
+  });
+  
   // ---------- Smooth scroll for anchor links ----------
   $('a[href^="#"]').on('click', function(e) {
     const href = this.getAttribute('href');
@@ -41,17 +121,16 @@ $(function() {
   function loadProjects() {
   
     const projects = [
-      { id: 'agripedia', title: "Agripedia Term Management Plugin", year: "2024", desc: "WordPress plugin with admin UI and taxonomy features.", img: "assets/projects/agripedia.png", tags:['wp','web'], collab:'team' },
-      { id: 'legnapath', title: "LegnaPath Mentorship Platform", year: "2024", desc: "Mentorship features, match-making and micro-payments.", img: "assets/projects/legnapath.png", tags:['web'], collab:'team' },
-      { id: 'custom-user-form', title: "Custom User Form Plugin", year: "2023", desc: "Shortcode based capture & management.", img: "assets/projects/custom-user-form.png", tags:['wp'], collab:'solo' },
-      { id: 'food-ordering', title: "Food Ordering System", year: "2023", desc: "Ordering web app with guest checkout.", img: "assets/projects/food-ordering.png", tags:['web','mobile'], collab:'team' },
-      { id: 'memory-maze', title: "Memory Maze", year: "2022", desc: "Interactive memory game and book unlocks.", img: "assets/projects/memory-maze.png", tags:['game'], collab:'solo' },
-      { id: 'cookbook', title: "CookBook Pro", year: "2023", desc: "Recipe training web app.", img: "assets/projects/cookbook.png", tags:['web'], collab:'solo' },
-      { id: 'waste-collection', title: "Waste Collection App", year: "2024", desc: "Localized waste collection planning and mapping.", img: "assets/projects/waste-collection.png", tags:['web','mobile'], collab:'team' },
-      { id: 'freelance-dire', title: "Freelance Dire", year: "2024", desc: "Student hiring platform & community features.", img: "assets/projects/freelance-dire.png", tags:['web'], collab:'team' },
-      { id: 'keyboard-crush', title: "Keyboard Crush Pro", year: "2022", desc: "Typing speed and accuracy test platform.", img: "assets/projects/keyboard-crush.png", tags:['web','game'], collab:'solo' },
-      { id: 'java-delivery', title: "Online Food Delivery (Java)", year: "2021", desc: "OOP simulation of delivery process.", img: "assets/projects/java-delivery.png", tags:['java'], collab:'solo' },
-      { id: 'memory-reading', title: "Memory Based Reading System", year: "2022", desc: "Book unlocking app based on recall.", img: "assets/projects/memory-reading.png", tags:['web'], collab:'solo' }
+      { id: 'legnapath', title: "LegnaPath Mentorship Platform", year: "2025", desc: "Mentorship features, match-making and micro-payments.", img: "assets/projects/legnapath.png", tags:['web'], collab:'team' },
+      { id: 'custom-user-form', title: "Custom User Form Plugin", year: "2025", desc: "Shortcode based capture & management.", img: "assets/projects/custom-user-form.png", tags:['wp'], collab:'solo' },
+      { id: 'food-ordering', title: "Food Ordering System", year: "2025", desc: "Ordering web app with guest checkout.", img: "assets/projects/food-ordering.png", tags:['web','mobile'], collab:'team' },
+      { id: 'memory-maze', title: "Memory Maze", year: "2025", desc: "Interactive memory game and book unlocks.", img: "assets/projects/memory-maze.png", tags:['game'], collab:'solo' },
+      { id: 'cookbook', title: "CookBook Pro", year: "2025", desc: "Recipe training web app.", img: "assets/projects/cookbook.png", tags:['web'], collab:'solo' },
+      { id: 'waste-collection', title: "Waste Collection App", year: "2025", desc: "Localized waste collection planning and mapping.", img: "assets/projects/waste-collection.png", tags:['web','mobile'], collab:'team' },
+      { id: 'freelance-dire', title: "Freelance Dire", year: "2025", desc: "Student hiring platform & community features.", img: "assets/projects/freelance-dire.png", tags:['web'], collab:'team' },
+      { id: 'keyboard-crush', title: "Keyboard Crush Pro", year: "2025", desc: "Typing speed and accuracy test platform.", img: "assets/projects/keyboard-crush.png", tags:['web','game'], collab:'solo' },
+      { id: 'java-delivery', title: "Online Food Delivery (Java)", year: "2025", desc: "OOP simulation of delivery process.", img: "assets/projects/java-delivery.png", tags:['java'], collab:'solo' },
+      { id: 'memory-reading', title: "Memory Based Reading System", year: "2025", desc: "Book unlocking app based on recall.", img: "assets/projects/memory-reading.png", tags:['web'], collab:'solo' }
     ];
 
     const $grid = $('#projects-grid');
@@ -130,7 +209,6 @@ $(function() {
             <p>Key features include responsive design, user-friendly interface, and robust functionality that addresses real-world needs.</p>
           </div>
           <div class="proj-actions">
-            <a class="btn btn-gold" href="#" onclick="return false;">View Live Demo</a>
             <a class="btn btn-outline-secondary" href="#" onclick="return false;">View Repository</a>
           </div>
         </div>
@@ -227,19 +305,23 @@ $(function() {
 
     let $col = $('#skills-column');
     if (!$col.length) return;
-    let html = '<h5 class="skills-heading">Skills</h5>';
+    let html = '<div class="row g-4">';
     skills.forEach((s, i) => {
       html += `
-        <div class="skill-entry mb-3" data-percent="${s.percent}">
-          <div class="d-flex justify-content-between align-items-center mb-1">
-            <small class="fw-semibold">${s.name}</small><small class="text-muted percent-value">0%</small>
-          </div>
-          <div class="skill-progress progress">
-            <div class="progress-bar" role="progressbar" style="width:0%" aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="col-md-6">
+          <div class="skill-entry" data-percent="${s.percent}">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="fw-bold skill-name">${s.name}</span>
+              <span class="percent-value">0%</span>
+            </div>
+            <div class="skill-progress progress">
+              <div class="progress-bar" role="progressbar" style="width:0%" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
           </div>
         </div>
       `;
     });
+    html += '</div>';
     $col.html(html);
 
     const container = document.querySelector('#skills-column');
@@ -296,7 +378,7 @@ $(function() {
   function updateStats(projects, clients) {
     animateCounter($('#stat-projects'), projects || 11);
     animateCounter($('#stat-clients'), clients || 8);
-    // Experience years doesn't need animation (already set to 5+)
+    // Experience is static (10 months)
   }
 
  
@@ -418,28 +500,67 @@ $(function() {
 });
 
 
-$(function(){
+// Universal theme toggle function - can be called from any page
+window.initThemeToggle = function() {
   const $toggle = $('#theme-toggle');
   const $body = $('body');
-  // Initialize from saved preference
-  try {
-    const saved = localStorage.getItem('theme_preference'); // 'dark' | 'light' | null
-    if (saved === 'dark') {
-      $body.addClass('dark-mode');
-      $toggle.text('☀️');
-    } else {
-      $toggle.text('🌙');
+  
+  // Only proceed if toggle button exists
+  if ($toggle.length === 0) {
+    return;
+  }
+  
+  // Remove any existing handlers to prevent duplicates
+  $toggle.off('click.theme-toggle');
+  
+  // Initialize theme from localStorage
+  function initTheme() {
+    try {
+      let saved = localStorage.getItem('theme');
+      if (!saved) {
+        const oldSaved = localStorage.getItem('theme_preference');
+        if (oldSaved === 'dark') {
+          saved = 'dark-mode';
+          localStorage.setItem('theme', saved);
+        } else if (oldSaved === 'light') {
+          saved = 'light-mode';
+          localStorage.setItem('theme', saved);
+        }
+      }
+      
+      if (saved === 'dark-mode') {
+        $body.addClass('dark-mode');
+        $toggle.text('☀️');
+      } else {
+        $body.removeClass('dark-mode');
+        $toggle.text('🌙');
+      }
+    } catch(e) {
+      console.error('Theme initialization error:', e);
     }
-  } catch(e){}
+  }
+  
+  // Initialize on load
+  initTheme();
 
-  // Toggle handler
-  $toggle.on('click', function(){
+  // Toggle handler with namespace to prevent conflicts
+  $toggle.on('click.theme-toggle', function(){
     const isDark = $body.toggleClass('dark-mode').hasClass('dark-mode');
-    // Update icon
     $toggle.text(isDark ? '☀️' : '🌙');
-    // Persist
-    try { localStorage.setItem('theme_preference', isDark ? 'dark' : 'light'); } catch(e){}
+    try { 
+      localStorage.setItem('theme', isDark ? 'dark-mode' : 'light-mode');
+      localStorage.setItem('theme_preference', isDark ? 'dark' : 'light');
+    } catch(e){
+      console.error('Theme save error:', e);
+    }
   });
+};
+
+// Auto-initialize on pages that include script.js
+$(function(){
+  if (typeof window.initThemeToggle === 'function') {
+    window.initThemeToggle();
+  }
 });
 
 
@@ -719,27 +840,134 @@ function loadStack() {
 
   // apply random rotation/offset and reveal
   const items = Array.from(document.querySelectorAll('#stack-grid .stack-item'));
+  const isMobile = window.innerWidth <= 576;
+  const gridRect = $grid[0]?.getBoundingClientRect();
+  const gridWidth = isMobile && gridRect ? gridRect.width - 40 : 0;
+  const gridHeight = isMobile && gridRect ? Math.max(600, items.length * 100) : 0;
+  
+  // Track placed items for overlap detection on mobile
+  const placedItems = [];
+  
   items.forEach((el,i) => {
     const rot = (Math.random()*16 - 8).toFixed(2);
-    const tx  = (Math.random()*14 - 7).toFixed(1);
-    const ty  = (Math.random()*10 - 5).toFixed(1);
-    el.style.transform = `translate3d(${tx}px, ${ty}px,0) rotate(${rot}deg) scale(.98)`;
+    let tx, ty;
+    
+    if (isMobile) {
+      // Random positioning on mobile with overlap avoidance, keeping items close together
+      const itemWidth = el.classList.contains('size-lg') ? 110 : el.classList.contains('size-md') ? 90 : 70;
+      const itemHeight = itemWidth;
+      
+      // Use a tighter container area to keep items grouped
+      const containerPadding = 20;
+      const maxX = Math.max(0, gridWidth - itemWidth - containerPadding * 2);
+      const maxY = Math.max(0, gridHeight - itemHeight - containerPadding * 2);
+      
+      // If no items placed yet, start from a central/random position
+      if (placedItems.length === 0) {
+        tx = containerPadding + Math.random() * Math.min(maxX, 200); // Keep first items in a smaller area
+        ty = containerPadding + Math.random() * Math.min(maxY, 300);
+      } else {
+        // For subsequent items, try placing near existing items
+        const baseItem = placedItems[Math.floor(Math.random() * placedItems.length)];
+        const clusterRadius = 150; // Maximum distance from base item
+        const angle = Math.random() * Math.PI * 2;
+        const distance = Math.random() * clusterRadius;
+        
+        tx = baseItem.x + Math.cos(angle) * distance;
+        ty = baseItem.y + Math.sin(angle) * distance;
+        
+        // Constrain to grid bounds
+        tx = Math.max(containerPadding, Math.min(maxX + containerPadding, tx));
+        ty = Math.max(containerPadding, Math.min(maxY + containerPadding, ty));
+      }
+      
+      // Try to find a non-overlapping position near the calculated position
+      let attempts = 0;
+      let foundPosition = false;
+      const searchRadius = 80; // Smaller search radius for tighter grouping
+      
+      while (attempts < 30 && !foundPosition) {
+        if (attempts > 0) {
+          // Slightly randomize position if first attempt overlapped
+          const offsetX = (Math.random() - 0.5) * searchRadius;
+          const offsetY = (Math.random() - 0.5) * searchRadius;
+          tx = Math.max(containerPadding, Math.min(maxX + containerPadding, tx + offsetX));
+          ty = Math.max(containerPadding, Math.min(maxY + containerPadding, ty + offsetY));
+        }
+        
+        // Check for overlaps with already placed items (reduced padding for closer placement)
+        const overlaps = placedItems.some(placed => {
+          const dx = Math.abs(tx - placed.x);
+          const dy = Math.abs(ty - placed.y);
+          const minDistance = (itemWidth + placed.width) / 2 + 5; // Reduced from 10px to 5px padding
+          return dx < minDistance && dy < minDistance;
+        });
+        
+        if (!overlaps) {
+          foundPosition = true;
+          placedItems.push({ x: tx, y: ty, width: itemWidth, height: itemHeight });
+        }
+        attempts++;
+      }
+      
+      // If still overlapping after attempts, use the position anyway (they'll be close)
+      if (!foundPosition) {
+        placedItems.push({ x: tx, y: ty, width: itemWidth, height: itemHeight });
+      }
+      
+      el.style.left = tx.toFixed(1) + 'px';
+      el.style.top = ty.toFixed(1) + 'px';
+      el.style.transform = `rotate(${rot}deg) scale(.98)`;
+    } else {
+      // Desktop: subtle offset
+      tx = (Math.random()*14 - 7).toFixed(1);
+      ty = (Math.random()*10 - 5).toFixed(1);
+      el.style.transform = `translate3d(${tx}px, ${ty}px,0) rotate(${rot}deg) scale(.98)`;
+    }
+    
     el.setAttribute('data-rot', rot);
 
     setTimeout(() => {
       el.classList.add('visible');
-      // settle to lighter offset
-      const sTx = (tx * 0.45).toFixed(1), sTy = (ty * 0.45).toFixed(1), sRot = (rot * 0.45).toFixed(2);
-      el.style.transition = 'transform 650ms cubic-bezier(.2,.9,.3,1), box-shadow .28s';
-      el.style.transform = `translate3d(${sTx}px, ${sTy}px,0) rotate(${sRot}deg) scale(1)`;
+      if (isMobile) {
+        // Mobile: settle to lighter rotation
+        const sRot = (rot * 0.45).toFixed(2);
+        el.style.transition = 'transform 650ms cubic-bezier(.2,.9,.3,1), box-shadow .28s';
+        el.style.transform = `rotate(${sRot}deg) scale(1)`;
+      } else {
+        // Desktop: settle to lighter offset
+        const sTx = (tx * 0.45).toFixed(1), sTy = (ty * 0.45).toFixed(1), sRot = (rot * 0.45).toFixed(2);
+        el.style.transition = 'transform 650ms cubic-bezier(.2,.9,.3,1), box-shadow .28s';
+        el.style.transform = `translate3d(${sTx}px, ${sTy}px,0) rotate(${sRot}deg) scale(1)`;
+      }
       setTimeout(()=> el.classList.add('float'), 600 + i*40);
     }, 120 + i*80);
   });
+  
+  // Update grid height on mobile
+  if (isMobile && gridRect) {
+    const maxBottom = Math.max(...items.map(el => {
+      const rect = el.getBoundingClientRect();
+      return rect.bottom - gridRect.top;
+    }));
+    if (maxBottom > 0) {
+      $grid[0].style.minHeight = (maxBottom + 40) + 'px';
+    }
+  }
 
   // pointer parallax / tilt
   items.forEach(item => {
     let raf=null, tx=0, ty=0;
-    function apply(){ const base = parseFloat(item.getAttribute('data-rot')||'0'); item.style.transform = `translate3d(${tx}px, ${ty}px,0) rotate(${(base + (tx*0.12)).toFixed(2)}deg) scale(1.02)`; raf=null; }
+    const isMobileItem = window.innerWidth <= 576;
+    function apply(){ 
+      const base = parseFloat(item.getAttribute('data-rot')||'0');
+      if (isMobileItem) {
+        item.style.transform = `rotate(${(base + (tx*0.12)).toFixed(2)}deg) scale(1.02)`;
+      } else {
+        item.style.transform = `translate3d(${tx}px, ${ty}px,0) rotate(${(base + (tx*0.12)).toFixed(2)}deg) scale(1.02)`;
+      }
+      raf=null; 
+    }
     function onMove(e){
       const rect=item.getBoundingClientRect();
       const cx = e.clientX !== undefined ? e.clientX : (e.touches && e.touches[0] && e.touches[0].clientX);
@@ -753,7 +981,11 @@ function loadStack() {
     function onLeave(){
       const baseRot = parseFloat(item.getAttribute('data-rot')||'0') * 0.45;
       item.style.transition = 'transform 500ms cubic-bezier(.2,.9,.3,1)';
-      item.style.transform = `translate3d(0px,0px,0) rotate(${baseRot}deg) scale(1)`;
+      if (isMobileItem) {
+        item.style.transform = `rotate(${baseRot}deg) scale(1)`;
+      } else {
+        item.style.transform = `translate3d(0px,0px,0) rotate(${baseRot}deg) scale(1)`;
+      }
     }
     item.addEventListener('pointermove', onMove, { passive:true });
     item.addEventListener('pointerleave', onLeave);
@@ -761,6 +993,50 @@ function loadStack() {
     item.addEventListener('touchend', onLeave);
 
     item.addEventListener('click', function(){ $(this).addClass('clicked'); setTimeout(()=> $(this).removeClass('clicked'),420); });
+  });
+  
+  // Handle window resize - recalculate positions on mobile
+  let resizeTimeout;
+  $(window).on('resize', function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(function() {
+      if (window.innerWidth <= 576) {
+        // Recalculate positions on mobile resize using clustering approach
+        const gridRect = $grid[0]?.getBoundingClientRect();
+        if (gridRect) {
+          const gridWidth = gridRect.width - 40;
+          const gridHeight = Math.max(400, items.length * 80); // Reduced height
+          const containerPadding = 20;
+          
+          const resizePlacedItems = [];
+          items.forEach((el, i) => {
+            const itemWidth = el.classList.contains('size-lg') ? 110 : el.classList.contains('size-md') ? 90 : 70;
+            const maxX = Math.max(0, gridWidth - itemWidth - containerPadding * 2);
+            const maxY = Math.max(0, gridHeight - itemWidth - containerPadding * 2);
+            
+            let tx, ty;
+            if (resizePlacedItems.length === 0) {
+              tx = containerPadding + Math.random() * Math.min(maxX, 200);
+              ty = containerPadding + Math.random() * Math.min(maxY, 250);
+            } else {
+              const baseItem = resizePlacedItems[Math.floor(Math.random() * resizePlacedItems.length)];
+              const clusterRadius = 150;
+              const angle = Math.random() * Math.PI * 2;
+              const distance = Math.random() * clusterRadius;
+              
+              tx = baseItem.x + Math.cos(angle) * distance;
+              ty = baseItem.y + Math.sin(angle) * distance;
+              tx = Math.max(containerPadding, Math.min(maxX + containerPadding, tx));
+              ty = Math.max(containerPadding, Math.min(maxY + containerPadding, ty));
+            }
+            
+            resizePlacedItems.push({ x: tx, y: ty, width: itemWidth, height: itemWidth });
+            el.style.left = tx.toFixed(1) + 'px';
+            el.style.top = ty.toFixed(1) + 'px';
+          });
+        }
+      }
+    }, 250);
   });
 }
 
@@ -770,10 +1046,8 @@ $(function(){ loadStack(); });
 // Clients & Partners loader
 function loadClients() {
   const clients = [
-    { id:'abol', name:'ABOL Solution', img:'assets/clients/logo-abol.png', featured:true, website:'#', desc:'Partner on local web tools and outreach.' },
-    { id:'agripedia', name:'Agripedia', img:'assets/clients/logo-1.png', featured:true, website:'#', desc:'Content & taxonomy integrations.' },
-    { id:'ddu', name:'DDU ICT Club', img:'assets/clients/logo-2.png', featured:false, website:'#', desc:'University club & mentorship.' },
-    { id:'client3', name:'Client 3', img:'assets/clients/logo-3.png', featured:false, website:'#', desc:'Design & development collaboration.' }
+    { id:'abol', name:'ABOL Solution', img:'assets/clients/abol.png', featured:true, website:'#', desc:'Technology solutions partner focused on local web tools and community outreach initiatives.' },
+    { id:'ddu', name:'DDU ICT Club', img:'assets/clients/dduictclub.jpg', featured:true, website:'#', desc:'University technology club providing mentorship, workshops, and collaborative learning opportunities for students.' }
   ];
 
   const $grid = $('#clients-grid');
@@ -781,12 +1055,22 @@ function loadClients() {
   const $carousel = $('#clients-carousel');
   $grid.empty(); $marquee.empty(); $carousel.empty();
 
-  // Build grid columns
+  // Build grid columns with enhanced cards
   clients.forEach(c => {
     const col = $(`
       <div class="col-6 col-sm-4 col-md-3 client-col">
         <div class="client-tile" data-id="${c.id}">
-          <img class="client-logo" src="${c.img}" alt="${c.name}">
+          <div class="client-card">
+            <img class="client-logo" src="${c.img}" alt="${c.name}">
+            <div class="client-overlay">
+              <span class="client-name">${c.name}</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </div>
+          </div>
         </div>
       </div>
     `);
@@ -854,10 +1138,12 @@ function loadClients() {
     const info = clients.find(x => x.id === id);
     if (!info) return;
     const html = `
-      <img src="${info.img}" class="partner-logo" alt="${info.name}">
-      <h5 class="fw-bold">${info.name}</h5>
-      <p class="partner-desc">${info.desc}</p>
-      <div class="mt-3"><a class="btn btn-outline-secondary" href="${info.website}" target="_blank">Visit site</a></div>
+      <div class="mb-4">
+        <img src="${info.img}" class="partner-logo mb-3" alt="${info.name}">
+      </div>
+      <h4 class="fw-bold mb-3">${info.name}</h4>
+      <p class="partner-desc mb-4">${info.desc}</p>
+      ${info.website !== '#' ? `<a class="btn btn-gold" href="${info.website}" target="_blank">Visit Website</a>` : ''}
     `;
     $('#partner-modal-content').html(html);
     const modal = new bootstrap.Modal(document.getElementById('partnerModal'), {});
@@ -869,19 +1155,36 @@ function loadClients() {
 $(function(){ loadClients(); });
 
 // Testimonials loader -> Bootstrap fade carousel (single centered card, indicators, keyboard support)
-function loadTestimonials() {
-  const testimonials = [
-    { name: 'Dr. Alemu', role: 'Professor • Debre Tabor Univ', avatar: 'assets/testimonials/person1.jpg', quote: "Enku delivered reliable tools for our department and mentored students with patience and skill.", rating:5 },
-    { name: 'Sara Bekele', role: 'Product Lead • ABOL', avatar: 'assets/testimonials/person2.jpg', quote: "Clear thinking, fast prototyping — the project exceeded expectations.", rating:5 },
-    { name: 'Mekdes Y', role: 'Community Organizer', avatar: 'assets/testimonials/person3.jpg', quote: "Practical solutions and great local impact — highly recommended.", rating:4 },
-    { name: 'Tadesse K', role: 'Client', avatar: 'assets/testimonials/person4.jpg', quote: "Reliable, communicative, and thoughtful about UX.", rating:5 },
-
-    // new entries requested
-    { name: 'Kaleb Getachew', role: 'CEO • ABOL Solution', avatar: 'assets/testimonials/kaleb-getachew.jpg', quote: "Strategic, reliable and fast — Enku is a pleasure to work with.", rating:5 },
-    { name: 'Yeabsira Endale', role: 'Lead • ICT Club / CTO • AOL Solution', avatar: 'assets/testimonials/yeabsira-endale.jpg', quote: "Provided great technical leadership and mentored our team effectively.", rating:5 },
-    { name: 'Kaleb Abebe', role: 'Client', avatar: 'assets/testimonials/kaleb-abebe.jpg', quote: "Delivered exactly what I needed on time — highly recommended.", rating:4 },
-    { name: 'Berket Bahiru', role: 'Core Team Lead • ICT Club', avatar: 'assets/testimonials/berket-bahiru.jpg', quote: "A dependable collaborator and excellent communicator.", rating:5 }
-  ];
+async function loadTestimonials() {
+  let testimonials = [];
+  
+  // Try to load from API first, fallback to hardcoded if API fails
+  try {
+    if (typeof api !== 'undefined' && api.getTestimonials) {
+      const data = await api.getTestimonials(true); // Only get approved
+      if (data && data.testimonials && data.testimonials.length > 0) {
+        testimonials = data.testimonials.map(t => ({
+          name: t.name,
+          role: t.role || 'Client',
+          avatar: t.avatar || 'assets/testimonials/default-avatar.jpg',
+          quote: t.quote,
+          rating: t.rating || 5
+        }));
+      }
+    }
+  } catch (error) {
+    console.log('Could not load testimonials from API, using fallback:', error);
+  }
+  
+  // Fallback to hardcoded testimonials if API fails or returns empty
+  if (testimonials.length === 0) {
+    testimonials = [
+      { name: 'Kaleb Getachew', role: 'CEO • ABOL Solution', avatar: 'assets/testimony/kalebgetachew.png', quote: "Strategic, reliable and fast — Enku is a pleasure to work with.", rating:5 },
+      { name: 'Yeabsira Endale', role: 'Lead • ICT Club / CTO • AOL Solution', avatar: 'assets/testimony/yeabsira.png', quote: "Provided great technical leadership and mentored our team effectively.", rating:5 },
+      { name: 'Kaleb Abebe', role: 'Client', avatar: 'assets/testimony/kalebabebe.png', quote: "Delivered exactly what I needed on time — highly recommended.", rating:4 },
+      { name: 'Berket Bahiru', role: 'Core Team Lead • ICT Club', avatar: 'assets/testimony/bereket.png', quote: "A dependable collaborator and excellent communicator.", rating:5 }
+    ];
+  }
 
   const carouselRoot = document.getElementById('testimonialsCarousel');
   if (!carouselRoot) return;
@@ -903,17 +1206,29 @@ function loadTestimonials() {
     slide.setAttribute('role','tabpanel');
     slide.innerHTML = `
       <div class="row justify-content-center">
-        <div class="col-md-8">
-          <div class="testimonial-card d-flex flex-column align-items-stretch">
-            <div class="d-flex align-items-center">
-              <img src="${t.avatar}" alt="${t.name}" class="testimonial-avatar me-3">
-              <div>
-                <div class="fw-bold">${t.name}</div>
-                <div class="small">${t.role}</div>
+        <div class="col-lg-10 col-xl-8">
+          <div class="testimonial-card">
+            <div class="testimonial-quote-wrapper">
+              <div class="testimonial-quote-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"></path>
+                  <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"></path>
+                </svg>
+              </div>
+              <div class="testimonial-quote">${t.quote}</div>
+            </div>
+            <div class="testimonial-footer">
+              <div class="testimonial-author">
+                <img src="${t.avatar}" alt="${t.name}" class="testimonial-avatar" onerror="this.src='assets/testimonials/default-avatar.jpg'">
+                <div class="testimonial-author-info">
+                  <div class="testimonial-author-name">${t.name}</div>
+                  <div class="testimonial-author-role">${t.role}</div>
+                </div>
+              </div>
+              <div class="testimonial-rating">
+                <div class="testimonial-stars" aria-label="Rating: ${t.rating} out of 5">${stars}</div>
               </div>
             </div>
-            <div class="testimonial-quote mt-3">“${t.quote}”</div>
-            <div class="mt-3 testimonial-stars" aria-hidden="true">${stars}</div>
           </div>
         </div>
       </div>
@@ -939,16 +1254,17 @@ function loadTestimonials() {
   if (existingInd) existingInd.replaceWith(indicators);
   else carouselRoot.insertBefore(indicators, carouselRoot.firstChild);
 
-  // add fade class for smooth crossfade
-  carouselRoot.classList.add('carousel-fade');
+  // Remove fade class if present - we want sliding animation
+  carouselRoot.classList.remove('carousel-fade');
 
-  // init carousel with moderate speed and keyboard control
+  // init carousel with automatic sliding from right to left
   const carouselInstance = bootstrap.Carousel.getOrCreateInstance(carouselRoot, {
     interval: 4200,
-    ride: false,
-    pause: 'hover',
+    ride: true, // Enable automatic sliding
+    pause: 'hover', // Pause on hover
     keyboard: true,
-    touch: true
+    touch: true,
+    wrap: true // Loop back to first slide
   });
 
   // reveal testimonial-cards when the testimonials section scrolls into view
@@ -970,6 +1286,68 @@ function loadTestimonials() {
     setTimeout(() => cards.forEach((c, i) => setTimeout(() => c.classList.add('visible'), i * 140)), 240);
   }
 }
+
+// Handle testimonial form submission
+$(function() {
+  $('#testimonial-form').on('submit', async function(e) {
+    e.preventDefault();
+    const $form = $(this);
+    const $btn = $form.find('button[type="submit"]');
+    const $spinner = $btn.find('.spinner-border');
+    const $submitText = $btn.find('.submit-text');
+    const $message = $('#testimonial-message');
+    const $modal = $('#testimonialModal');
+    
+    const name = $('#testimonial-name').val().trim();
+    const email = $('#testimonial-email').val().trim();
+    const role = $('#testimonial-role').val().trim() || 'Client';
+    const quote = $('#testimonial-quote').val().trim();
+    const rating = parseInt($('#testimonial-rating').val()) || 5;
+    
+    // Validate
+    if (!name || !email || !quote) {
+      $message.html('<div class="alert alert-danger mb-0">Please fill in all required fields.</div>');
+      return;
+    }
+    
+    // Show loading state
+    $btn.prop('disabled', true);
+    $spinner.removeClass('d-none');
+    $submitText.text('Submitting...');
+    $message.html('');
+    
+    try {
+      if (typeof api !== 'undefined' && api.createTestimonial) {
+        await api.createTestimonial(name, role, email, quote, rating);
+        $message.html('<div class="alert alert-success mb-0"><strong>Thank you!</strong> Your testimonial has been submitted and will be reviewed before being published.</div>');
+        $form[0].reset();
+        
+        // Close modal after 2 seconds on success
+        setTimeout(() => {
+          const modal = bootstrap.Modal.getInstance($modal[0]);
+          if (modal) modal.hide();
+          $message.html('');
+        }, 2000);
+      } else {
+        // Fallback if API is not available
+        $message.html('<div class="alert alert-warning mb-0">Thank you for your testimonial! Please contact me directly to submit it.</div>');
+      }
+    } catch (error) {
+      console.error('Testimonial submission error:', error);
+      $message.html(`<div class="alert alert-danger mb-0"><strong>Error:</strong> ${error.message || 'Failed to submit testimonial. Please try again later.'}</div>`);
+    } finally {
+      $btn.prop('disabled', false);
+      $spinner.addClass('d-none');
+      $submitText.text('Submit Testimonial');
+    }
+  });
+  
+  // Reset form when modal is closed
+  $('#testimonialModal').on('hidden.bs.modal', function() {
+    $('#testimonial-form')[0].reset();
+    $('#testimonial-message').html('');
+  });
+});
 
 // auto-run
 $(function(){ loadTestimonials(); });

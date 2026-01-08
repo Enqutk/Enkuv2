@@ -128,6 +128,42 @@ async function setupDatabase() {
       )
     `);
 
+    // Testimonials table
+    await connection.query(`
+      CREATE TABLE IF NOT EXISTS testimonials (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        email VARCHAR(255) NOT NULL,
+        role VARCHAR(255) DEFAULT 'Client',
+        quote TEXT NOT NULL,
+        rating INT DEFAULT 5 CHECK (rating >= 1 AND rating <= 5),
+        avatar VARCHAR(500),
+        approved BOOLEAN DEFAULT FALSE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        INDEX idx_approved (approved),
+        INDEX idx_created (created_at)
+      )
+    `);
+
+    // Projects table
+    await connection.query(`
+      CREATE TABLE IF NOT EXISTS projects (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        title VARCHAR(500) NOT NULL,
+        year VARCHAR(10) NOT NULL,
+        description TEXT NOT NULL,
+        image VARCHAR(500),
+        tags JSON,
+        collab ENUM('team', 'solo') DEFAULT 'solo',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        INDEX idx_year (year),
+        INDEX idx_collab (collab),
+        INDEX idx_created (created_at)
+      )
+    `);
+
     // Create admin user
     const adminEmail = process.env.ADMIN_EMAIL || 'admin@example.com';
     const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';

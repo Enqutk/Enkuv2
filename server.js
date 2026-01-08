@@ -47,15 +47,23 @@ app.use(express.urlencoded({ extended: true }));
 // Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// Serve static files (HTML, CSS, JS, images, etc.)
+app.use(express.static(path.join(__dirname), {
+  extensions: ['html', 'htm'],
+  index: 'index.html'
+}));
+
 // Routes (with error handling)
 try {
   app.use('/api/auth', require('./routes/auth'));
   app.use('/api/blog', require('./routes/blog'));
   app.use('/api/gallery', require('./routes/gallery'));
+  app.use('/api/projects', require('./routes/projects'));
   app.use('/api/comments', require('./routes/comments'));
   app.use('/api/newsletter', require('./routes/newsletter'));
   app.use('/api/contact', require('./routes/contact'));
   app.use('/api/analytics', require('./routes/analytics'));
+  app.use('/api/testimonials', require('./routes/testimonials'));
 } catch (error) {
   console.error('❌ Error loading routes:', error);
   console.error('Make sure all route files exist');
@@ -74,10 +82,22 @@ app.use((err, req, res, next) => {
   });
 });
 
-// 404 handler
-app.use((req, res) => {
+// 404 handler for API routes
+app.use('/api/*', (req, res) => {
   res.status(404).json({ error: 'Route not found' });
 });
+
+// For non-API routes, serve index.html (SPA fallback)
+if (process.env.VERCEL !== '1') {
+  app.get('*', (req, res) => {
+    // Don't serve HTML for API routes
+    if (req.path.startsWith('/api')) {
+      return res.status(404).json({ error: 'Route not found' });
+    }
+    // Serve index.html for all other routes
+    res.sendFile(path.join(__dirname, 'index.html'));
+  });
+}
 
 const PORT = process.env.PORT || 3000;
 

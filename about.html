@@ -7,6 +7,25 @@
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    
+    <!-- Apply theme immediately to prevent flash -->
+    <script>
+      (function() {
+        try {
+          let theme = localStorage.getItem('theme');
+          if (!theme) {
+            const oldTheme = localStorage.getItem('theme_preference');
+            if (oldTheme === 'dark') theme = 'dark-mode';
+            else if (oldTheme === 'light') theme = 'light-mode';
+          }
+          if (theme === 'dark-mode') {
+            document.documentElement.classList.add('dark-mode');
+            document.body.classList.add('dark-mode');
+          }
+        } catch(e) {}
+      })();
+    </script>
+    
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
@@ -17,71 +36,211 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="mainNav">
+                <button class="menu-close-btn d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="Close menu">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
                 <ul class="navbar-nav ms-auto align-items-lg-center">
-                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="about.html">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="projects.html">Projects</a></li>
-                    <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
-                    <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
-                    <li class="nav-item"><a class="nav-link" href="index.html#contact">Contact</a></li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="index.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                        </svg>
+                        <span>Home</span>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active" href="about.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        <span>About</span>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="projects.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                        </svg>
+                        <span>Projects</span>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="blog.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                        </svg>
+                        <span>Blog</span>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="gallery.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <span>Gallery</span>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="index.html#contact">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <span>Contact</span>
+                      </a>
+                    </li>
                 </ul>
-                <div class="ms-3 d-none d-lg-block">
+                <div class="ms-3 d-flex align-items-center gap-2">
+                    <a href="admin.html" id="admin-link" class="btn btn-gold btn-sm d-none" style="display: none !important;">Admin Panel</a>
                     <button id="theme-toggle" class="btn btn-outline-light btn-sm rounded-square" title="Toggle theme">🌙</button>
                 </div>
             </div>
         </div>
     </nav>
 
-    <section id="about" class="py-5 bg-light" style="margin-top: 80px;">
+    <!-- About Hero Section -->
+    <section class="about-hero py-5" style="margin-top: 80px;">
         <div class="container">
-            <div class="row align-items-center gy-4">
-                <div class="col-lg-4 text-center about-reveal">
-                    <img src="profile.jpg" alt="Profile" class="profile-img rounded-circle shadow-sm mb-3">
-                    <h5 class="mb-1">Enku Taddesse</h5>
-                    <p class="text-muted mb-2">Full Stack Developer · Core Team Lead</p>
-                    <div class="d-flex justify-content-center gap-2">
-                        <span class="badge badge-gold">DDU ICT Club</span>
-                        <span class="badge bg-secondary">ABOL Solution</span>
-                    </div>
-                    <div class="mt-3">
-                        <a href="Enku_Taddesse_CV.pdf" class="btn btn-outline-dark btn-sm me-2">Download CV</a>
-                        <a href="index.html#contact" class="btn btn-gold btn-sm">Contact Me</a>
+            <div class="about-hero-content text-center mb-5">
+                <h1 class="about-hero-title mb-3">About Me</h1>
+                <p class="about-hero-subtitle text-muted">Get to know my journey, skills, and what drives me</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main About Section -->
+    <section id="about" class="py-5">
+        <div class="container">
+            <div class="row align-items-start gy-5">
+                <!-- Profile Card -->
+                <div class="col-lg-4">
+                    <div class="about-profile-card">
+                        <div class="profile-image-wrapper">
+                            <img src="profile.jpg" alt="Enku Taddesse" class="profile-img">
+                            <div class="profile-badge">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="profile-info">
+                            <h3 class="profile-name mb-2">Enku Taddesse</h3>
+                            <p class="profile-role mb-3">Full Stack Developer · Core Team Lead</p>
+                            <div class="profile-badges mb-4">
+                                <span class="badge badge-org">DDU ICT Club</span>
+                                <span class="badge badge-org">ABOL Solution</span>
+                            </div>
+                            <div class="profile-location mb-4">
+                                <svg class="location-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                    <circle cx="12" cy="10" r="3"></circle>
+                                </svg>
+                                <span class="location-text">Dire Dawa University, Ethiopia</span>
+                            </div>
+                            <div class="profile-actions d-flex flex-column gap-2">
+                                <a href="Enku_Taddesse_CV.pdf" class="btn btn-gold btn-lg">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                        <polyline points="14 2 14 8 20 8"></polyline>
+                                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    </svg>
+                                    <span>Download CV</span>
+                                </a>
+                                <a href="index.html#contact" class="btn btn-outline-dark btn-lg">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;">
+                                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                                    </svg>
+                                    <span>Get In Touch</span>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="col-lg-5 about-reveal">
-                    <h2 class="fw-bold">My Story</h2>
-                    <p class="text-muted">I lead the DDU ICT Club core activities and mentor student developers — organizing study sessions, project-based learning and building useful tools for local communities.</p>
-
-                    <ul class="timeline mt-3">
-                        <li><strong>2024</strong> — Built Agripedia plugin & LegnaPath mentorship features.</li>
-                        <li><strong>2023</strong> — CookBook Pro training & custom WordPress plugins.</li>
-                        <li><strong>2022</strong> — Memory Maze interactive game and reading system.</li>
-                    </ul>
-
-                    <div class="d-flex gap-4 mt-4">
-                        <div class="text-center">
-                            <div class="stat-number h3 mb-0" id="stat-projects">0</div>
-                            <small class="text-muted">Projects</small>
+                <!-- Story & Timeline -->
+                <div class="col-lg-8">
+                    <div class="about-content">
+                        <div class="about-story-section mb-5">
+                            <h2 class="section-title mb-4">My Story</h2>
+                            <p class="story-text">I lead the DDU ICT Club core activities and mentor student developers — organizing study sessions, project-based learning and building useful tools for local communities. With 10 months of hands-on experience, I've focused on creating practical solutions that make a real difference.</p>
                         </div>
-                        <div class="text-center">
-                            <div class="stat-number h3 mb-0" id="stat-clients">0</div>
-                            <small class="text-muted">Happy Clients</small>
+
+                        <div class="timeline-section mb-5">
+                            <h3 class="timeline-title mb-4">Key Milestones</h3>
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <div class="timeline-year">2025</div>
+                                    <div class="timeline-content">
+                                        <h4 class="timeline-event">LegnaPath Mentorship</h4>
+                                        <p>Developed LegnaPath mentorship features, focusing on creating platforms that connect mentors and students effectively.</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-year">2025</div>
+                                    <div class="timeline-content">
+                                        <h4 class="timeline-event">CookBook Pro</h4>
+                                        <p>CookBook Pro training & custom WordPress plugins, delivering practical solutions tailored to local community needs.</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-year">2025</div>
+                                    <div class="timeline-content">
+                                        <h4 class="timeline-event">Memory Maze</h4>
+                                        <p>Memory Maze interactive game and reading system, combining education with engaging user experiences.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stats Section -->
+                        <div class="stats-section">
+                            <h3 class="stats-title mb-4">By The Numbers</h3>
+                            <div class="stats-grid-about">
+                                <div class="stat-card-about">
+                                    <div class="stat-icon">
+                                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                                        </svg>
+                                    </div>
+                                    <div class="stat-number-about" id="stat-projects">0</div>
+                                    <div class="stat-label-about">Projects Completed</div>
+                                </div>
+                                <div class="stat-card-about">
+                                    <div class="stat-icon">
+                                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="12" cy="7" r="4"></circle>
+                                        </svg>
+                                    </div>
+                                    <div class="stat-number-about" id="stat-clients">0</div>
+                                    <div class="stat-label-about">Happy Clients</div>
+                                </div>
+                                <div class="stat-card-about">
+                                    <div class="stat-icon">
+                                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                                        </svg>
+                                    </div>
+                                    <div class="stat-number-about">10</div>
+                                    <div class="stat-label-about">Months Experience</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="col-lg-3" id="skills-column">
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="services" class="py-5">
+    <section id="services" class="py-5 bg-light">
         <div class="container">
-            <div class="text-center mb-5">
-                <h3 class="fw-bold">Services</h3>
-                <p class="text-muted">What I offer — focused, practical services with measurable results.</p>
+            <div class="services-header text-center mb-5">
+                <h2 class="services-title mb-3">What I Offer</h2>
+                <p class="services-subtitle text-muted">Focused, practical services with measurable results</p>
             </div>
 
             <div class="row g-4">
@@ -126,13 +285,59 @@
 
     <section id="stack" class="py-5">
         <div class="container">
-            <div class="text-center mb-4">
-                <h4 class="fw-bold section-title-animated">Tech Stack</h4>
-                <p class="text-muted">Technologies I use regularly — hover or tap to explore.</p>
+            <div class="stack-header text-center mb-5">
+                <h2 class="stack-title mb-3">Tech Stack</h2>
+                <p class="stack-subtitle text-muted">Technologies I use regularly — hover or tap to explore</p>
             </div>
             <div id="stack-grid" class="mx-auto"></div>
         </div>
     </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-5 bg-light">
+        <div class="container">
+            <div class="skills-header text-center mb-5">
+                <h2 class="skills-title mb-3">Skills & Expertise</h2>
+                <p class="skills-subtitle text-muted">Areas where I excel and continue to grow</p>
+            </div>
+            <div id="skills-column" class="row justify-content-center">
+                <!-- Skills will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Clients & Partners Section -->
+    <section id="clients" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="section-title mb-3">Clients & Partners</h2>
+                <p class="text-muted">Organizations and teams I've worked with — tap a logo for details</p>
+            </div>
+
+            <!-- Marquee for desktop (featured partners) -->
+            <div class="clients-marquee mb-4 d-none d-lg-block">
+                <div class="marquee-track" id="marquee-track"></div>
+            </div>
+
+            <!-- Grid for all clients -->
+            <div id="clients-grid" class="row g-4 align-items-center justify-content-center"></div>
+
+            <!-- Mobile carousel -->
+            <div id="clients-carousel" class="d-lg-none mt-4"></div>
+        </div>
+    </section>
+
+    <!-- Partner Modal -->
+    <div class="modal fade" id="partnerModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-body p-5 text-center">
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div id="partner-modal-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <footer class="py-4 bg-dark text-white">
         <div class="container text-center">
@@ -141,16 +346,69 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api.js"></script>
     <script src="script.js"></script>
     <script>
         $(function() {
             $('#footer-year').text(new Date().getFullYear());
-            // Load skills and stack from script.js
+
+            // Theme toggle - use universal function from script.js if available
+            if (typeof window.initThemeToggle === 'function') {
+                window.initThemeToggle();
+            } else {
+                // Fallback if script.js not loaded
+                const themeToggleBtn = $('#theme-toggle');
+                const body = $('body');
+                let savedTheme = localStorage.getItem('theme');
+                
+                if (!savedTheme) {
+                    const oldSaved = localStorage.getItem('theme_preference');
+                    if (oldSaved === 'dark') {
+                        savedTheme = 'dark-mode';
+                        localStorage.setItem('theme', savedTheme);
+                    } else if (oldSaved === 'light') {
+                        savedTheme = 'light-mode';
+                        localStorage.setItem('theme', savedTheme);
+                    }
+                }
+                
+                if (savedTheme === 'dark-mode') {
+                    body.addClass('dark-mode');
+                    themeToggleBtn.text('☀️');
+                } else {
+                    body.removeClass('dark-mode');
+                    themeToggleBtn.text('🌙');
+                }
+                
+                themeToggleBtn.off('click').on('click', function(){
+                    body.toggleClass('dark-mode');
+                    const isDarkMode = body.hasClass('dark-mode');
+                    $(this).text(isDarkMode ? '☀️' : '🌙');
+                    localStorage.setItem('theme', isDarkMode ? 'dark-mode' : 'light-mode');
+                    localStorage.setItem('theme_preference', isDarkMode ? 'dark' : 'light');
+                });
+            }
+
+            // Check if user is logged in as admin
+            (async function() {
+                if (typeof api !== 'undefined' && api.token) {
+                    try {
+                        const user = await api.getCurrentUser();
+                        if (user && user.user && user.user.role === 'admin') {
+                            $('#admin-link').removeClass('d-none').show();
+                        }
+                    } catch (error) {
+                        console.log('Admin check failed:', error);
+                    }
+                }
+            })();
+
+            // Load skills, stack, and clients from script.js
             if (typeof loadSkills === 'function') loadSkills();
             if (typeof loadStack === 'function') loadStack();
+            if (typeof loadClients === 'function') loadClients();
             if (typeof updateStats === 'function') updateStats(11, 8);
         });
     </script>
 </body>
 </html>
-

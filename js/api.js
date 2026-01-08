@@ -1,5 +1,13 @@
 // API Service for Frontend
-const API_BASE_URL = 'http://localhost:3000/api'; // Change to your backend URL when deployed
+// Automatically detect API URL based on environment
+const API_BASE_URL = (() => {
+  // If we're on the same domain (Vercel deployment), use relative URL
+  if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    return '/api';
+  }
+  // Local development
+  return 'http://localhost:3000/api';
+})();
 
 class ApiService {
   constructor() {
@@ -17,10 +25,11 @@ class ApiService {
   }
 
   // Get auth headers
-  getHeaders(includeAuth = true) {
-    const headers = {
-      'Content-Type': 'application/json'
-    };
+  getHeaders(includeAuth = true, isFormData = false) {
+    const headers = {};
+    if (!isFormData) {
+      headers['Content-Type'] = 'application/json';
+    }
     if (includeAuth && this.token) {
       headers['Authorization'] = `Bearer ${this.token}`;
     }
@@ -82,7 +91,7 @@ class ApiService {
   async createBlogPost(formData) {
     const response = await fetch(`${API_BASE_URL}/blog`, {
       method: 'POST',
-      headers: this.getHeaders(),
+      headers: this.getHeaders(true, true),
       body: formData
     });
     return this.handleResponse(response);
@@ -91,7 +100,7 @@ class ApiService {
   async updateBlogPost(id, formData) {
     const response = await fetch(`${API_BASE_URL}/blog/${id}`, {
       method: 'PUT',
-      headers: this.getHeaders(),
+      headers: this.getHeaders(true, true),
       body: formData
     });
     return this.handleResponse(response);
@@ -121,7 +130,7 @@ class ApiService {
   async createGalleryItem(formData) {
     const response = await fetch(`${API_BASE_URL}/gallery`, {
       method: 'POST',
-      headers: this.getHeaders(),
+      headers: this.getHeaders(true, true),
       body: formData
     });
     return this.handleResponse(response);
@@ -130,7 +139,7 @@ class ApiService {
   async updateGalleryItem(id, formData) {
     const response = await fetch(`${API_BASE_URL}/gallery/${id}`, {
       method: 'PUT',
-      headers: this.getHeaders(),
+      headers: this.getHeaders(true, true),
       body: formData
     });
     return this.handleResponse(response);
@@ -172,11 +181,11 @@ class ApiService {
   // Contact
   async sendContactMessage(name, email, subject, message) {
     try {
-      const response = await fetch(`${API_BASE_URL}/contact`, {
-        method: 'POST',
-        headers: this.getHeaders(false),
-        body: JSON.stringify({ name, email, subject, message })
-      });
+    const response = await fetch(`${API_BASE_URL}/contact`, {
+      method: 'POST',
+      headers: this.getHeaders(false),
+      body: JSON.stringify({ name, email, subject, message })
+    });
       return await this.handleResponse(response);
     } catch (error) {
       // If API is not available, throw a user-friendly error
@@ -198,6 +207,87 @@ class ApiService {
     } catch (error) {
       console.error('Analytics tracking error:', error);
     }
+  }
+
+  // Testimonials
+  async getTestimonials(approved = true) {
+    let url = `${API_BASE_URL}/testimonials`;
+    if (approved !== null) url += `?approved=${approved}`;
+    const response = await fetch(url);
+    return this.handleResponse(response);
+  }
+
+  async createTestimonial(name, role, email, quote, rating = 5, avatar = null) {
+    const response = await fetch(`${API_BASE_URL}/testimonials`, {
+      method: 'POST',
+      headers: this.getHeaders(false),
+      body: JSON.stringify({ name, role, email, quote, rating, avatar })
+    });
+    return this.handleResponse(response);
+  }
+
+  async updateTestimonial(id, data) {
+    const response = await fetch(`${API_BASE_URL}/testimonials/${id}`, {
+      method: 'PUT',
+      headers: this.getHeaders(),
+      body: JSON.stringify(data)
+    });
+    return this.handleResponse(response);
+  }
+
+  async approveTestimonial(id) {
+    const response = await fetch(`${API_BASE_URL}/testimonials/${id}/approve`, {
+      method: 'PATCH',
+      headers: this.getHeaders()
+    });
+    return this.handleResponse(response);
+  }
+
+  async deleteTestimonial(id) {
+    const response = await fetch(`${API_BASE_URL}/testimonials/${id}`, {
+      method: 'DELETE',
+      headers: this.getHeaders()
+    });
+    return this.handleResponse(response);
+  }
+
+  // Projects
+  async getProjects(limit = null) {
+    let url = `${API_BASE_URL}/projects`;
+    if (limit) url += `?limit=${limit}`;
+    const response = await fetch(url);
+    return this.handleResponse(response);
+  }
+
+  async getProject(id) {
+    const response = await fetch(`${API_BASE_URL}/projects/${id}`);
+    return this.handleResponse(response);
+  }
+
+  async createProject(formData) {
+    const response = await fetch(`${API_BASE_URL}/projects`, {
+      method: 'POST',
+      headers: this.getHeaders(true, true),
+      body: formData
+    });
+    return this.handleResponse(response);
+  }
+
+  async updateProject(id, formData) {
+    const response = await fetch(`${API_BASE_URL}/projects/${id}`, {
+      method: 'PUT',
+      headers: this.getHeaders(true, true),
+      body: formData
+    });
+    return this.handleResponse(response);
+  }
+
+  async deleteProject(id) {
+    const response = await fetch(`${API_BASE_URL}/projects/${id}`, {
+      method: 'DELETE',
+      headers: this.getHeaders()
+    });
+    return this.handleResponse(response);
   }
 }
 

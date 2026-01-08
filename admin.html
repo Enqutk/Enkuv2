@@ -39,6 +39,11 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="mainNav">
+                <button class="menu-close-btn d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="Close menu">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
                 <ul class="navbar-nav ms-auto align-items-lg-center">
                     <li class="nav-item"><a class="nav-link" href="index.html" target="_blank">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.html" target="_blank">About</a></li>
@@ -63,6 +68,8 @@
         <div class="tabs">
             <button class="tab-btn active" data-tab="blog">Blog Posts</button>
             <button class="tab-btn" data-tab="gallery">Gallery</button>
+            <button class="tab-btn" data-tab="projects">Projects</button>
+            <button class="tab-btn" data-tab="testimonials">Testimonials</button>
         </div>
 
         <!-- Blog Tab -->
@@ -172,6 +179,81 @@
                 <div id="gallery-list" class="item-list"></div>
             </div>
         </div>
+
+        <!-- Projects Tab -->
+        <div id="projects-tab" class="tab-content" style="display: none;">
+            <div class="admin-card">
+                <h3 class="fw-bold mb-4">Add New Project</h3>
+                <form id="project-form">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Title</label>
+                            <input type="text" class="form-control" id="project-title" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Year</label>
+                            <input type="text" class="form-control" id="project-year" required placeholder="e.g., 2025">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Collaboration Type</label>
+                            <select class="form-select" id="project-collab" required>
+                                <option value="solo">Individual</option>
+                                <option value="team">Team</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Description</label>
+                            <textarea class="form-control" id="project-desc" rows="3" required placeholder="Brief description of the project..."></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Tags (comma-separated)</label>
+                            <input type="text" class="form-control" id="project-tags" placeholder="e.g., web, mobile, game">
+                            <small class="text-muted">Separate multiple tags with commas</small>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Image</label>
+                            <div class="mb-2">
+                                <input type="file" class="form-control" id="project-image-file" accept="image/*" style="display: none;">
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="document.getElementById('project-image-file').click()">
+                                        📁 Choose from Computer
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#gallerySelectorModal" data-target-input="project-image">
+                                        🖼️ Select from Gallery
+                                    </button>
+                                </div>
+                            </div>
+                            <input type="url" class="form-control mt-2" id="project-image" placeholder="Or enter image URL manually">
+                            <div id="project-image-preview" class="mt-2"></div>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-gold btn-lg">Add Project</button>
+                            <button type="reset" class="btn btn-outline-secondary btn-lg ms-2">Clear</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="admin-card">
+                <h3 class="fw-bold mb-4">Existing Projects</h3>
+                <div id="projects-list" class="item-list"></div>
+            </div>
+        </div>
+
+        <!-- Testimonials Tab -->
+        <div id="testimonials-tab" class="tab-content" style="display: none;">
+            <div class="admin-card">
+                <h3 class="fw-bold mb-4">Pending Testimonials</h3>
+                <p class="text-muted mb-4">Review and approve testimonials submitted by visitors</p>
+                <div id="pending-testimonials-list" class="item-list"></div>
+            </div>
+
+            <div class="admin-card">
+                <h3 class="fw-bold mb-4">Approved Testimonials</h3>
+                <p class="text-muted mb-4">These testimonials are currently displayed on the website</p>
+                <div id="approved-testimonials-list" class="item-list"></div>
+            </div>
+        </div>
     </div>
 
     <!-- Gallery Selector Modal -->
@@ -224,6 +306,11 @@
                 $(this).addClass('active');
                 $('.tab-content').hide();
                 $(`#${tab}-tab`).show();
+                
+                // Load testimonials when that tab is opened
+                if (tab === 'testimonials') {
+                    loadTestimonials();
+                }
             });
 
             // Gallery Selector Modal functionality
@@ -329,11 +416,40 @@
                 }
             });
 
+            // Handle file selection for project images
+            $('#project-image-file').on('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                        alert('Image file is too large. Please choose an image smaller than 5MB.');
+                        return;
+                    }
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const dataUrl = e.target.result;
+                        $('#project-image').val(dataUrl);
+                        $('#project-image-preview').html(`<img src="${dataUrl}" class="preview-image">`);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Image preview for project (from URL)
+            $('#project-image').on('input', function() {
+                const url = $(this).val();
+                if (url) {
+                    $('#project-image-preview').html(`<img src="${url}" class="preview-image" onerror="this.style.display='none'">`);
+                } else {
+                    $('#project-image-preview').html('');
+                }
+            });
+
             // Blog form submission
             $('#blog-form').on('submit', async function(e) {
                 e.preventDefault();
                 const $form = $(this);
                 const $submitBtn = $form.find('button[type="submit"]');
+                const isEdit = $form.data('edit-id');
                 
                 const formData = new FormData();
                 formData.append('title', $('#blog-title').val());
@@ -351,11 +467,18 @@
                     formData.append('image', imageUrl);
                 }
 
-                $submitBtn.prop('disabled', true).text('Publishing...');
+                $submitBtn.prop('disabled', true).text(isEdit ? 'Updating...' : 'Publishing...');
 
                 try {
-                    await api.createBlogPost(formData);
-                    alert('Blog post published successfully!');
+                    if (isEdit) {
+                        await api.updateBlogPost(isEdit, formData);
+                        alert('Blog post updated successfully!');
+                        $form.removeData('edit-id');
+                        $form.find('button[type="submit"]').text('Publish Blog Post');
+                    } else {
+                        await api.createBlogPost(formData);
+                        alert('Blog post published successfully!');
+                    }
                     $form[0].reset();
                     $('#blog-image-preview').html('');
                     $('#blog-image-file').val('');
@@ -363,7 +486,7 @@
                 } catch (error) {
                     alert('Error: ' + error.message);
                 } finally {
-                    $submitBtn.prop('disabled', false).text('Publish Blog Post');
+                    $submitBtn.prop('disabled', false).text(isEdit ? 'Update Blog Post' : 'Publish Blog Post');
                 }
             });
 
@@ -372,6 +495,7 @@
                 e.preventDefault();
                 const $form = $(this);
                 const $submitBtn = $form.find('button[type="submit"]');
+                const isEdit = $form.data('edit-id');
 
                 const formData = new FormData();
                 formData.append('title', $('#gallery-title').val());
@@ -385,16 +509,23 @@
                     formData.append('image', imageFile);
                 } else if (imageUrl) {
                     formData.append('image', imageUrl);
-                } else {
+                } else if (!isEdit) {
                     alert('Please select an image');
                     return;
                 }
 
-                $submitBtn.prop('disabled', true).text('Adding...');
+                $submitBtn.prop('disabled', true).text(isEdit ? 'Updating...' : 'Adding...');
 
                 try {
-                    await api.createGalleryItem(formData);
-                    alert('Gallery item added successfully!');
+                    if (isEdit) {
+                        await api.updateGalleryItem(isEdit, formData);
+                        alert('Gallery item updated successfully!');
+                        $form.removeData('edit-id');
+                        $form.find('button[type="submit"]').text('Add to Gallery');
+                    } else {
+                        await api.createGalleryItem(formData);
+                        alert('Gallery item added successfully!');
+                    }
                     $form[0].reset();
                     $('#gallery-image-preview').html('');
                     $('#gallery-image-file').val('');
@@ -402,7 +533,53 @@
                 } catch (error) {
                     alert('Error: ' + error.message);
                 } finally {
-                    $submitBtn.prop('disabled', false).text('Add to Gallery');
+                    $submitBtn.prop('disabled', false).text(isEdit ? 'Update Gallery Item' : 'Add to Gallery');
+                }
+            });
+
+            // Project form submission
+            $('#project-form').on('submit', async function(e) {
+                e.preventDefault();
+                const $form = $(this);
+                const $submitBtn = $form.find('button[type="submit"]');
+                const isEdit = $form.data('edit-id');
+
+                const formData = new FormData();
+                formData.append('title', $('#project-title').val());
+                formData.append('year', $('#project-year').val());
+                formData.append('desc', $('#project-desc').val());
+                formData.append('tags', $('#project-tags').val() || '');
+                formData.append('collab', $('#project-collab').val());
+
+                const imageFile = document.getElementById('project-image-file').files[0];
+                const imageUrl = $('#project-image').val();
+
+                if (imageFile) {
+                    formData.append('image', imageFile);
+                } else if (imageUrl) {
+                    formData.append('image', imageUrl);
+                }
+
+                $submitBtn.prop('disabled', true).text(isEdit ? 'Updating...' : 'Adding...');
+
+                try {
+                    if (isEdit) {
+                        await api.updateProject(isEdit, formData);
+                        alert('Project updated successfully!');
+                        $form.removeData('edit-id');
+                        $form.find('button[type="submit"]').text('Add Project');
+                    } else {
+                        await api.createProject(formData);
+                        alert('Project added successfully!');
+                    }
+                    $form[0].reset();
+                    $('#project-image-preview').html('');
+                    $('#project-image-file').val('');
+                    loadProjects();
+                } catch (error) {
+                    alert('Error: ' + error.message);
+                } finally {
+                    $submitBtn.prop('disabled', false).text(isEdit ? 'Update Project' : 'Add Project');
                 }
             });
 
@@ -433,7 +610,8 @@
                                             <small class="text-muted">Views: ${blog.views || 0}</small>
                                         </div>
                                     </div>
-                                    <div class="ms-3">
+                                    <div class="ms-3 d-flex gap-2">
+                                        <button class="btn btn-sm btn-edit" onclick="editBlog(${blog.id})">Edit</button>
                                         <button class="btn btn-sm btn-delete" onclick="deleteBlog(${blog.id})">Delete</button>
                                     </div>
                                 </div>
@@ -461,7 +639,8 @@
 
                     gallery.forEach(item => {
                         const date = new Date(item.created_at).toLocaleDateString();
-                        const imageUrl = item.image.startsWith('http') ? item.image : (API_BASE_URL.replace('/api', '') + item.image);
+                        const baseUrl = 'http://localhost:3000';
+                        const imageUrl = item.image.startsWith('http') ? item.image : (baseUrl + item.image);
                         const $card = $(`
                             <div class="item-card">
                                 <div class="d-flex gap-3">
@@ -474,7 +653,8 @@
                                             ${item.category ? `<span class="badge bg-secondary">${escapeHtml(item.category)}</span>` : ''}
                                         </div>
                                     </div>
-                                    <div>
+                                    <div class="d-flex gap-2">
+                                        <button class="btn btn-sm btn-edit" onclick="editGalleryItem(${item.id})">Edit</button>
                                         <button class="btn btn-sm btn-delete" onclick="deleteGalleryItem(${item.id})">Delete</button>
                                     </div>
                                 </div>
@@ -488,11 +668,121 @@
                 }
             }
 
+            // Load and display projects
+            async function loadProjects() {
+                try {
+                    const projects = await api.getProjects();
+                    const $list = $('#projects-list');
+                    $list.empty();
+
+                    if (projects.length === 0) {
+                        $list.html('<p class="text-muted">No projects yet. Add your first project!</p>');
+                        return;
+                    }
+
+                    projects.forEach(project => {
+                        const date = new Date(project.created_at).toLocaleDateString();
+                        const tags = project.tags ? (typeof project.tags === 'string' ? JSON.parse(project.tags) : project.tags) : [];
+                        const tagsHtml = tags.map(t => `<span class="badge bg-secondary me-1">${escapeHtml(t)}</span>`).join('');
+                        const imageUrl = project.image ? (project.image.startsWith('http') ? project.image : ('http://localhost:3000' + project.image)) : '';
+                        const $card = $(`
+                            <div class="item-card">
+                                <div class="d-flex gap-3">
+                                    ${imageUrl ? `<img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(project.title)}" style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px;" onerror="this.style.display='none'">` : ''}
+                                    <div class="flex-grow-1">
+                                        <h5 class="mb-2">${escapeHtml(project.title)}</h5>
+                                        <p class="text-muted small mb-2">${escapeHtml(project.description)}</p>
+                                        <div class="d-flex gap-2 align-items-center flex-wrap">
+                                            <small class="text-muted">${project.year}</small>
+                                            <span class="badge ${project.collab === 'team' ? 'bg-primary' : 'bg-info'}">${project.collab === 'team' ? 'Team' : 'Individual'}</span>
+                                            ${tagsHtml}
+                                            <small class="text-muted ms-auto">${date}</small>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <button class="btn btn-sm btn-edit" onclick="editProject(${project.id})">Edit</button>
+                                        <button class="btn btn-sm btn-delete" onclick="deleteProject(${project.id})">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `);
+                        $list.append($card);
+                    });
+                } catch (error) {
+                    console.error('Load projects error:', error);
+                    $('#projects-list').html('<p class="text-danger">Error loading projects</p>');
+                }
+            }
+
+            window.editProject = async function(id) {
+                try {
+                    const project = await api.getProject(id);
+                    $('#project-title').val(project.title);
+                    $('#project-year').val(project.year);
+                    $('#project-desc').val(project.description);
+                    const tags = project.tags ? (typeof project.tags === 'string' ? JSON.parse(project.tags) : project.tags) : [];
+                    $('#project-tags').val(tags.join(', '));
+                    $('#project-collab').val(project.collab || 'solo');
+                    if (project.image) {
+                        const imageUrl = project.image.startsWith('http') ? project.image : ('http://localhost:3000' + project.image);
+                        $('#project-image').val(imageUrl);
+                        $('#project-image-preview').html(`<img src="${escapeHtml(imageUrl)}" class="preview-image">`);
+                    }
+                    $('#project-form').data('edit-id', id);
+                    $('#project-form').find('button[type="submit"]').text('Update Project');
+                    // Scroll to form
+                    $('html, body').animate({
+                        scrollTop: $('#project-form').offset().top - 100
+                    }, 500);
+                    // Switch to projects tab if not already
+                    $('.tab-btn[data-tab="projects"]').click();
+                } catch (error) {
+                    alert('Error loading project: ' + error.message);
+                }
+            };
+
+            window.deleteProject = async function(id) {
+                if (confirm('Are you sure you want to delete this project?')) {
+                    try {
+                        await api.deleteProject(id);
+                        loadProjects();
+                    } catch (error) {
+                        alert('Error: ' + error.message);
+                    }
+                }
+            };
+
             function escapeHtml(text) {
                 const div = document.createElement('div');
                 div.textContent = text;
                 return div.innerHTML;
             }
+
+            window.editBlog = async function(id) {
+                try {
+                    const blog = await api.getBlogPost(id);
+                    $('#blog-title').val(blog.title);
+                    $('#blog-content').val(blog.content);
+                    $('#blog-excerpt').val(blog.excerpt || '');
+                    $('#blog-category').val(blog.category || '');
+                    $('#blog-featured').prop('checked', blog.featured || false);
+                    if (blog.image) {
+                        const imageUrl = blog.image.startsWith('http') ? blog.image : ('http://localhost:3000' + blog.image);
+                        $('#blog-image').val(imageUrl);
+                        $('#blog-image-preview').html(`<img src="${escapeHtml(imageUrl)}" class="preview-image">`);
+                    }
+                    $('#blog-form').data('edit-id', id);
+                    $('#blog-form').find('button[type="submit"]').text('Update Blog Post');
+                    // Scroll to form
+                    $('html, body').animate({
+                        scrollTop: $('#blog-form').offset().top - 100
+                    }, 500);
+                    // Switch to blog tab if not already
+                    $('.tab-btn[data-tab="blog"]').click();
+                } catch (error) {
+                    alert('Error loading blog post: ' + error.message);
+                }
+            };
 
             window.deleteBlog = async function(id) {
                 if (confirm('Are you sure you want to delete this blog post?')) {
@@ -502,6 +792,30 @@
                     } catch (error) {
                         alert('Error: ' + error.message);
                     }
+                }
+            };
+
+            window.editGalleryItem = async function(id) {
+                try {
+                    const item = await api.getGalleryItem(id);
+                    $('#gallery-title').val(item.title);
+                    $('#gallery-description').val(item.description || '');
+                    $('#gallery-category').val(item.category || '');
+                    if (item.image) {
+                        const imageUrl = item.image.startsWith('http') ? item.image : ('http://localhost:3000' + item.image);
+                        $('#gallery-image').val(imageUrl);
+                        $('#gallery-image-preview').html(`<img src="${escapeHtml(imageUrl)}" class="preview-image">`);
+                    }
+                    $('#gallery-form').data('edit-id', id);
+                    $('#gallery-form').find('button[type="submit"]').text('Update Gallery Item');
+                    // Scroll to form
+                    $('html, body').animate({
+                        scrollTop: $('#gallery-form').offset().top - 100
+                    }, 500);
+                    // Switch to gallery tab if not already
+                    $('.tab-btn[data-tab="gallery"]').click();
+                } catch (error) {
+                    alert('Error loading gallery item: ' + error.message);
                 }
             };
 
@@ -523,6 +837,143 @@
             };
 
             // Initial load
+            loadProjects();
+            // Load and display testimonials
+            async function loadTestimonials() {
+                try {
+                    const data = await api.getTestimonials(null); // Get all testimonials
+                    const testimonials = data.testimonials || [];
+                    
+                    const pending = testimonials.filter(t => !t.approved);
+                    const approved = testimonials.filter(t => t.approved);
+                    
+                    // Display pending testimonials
+                    const $pendingList = $('#pending-testimonials-list');
+                    $pendingList.empty();
+                    
+                    if (pending.length === 0) {
+                        $pendingList.html('<p class="text-muted">No pending testimonials. All testimonials have been reviewed.</p>');
+                    } else {
+                        pending.forEach(t => {
+                            const stars = '★'.repeat(t.rating || 5) + '☆'.repeat(5 - (t.rating || 5));
+                            const $card = $(`
+                                <div class="item-card" style="border-left-color: #ffc107;">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div>
+                                            <h5 class="mb-1">${escapeHtml(t.name)}</h5>
+                                            <p class="text-muted mb-1 small">${escapeHtml(t.email)} ${t.role ? '• ' + escapeHtml(t.role) : ''}</p>
+                                            <div class="text-warning small mb-2">${stars}</div>
+                                        </div>
+                                        <small class="text-muted">${new Date(t.created_at).toLocaleDateString()}</small>
+                                    </div>
+                                    <p class="mb-3">"${escapeHtml(t.quote)}"</p>
+                                    <div class="d-flex gap-2">
+                                        <button class="btn btn-success btn-sm" onclick="approveTestimonial(${t.id})">✓ Approve</button>
+                                        <button class="btn btn-edit btn-sm" onclick="editTestimonial(${t.id})">Edit</button>
+                                        <button class="btn btn-delete btn-sm" onclick="deleteTestimonial(${t.id})">✕ Delete</button>
+                                    </div>
+                                </div>
+                            `);
+                            $pendingList.append($card);
+                        });
+                    }
+                    
+                    // Display approved testimonials
+                    const $approvedList = $('#approved-testimonials-list');
+                    $approvedList.empty();
+                    
+                    if (approved.length === 0) {
+                        $approvedList.html('<p class="text-muted">No approved testimonials yet.</p>');
+                    } else {
+                        approved.forEach(t => {
+                            const stars = '★'.repeat(t.rating || 5) + '☆'.repeat(5 - (t.rating || 5));
+                            const $card = $(`
+                                <div class="item-card featured">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div>
+                                            <h5 class="mb-1">${escapeHtml(t.name)}</h5>
+                                            <p class="text-muted mb-1 small">${escapeHtml(t.email)} ${t.role ? '• ' + escapeHtml(t.role) : ''}</p>
+                                            <div class="text-warning small mb-2">${stars}</div>
+                                        </div>
+                                        <small class="text-muted">${new Date(t.created_at).toLocaleDateString()}</small>
+                                    </div>
+                                    <p class="mb-3">"${escapeHtml(t.quote)}"</p>
+                                    <div class="d-flex gap-2">
+                                        <button class="btn btn-edit btn-sm" onclick="editTestimonial(${t.id})">Edit</button>
+                                        <button class="btn btn-delete btn-sm" onclick="deleteTestimonial(${t.id})">✕ Delete</button>
+                                    </div>
+                                </div>
+                            `);
+                            $approvedList.append($card);
+                        });
+                    }
+                } catch (error) {
+                    console.error('Load testimonials error:', error);
+                    $('#pending-testimonials-list, #approved-testimonials-list').html('<p class="text-danger">Error loading testimonials: ' + error.message + '</p>');
+                }
+            }
+
+            window.approveTestimonial = async function(id) {
+                if (confirm('Are you sure you want to approve this testimonial? It will be displayed on the website.')) {
+                    try {
+                        await api.approveTestimonial(id);
+                        loadTestimonials();
+                    } catch (error) {
+                        alert('Error: ' + error.message);
+                    }
+                }
+            };
+
+            window.editTestimonial = async function(id) {
+                try {
+                    const data = await api.getTestimonials(null);
+                    const testimonials = data.testimonials || [];
+                    const testimonial = testimonials.find(t => t.id === id);
+                    if (!testimonial) {
+                        alert('Testimonial not found');
+                        return;
+                    }
+                    
+                    const newName = prompt('Edit name:', testimonial.name);
+                    if (newName === null) return;
+                    const newEmail = prompt('Edit email:', testimonial.email);
+                    if (newEmail === null) return;
+                    const newRole = prompt('Edit role:', testimonial.role || 'Client');
+                    if (newRole === null) return;
+                    const newQuote = prompt('Edit testimonial:', testimonial.quote);
+                    if (newQuote === null) return;
+                    const newRating = parseInt(prompt('Edit rating (1-5):', testimonial.rating || 5));
+                    if (isNaN(newRating) || newRating < 1 || newRating > 5) {
+                        alert('Invalid rating. Must be between 1 and 5.');
+                        return;
+                    }
+                    
+                    await api.updateTestimonial(id, {
+                        name: newName,
+                        email: newEmail,
+                        role: newRole,
+                        quote: newQuote,
+                        rating: newRating
+                    });
+                    
+                    alert('Testimonial updated successfully!');
+                    loadTestimonials();
+                } catch (error) {
+                    alert('Error updating testimonial: ' + error.message);
+                }
+            };
+
+            window.deleteTestimonial = async function(id) {
+                if (confirm('Are you sure you want to delete this testimonial? This action cannot be undone.')) {
+                    try {
+                        await api.deleteTestimonial(id);
+                        loadTestimonials();
+                    } catch (error) {
+                        alert('Error: ' + error.message);
+                    }
+                }
+            };
+
             loadBlogs();
             loadGallery();
         });
