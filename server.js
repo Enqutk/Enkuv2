@@ -47,16 +47,17 @@ app.use(express.urlencoded({ extended: true }));
 // Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Explicit route for CSS file (to ensure it's served correctly)
-app.get('/style.css', (req, res) => {
-  res.setHeader('Content-Type', 'text/css');
-  res.sendFile(path.join(__dirname, 'style.css'));
-});
-
 // Serve static files (CSS, JS, images) - must be before API routes
+// This will serve style.css and other static files
 app.use(express.static(path.join(__dirname), {
   dotfiles: 'ignore',
-  index: false
+  index: false,
+  setHeaders: (res, filePath) => {
+    // Set proper content type for CSS
+    if (filePath.endsWith('.css')) {
+      res.setHeader('Content-Type', 'text/css; charset=utf-8');
+    }
+  }
 }));
 
 // Routes (with error handling) - MUST come after static files for API routes
