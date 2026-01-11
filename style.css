@@ -197,8 +197,7 @@ img {
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    /* Removed backdrop-filter blur to prevent blur effect */
     z-index: 1039;
     opacity: 0;
     visibility: hidden;
