@@ -60,6 +60,9 @@ img {
   background: #050505 !important;
   border-bottom: 1px solid rgba(255,255,255,0.05);
   /* Removed backdrop-filter blur to prevent blur effect */
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   box-shadow: 0 2px 20px rgba(0,0,0,0.1);
   transition: all 0.3s ease;
   padding: 0.75rem 0;
@@ -188,6 +191,17 @@ img {
     overflow: hidden;
     position: fixed;
     width: 100%;
+    filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  
+  body.menu-open .navbar-custom,
+  body.menu-open .navbar,
+  body.menu-open nav {
+    filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
   
   .menu-backdrop {
@@ -198,6 +212,9 @@ img {
     bottom: 0;
     background: rgba(0, 0, 0, 0.5);
     /* Removed backdrop-filter blur to prevent blur effect */
+    filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
     z-index: 1039;
     opacity: 0;
     visibility: hidden;
