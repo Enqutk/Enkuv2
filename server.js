@@ -27,7 +27,34 @@ process.on('unhandledRejection', (reason, promise) => {
 });
 
 // Security middleware
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: [
+        "'self'",
+        "'unsafe-inline'", // Allow inline scripts for theme toggle
+        "'unsafe-eval'", // Allow eval for some libraries
+        "https://code.jquery.com",
+        "https://cdn.jsdelivr.net",
+        "https://cdnjs.cloudflare.com"
+      ],
+      scriptSrcAttr: ["'unsafe-inline'"], // Allow inline event handlers (onclick)
+      styleSrc: [
+        "'self'",
+        "'unsafe-inline'", // Allow inline styles
+        "https://cdn.jsdelivr.net",
+        "https://cdnjs.cloudflare.com"
+      ],
+      imgSrc: ["'self'", "data:", "https:", "http:"],
+      fontSrc: ["'self'", "https:", "data:"],
+      connectSrc: ["'self'", "https:"],
+      frameSrc: ["'none'"],
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: []
+    }
+  }
+}));
 app.use(cors({
   origin: process.env.FRONTEND_URL || '*',
   credentials: true
