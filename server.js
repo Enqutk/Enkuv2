@@ -153,32 +153,40 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-const PORT = process.env.PORT || 3000;
-
-// Start server with error handling
-try {
-  app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
-    console.log(`📝 Environment: ${process.env.NODE_ENV || 'development'}`);
-    console.log(`🌐 API: http://localhost:${PORT}/api`);
-    console.log(`\n✅ Server started successfully!`);
-    console.log(`\n📋 Next steps:`);
-    console.log(`   1. Make sure MySQL is running`);
-    console.log(`   2. Run: npm run setup-db`);
-    console.log(`   3. Test: http://localhost:${PORT}/api/health\n`);
-  }).on('error', (error) => {
-    if (error.code === 'EADDRINUSE') {
-      console.error(`❌ Port ${PORT} is already in use!`);
-      console.error(`   Change PORT in .env or kill the process using port ${PORT}`);
-    } else {
-      console.error('❌ Server error:', error);
-    }
+// Only start server if not on Vercel (serverless)
+// On Vercel, the serverless function will handle requests
+if (!process.env.VERCEL && !process.env.VERCEL_ENV) {
+  const PORT = process.env.PORT || 3000;
+  
+  // Start server with error handling
+  try {
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+      console.log(`📝 Environment: ${process.env.NODE_ENV || 'development'}`);
+      console.log(`🌐 API: http://localhost:${PORT}/api`);
+      console.log(`\n✅ Server started successfully!`);
+      console.log(`\n📋 Next steps:`);
+      console.log(`   1. Make sure MySQL is running`);
+      console.log(`   2. Run: npm run setup-db`);
+      console.log(`   3. Test: http://localhost:${PORT}/api/health\n`);
+    }).on('error', (error) => {
+      if (error.code === 'EADDRINUSE') {
+        console.error(`❌ Port ${PORT} is already in use!`);
+        console.error(`   Change PORT in .env or kill the process using port ${PORT}`);
+      } else {
+        console.error('❌ Server error:', error);
+      }
+      process.exit(1);
+    });
+  } catch (error) {
+    console.error('❌ Failed to start server:', error);
     process.exit(1);
-  });
-} catch (error) {
-  console.error('❌ Failed to start server:', error);
-  process.exit(1);
+  }
+} else {
+  // On Vercel, just log that we're in serverless mode
+  console.log('🌐 Running on Vercel (serverless mode)');
 }
 
+// Export app for both local and Vercel
 module.exports = app;
 
