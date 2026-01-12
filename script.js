@@ -63,13 +63,14 @@ $(function() {
     const href = $(this).attr('href');
     // Only close menu on mobile, don't prevent navigation
     if (window.innerWidth < 992) {
-      // If it's a page link (not just an anchor), allow navigation
+      // If it's a page link (not just an anchor), allow navigation immediately
       if (href && !href.startsWith('#')) {
         // It's a page link like blog.html, about.html, etc. - allow navigation
-        // Just close the menu after a short delay
-        setTimeout(function() {
-          $navbarCollapse.collapse('hide');
-        }, 100);
+        // Don't prevent default - let the browser navigate
+        // Close menu immediately so navigation can proceed
+        $navbarCollapse.collapse('hide');
+        // Allow the click to proceed normally
+        return true;
       } else {
         // It's an anchor link - close menu but don't prevent default (smooth scroll handler will handle it)
         setTimeout(function() {

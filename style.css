@@ -323,6 +323,9 @@ img {
     transform: translateZ(0) !important;
     -webkit-font-smoothing: antialiased !important;
     -moz-osx-font-smoothing: grayscale !important;
+    pointer-events: auto !important;
+    position: relative !important;
+    z-index: 1051 !important;
   }
   
   .navbar-collapse .nav-item {
@@ -330,6 +333,9 @@ img {
     opacity: 0;
     transform: translateX(20px);
     animation: menuItemFadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    pointer-events: auto !important;
+    position: relative !important;
+    z-index: 1052 !important;
   }
   
   .navbar-collapse .nav-item:nth-child(1) { animation-delay: 0.1s; }
@@ -348,6 +354,10 @@ img {
   
   .navbar-collapse .nav-link {
     color: #ffffff !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    position: relative !important;
+    z-index: 1051 !important;
     font-weight: 500;
     font-size: 1.1rem;
     letter-spacing: -0.01em;
