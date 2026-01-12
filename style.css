@@ -2286,25 +2286,30 @@ body.dark-mode .badge-collab.solo { background: rgba(25,135,84,0.18); color: #a7
   }
   
   /* Profile card mobile */
-  #hero-profile-image {
+  #hero-profile-image,
+  #hero-profile-mobile {
     margin-top: 2rem;
     width: 100%;
   }
-  #hero-profile-image .about-profile-card {
+  #hero-profile-image .about-profile-card,
+  #hero-profile-mobile .about-profile-card {
     position: relative !important;
     top: auto !important;
     padding: 2rem 1.5rem !important;
     margin: 0 auto;
     max-width: 100%;
   }
-  #hero-profile-image .profile-img {
+  #hero-profile-image .profile-img,
+  #hero-profile-mobile .profile-img {
     width: 160px !important;
     height: 160px !important;
   }
-  #hero-profile-image .profile-name {
+  #hero-profile-image .profile-name,
+  #hero-profile-mobile .profile-name {
     font-size: 1.5rem !important;
   }
-  #hero-profile-image .profile-role {
+  #hero-profile-image .profile-role,
+  #hero-profile-mobile .profile-role {
     font-size: 0.95rem !important;
   }
   .hero-illustration-mobile {

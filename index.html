@@ -931,10 +931,11 @@
         // Show featured posts
         $heroFeatured.empty();
         $heroFeaturedContainer.show();
-        // On mobile, show profile card alongside featured posts
+        // On mobile, always show profile card (above or below featured posts)
         if (window.innerWidth < 992) {
           $('#hero-profile-image').show();
         } else {
+          // Desktop: hide profile when featured posts exist
           $('#hero-profile-image').hide();
         }
         
