@@ -20,22 +20,35 @@ $(function() {
   }
   
   // Ensure hamburger button is clickable and works
-  $navbarToggler.on('click', function(e) {
-    // Don't prevent default - let Bootstrap handle it
-    // But ensure menu opens/closes properly
-    console.log('Hamburger clicked');
-    const isExpanded = $(this).attr('aria-expanded') === 'true';
-    if (window.innerWidth < 992) {
-      if (!isExpanded) {
-        // Menu will open - Bootstrap handles this
-        setTimeout(function() {
-          if (!$navbarCollapse.hasClass('show')) {
-            $navbarCollapse.addClass('show');
-          }
-        }, 50);
+  // Make sure Bootstrap collapse is initialized
+  if (typeof bootstrap !== 'undefined' && bootstrap.Collapse) {
+    // Bootstrap is loaded, ensure collapse works
+    $navbarToggler.on('click', function(e) {
+      console.log('Hamburger button clicked');
+      // Let Bootstrap handle the collapse
+    });
+  } else {
+    // Fallback if Bootstrap isn't loaded - manually toggle
+    $navbarToggler.on('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log('Hamburger clicked (fallback)');
+      const isExpanded = $(this).attr('aria-expanded') === 'true';
+      if (window.innerWidth < 992) {
+        if (isExpanded) {
+          $navbarCollapse.removeClass('show');
+          $body.removeClass('menu-open');
+          $backdrop.removeClass('show');
+          $(this).attr('aria-expanded', 'false');
+        } else {
+          $navbarCollapse.addClass('show');
+          $body.addClass('menu-open');
+          $backdrop.addClass('show');
+          $(this).attr('aria-expanded', 'true');
+        }
       }
-    }
-  });
+    });
+  }
   
   // Handle menu show
   $navbarCollapse.on('show.bs.collapse', function() {
