@@ -231,7 +231,7 @@
             <a href="about.html" class="btn btn-outline-dark btn-lg">About Me</a>
           </div>
 
-          <div class="mt-4 d-flex gap-3 align-items-center justify-content-center justify-content-lg-start">
+          <div class="mt-4 d-flex flex-row gap-3 align-items-center justify-content-center justify-content-lg-start">
             <a class="social-btn" href="https://t.me/your_channel" title="Telegram Channel" aria-label="Telegram Channel" target="_blank" rel="noopener">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.329-.913.489-1.302.481-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.648 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
             </a>
@@ -261,7 +261,7 @@
           <div class="float-wrap mx-auto d-none d-lg-block" style="max-width:380px;">
             <img src="profile.jpg" alt="Profile" class="hero-illustration parallax">
           </div>
-          <img src="profile.jpg" alt="Profile" class="hero-illustration-mobile d-lg-none" style="max-width: 280px; width: 100%; height: auto; border-radius: 50%; margin: 0 auto;">
+          <!-- Mobile profile image removed as requested -->
         </div>
       </div>
     </div>
@@ -422,7 +422,7 @@
 
 
 <!-- Projects Preview -->
-<section id="projects-preview" class="py-5 bg-white">
+<section id="projects-preview" class="py-5 bg-white" style="display: none;">
   <div class="container">
     <div class="preview-section-header">
       <div>
@@ -821,10 +821,17 @@
     ];
 
     const $projectGrid = $('#projects-preview-grid');
+    const $projectsSection = $('#projects-preview');
     $projectGrid.empty();
     
-    const projectsToShow = projects.slice(0, 6);
-    projectsToShow.forEach(project => {
+    // Filter for featured projects only
+    const featuredProjects = projects.filter(project => project.featured === true);
+    
+    // Only show section if there are featured projects
+    if (featuredProjects.length > 0) {
+      $projectsSection.show();
+      const projectsToShow = featuredProjects.slice(0, 6);
+      projectsToShow.forEach(project => {
       const $card = $(`
         <div class="col-md-4 col-lg-3">
           <div class="project-tile" style="cursor: pointer;" onclick="window.location.href='projects.html'">
