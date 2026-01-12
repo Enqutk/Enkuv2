@@ -5506,7 +5506,7 @@ section {
 }
 @media (min-width: 992px) {
   .hero-inner { 
-    padding-top: 6rem; 
+    padding-top: 1rem; 
     padding-bottom: 4rem; 
   }
   .hero h1 { 
@@ -5775,7 +5775,7 @@ h2::after, .section-title-animated::after {
 }
 @media (min-width: 768px) {
   .hero-left {
-    padding-top: 7rem;
+    padding-top: 2rem;
     padding-bottom: 4rem;
   }
   .hero-inner {
