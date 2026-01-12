@@ -1047,7 +1047,7 @@ body:not(.dark-mode) .hero {
 .hero p{font-size:1.05rem; color:rgba(255,255,255,0.9);}
 
 /* small inner container adjustments */
-.hero-inner{ max-width:900px; margin:0 auto; padding-top:6rem; padding-bottom:4rem; }
+.hero-inner{ max-width:900px; margin:0 auto; padding-top:1rem; padding-bottom:4rem; }
 
 /* CTA buttons */
 .btn-primary{background:var(--primary); border-color:transparent; box-shadow:none;}
@@ -2083,7 +2083,7 @@ body.dark-mode .badge-collab.solo { background: rgba(25,135,84,0.18); color: #a7
   
   /* Hero mobile fixes - Improved spacing and layout */
   .hero-left {
-    padding-top: 6rem;
+    padding-top: 1rem;
     padding-bottom: 4rem;
     min-height: auto;
   }
@@ -5766,7 +5766,7 @@ h2::after, .section-title-animated::after {
 }
 @media (min-width: 576px) {
   .hero-left {
-    padding-top: 6rem;
+    padding-top: 1rem;
     padding-bottom: 3rem;
   }
   .hero-left .hero-title {
