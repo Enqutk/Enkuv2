@@ -102,7 +102,13 @@ router.post('/',
       res.status(201).json(newPost[0]);
     } catch (error) {
       console.error('Create post error:', error);
-      res.status(500).json({ error: 'Server error' });
+      console.error('Error stack:', error.stack);
+      // Provide more detailed error message
+      const errorMessage = error.message || 'Server error';
+      res.status(500).json({ 
+        error: errorMessage,
+        details: process.env.NODE_ENV === 'development' ? error.stack : undefined
+      });
     }
   }
 );

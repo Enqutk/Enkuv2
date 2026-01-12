@@ -477,8 +477,8 @@
                         $form.removeData('edit-id');
                         $form.find('button[type="submit"]').text('Publish Blog Post');
                     } else {
-                        await api.createBlogPost(formData);
-                        alert('Blog post published successfully!');
+                    await api.createBlogPost(formData);
+                    alert('Blog post published successfully!');
                     }
                     $form[0].reset();
                     $('#blog-image-preview').html('');
@@ -524,8 +524,8 @@
                         $form.removeData('edit-id');
                         $form.find('button[type="submit"]').text('Add to Gallery');
                     } else {
-                        await api.createGalleryItem(formData);
-                        alert('Gallery item added successfully!');
+                    await api.createGalleryItem(formData);
+                    alert('Gallery item added successfully!');
                     }
                     $form[0].reset();
                     $('#gallery-image-preview').html('');
