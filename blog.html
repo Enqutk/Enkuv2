@@ -435,9 +435,6 @@
                         `<img src="${escapeHtml(blog.image)}" alt="${escapeHtml(blog.title)}" loading="lazy">` : 
                         '<div style="height: 240px; background: linear-gradient(135deg, rgba(184,134,11,0.1) 0%, rgba(184,134,11,0.05) 100%); display: flex; align-items: center; justify-content: center; color: var(--muted);"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg></div>';
                     
-                    const featuredBadge = blog.featured ? 
-                        '<span class="blog-featured-badge">Featured</span>' : '';
-                    
                     const categoryBadge = blog.category ? 
                         `<span class="blog-card-category">${escapeHtml(blog.category)}</span>` : '';
                     
@@ -451,7 +448,6 @@
                             <div class="blog-card-body">
                                 <h3 class="blog-card-title">
                                     ${escapeHtml(blog.title)}
-                                    ${featuredBadge}
                                 </h3>
                                 <p class="blog-card-excerpt">${escapeHtml(excerpt)}</p>
                                 <div class="blog-card-meta">
@@ -553,9 +549,6 @@
                     day: 'numeric' 
                 });
                 
-                const featuredBadge = blog.featured ? 
-                    '<span class="blog-featured-badge">Featured</span>' : '';
-                
                 const imageHtml = blog.image ? 
                     `<img src="${escapeHtml(blog.image)}" alt="${escapeHtml(blog.title)}" class="blog-detail-hero-image">` : '';
                 
@@ -567,7 +560,6 @@
                         ${imageHtml}
                         <h1 class="blog-detail-title">
                             ${escapeHtml(blog.title)}
-                            ${featuredBadge}
                         </h1>
                         <div class="blog-detail-meta">
                             <div class="blog-detail-date">

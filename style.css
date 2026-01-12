@@ -4472,7 +4472,7 @@ body.dark-mode .hero-featured-item {
 }
 .blog-card img {
   width: 100%;
-  height: 240px;
+  height: 360px;
   object-fit: cover;
   display: block;
   transition: transform 0.6s cubic-bezier(.2,.9,.3,1);
@@ -4616,7 +4616,7 @@ body.dark-mode .hero-featured-item {
 }
 .blog-detail-hero-image {
   width: 100%;
-  height: 450px;
+  height: 600px;
   object-fit: cover;
   border-radius: 20px;
   margin-bottom: 2rem;

@@ -896,7 +896,6 @@
             <div class="hero-featured-item" onclick="window.location.href='blog.html?id=${blog.id}'">
               ${imageHtml}
               <div class="hero-featured-content">
-                <div class="hero-featured-badge">Featured</div>
                 <h6 class="hero-featured-title">${escapeHtml(blog.title)}</h6>
                 <p class="hero-featured-excerpt">${escapeHtml((blog.excerpt || blog.content || '').substring(0, 80))}...</p>
                 <div class="hero-featured-meta">
@@ -939,7 +938,7 @@
     } else {
       (nonFeaturedBlogs.length > 0 ? nonFeaturedBlogs : allBlogs.slice(0, 3)).forEach(blog => {
         const date = new Date(blog.date).toLocaleDateString();
-        const featuredBadge = blog.featured ? '<span class="badge bg-warning text-dark position-absolute top-0 end-0 m-2">Featured</span>' : '';
+        const featuredBadge = '';
         const imageHtml = blog.image ? `<img src="${escapeHtml(blog.image)}" alt="${escapeHtml(blog.title)}" class="card-img-top" style="height: 200px; object-fit: cover;">` : '';
         const $card = $(`
           <div class="col-md-4">
