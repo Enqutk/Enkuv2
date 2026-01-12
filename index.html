@@ -931,11 +931,8 @@
         // Show featured posts
         $heroFeatured.empty();
         $heroFeaturedContainer.show();
-        // On mobile, always show profile card (above or below featured posts)
-        if (window.innerWidth < 992) {
-          $('#hero-profile-image').show();
-        } else {
-          // Desktop: hide profile when featured posts exist
+        // Desktop: hide profile when featured posts exist
+        if (window.innerWidth >= 992) {
           $('#hero-profile-image').hide();
         }
         
@@ -959,9 +956,11 @@
           $heroFeatured.append($item);
         });
       } else {
-        // No featured posts - hide featured section and show profile image/card
+        // No featured posts - hide featured section and show profile image (desktop only)
         $heroFeaturedContainer.hide();
-        $('#hero-profile-image').show();
+        if (window.innerWidth >= 992) {
+          $('#hero-profile-image').show();
+        }
       }
     })();
 
