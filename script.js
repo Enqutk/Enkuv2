@@ -58,12 +58,24 @@ $(function() {
     }
   });
   
-  // Close menu when clicking nav links on mobile
-  $(document).on('click', '.navbar-collapse .nav-link', function() {
+  // Close menu when clicking nav links on mobile (but allow navigation to work)
+  $(document).on('click', '.navbar-collapse .nav-link', function(e) {
+    const href = $(this).attr('href');
+    // Only close menu on mobile, don't prevent navigation
     if (window.innerWidth < 992) {
-      setTimeout(function() {
-        $navbarCollapse.collapse('hide');
-      }, 100);
+      // If it's a page link (not just an anchor), allow navigation
+      if (href && !href.startsWith('#')) {
+        // It's a page link like blog.html, about.html, etc. - allow navigation
+        // Just close the menu after a short delay
+        setTimeout(function() {
+          $navbarCollapse.collapse('hide');
+        }, 100);
+      } else {
+        // It's an anchor link - close menu but don't prevent default (smooth scroll handler will handle it)
+        setTimeout(function() {
+          $navbarCollapse.collapse('hide');
+        }, 100);
+      }
     }
   });
   
@@ -87,11 +99,11 @@ $(function() {
     }
   });
   
-  // ---------- Smooth scroll for anchor links ----------
-  $('a[href^="#"]').on('click', function(e) {
+  // ---------- Smooth scroll for anchor links only ----------
+  $(document).on('click', 'a[href^="#"]', function(e) {
     const href = this.getAttribute('href');
-    // Only handle anchor links on the same page
-    if (href.includes('#') && href.startsWith('#')) {
+    // Only handle pure anchor links (starting with #) on the same page
+    if (href && href.startsWith('#') && href.length > 1) {
       const target = $(href);
       if (target.length) {
         e.preventDefault();
@@ -561,22 +573,22 @@ window.initThemeToggle = function() {
     $toggle.attr('onclick', 'window.toggleTheme(event)');
   } else {
     // Fallback jQuery handler
-    $toggle.on('click.theme-toggle', function(){
-      const isDark = $body.toggleClass('dark-mode').hasClass('dark-mode');
+  $toggle.on('click.theme-toggle', function(){
+    const isDark = $body.toggleClass('dark-mode').hasClass('dark-mode');
       // Also toggle on documentElement for CSS variables
       if (isDark) {
         document.documentElement.classList.add('dark-mode');
       } else {
         document.documentElement.classList.remove('dark-mode');
       }
-      $toggle.text(isDark ? '☀️' : '🌙');
-      try { 
-        localStorage.setItem('theme', isDark ? 'dark-mode' : 'light-mode');
-        localStorage.setItem('theme_preference', isDark ? 'dark' : 'light');
-      } catch(e){
-        console.error('Theme save error:', e);
-      }
-    });
+    $toggle.text(isDark ? '☀️' : '🌙');
+    try { 
+      localStorage.setItem('theme', isDark ? 'dark-mode' : 'light-mode');
+      localStorage.setItem('theme_preference', isDark ? 'dark' : 'light');
+    } catch(e){
+      console.error('Theme save error:', e);
+    }
+  });
   }
 };
 
