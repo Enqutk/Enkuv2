@@ -485,7 +485,13 @@
                     $('#blog-image-file').val('');
                     loadBlogs();
                 } catch (error) {
-                    alert('Error: ' + error.message);
+                    console.error('Blog post error:', error);
+                    let errorMsg = error.message || 'Failed to publish blog post';
+                    // Show more details in console
+                    if (error.details) {
+                        console.error('Error details:', error.details);
+                    }
+                    alert('Error: ' + errorMsg + '\n\nCheck browser console (F12) for more details.');
                 } finally {
                     $submitBtn.prop('disabled', false).text(isEdit ? 'Update Blog Post' : 'Publish Blog Post');
                 }
