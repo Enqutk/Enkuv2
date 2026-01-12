@@ -72,7 +72,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Serve uploaded files
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// On Vercel, serve from /tmp, otherwise from ./uploads
+if (process.env.VERCEL || process.env.VERCEL_ENV) {
+  // On Vercel, serve files from /tmp/uploads
+  app.use('/uploads', express.static('/tmp/uploads'));
+} else {
+  // Local development, serve from ./uploads
+  app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+}
 
 // Explicit CSS route with file existence check
 app.get('/style.css', (req, res) => {
