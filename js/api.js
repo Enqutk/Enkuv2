@@ -45,7 +45,21 @@ class ApiService {
       } catch (e) {
         errorData = { error: `HTTP ${response.status}: ${response.statusText}` };
       }
-      const errorMessage = errorData.error || errorData.message || `Request failed (${response.status})`;
+      
+      // Provide more helpful error messages
+      let errorMessage = errorData.error || errorData.message || `Request failed (${response.status})`;
+      
+      // Check for common issues
+      if (response.status === 404 && errorMessage.includes('Route not found')) {
+        errorMessage = 'API route not found. Make sure the backend server is running and database is connected. Check Vercel environment variables for database credentials.';
+      } else if (response.status === 500) {
+        errorMessage = 'Server error. This might be a database connection issue. Check your database credentials in Vercel environment variables.';
+      } else if (response.status === 401) {
+        errorMessage = 'Authentication required. Please log in again.';
+      } else if (response.status === 403) {
+        errorMessage = 'Access denied. Admin privileges required.';
+      }
+      
       throw new Error(errorMessage);
     }
     try {
