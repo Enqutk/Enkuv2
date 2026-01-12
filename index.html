@@ -855,7 +855,11 @@
         </div>
       `);
       $projectGrid.append($card);
-    });
+      });
+    } else {
+      // Hide featured projects section if no featured projects
+      $projectsSection.hide();
+    }
     // Load featured posts in hero section
     (async function() {
       const $heroFeatured = $('#hero-featured-list');
