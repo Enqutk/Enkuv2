@@ -928,10 +928,15 @@
       }
     
       if (featuredBlogs.length > 0) {
-        // Show featured posts, hide profile image
+        // Show featured posts
         $heroFeatured.empty();
         $heroFeaturedContainer.show();
-        $('#hero-profile-image').hide();
+        // On mobile, show profile card alongside featured posts
+        if (window.innerWidth < 992) {
+          $('#hero-profile-image').show();
+        } else {
+          $('#hero-profile-image').hide();
+        }
         
         featuredBlogs.forEach(blog => {
           const dateStr = blog.date || blog.created_at || new Date().toISOString();
@@ -953,7 +958,7 @@
           $heroFeatured.append($item);
         });
       } else {
-        // No featured posts - hide featured section and show profile image instead
+        // No featured posts - hide featured section and show profile image/card
         $heroFeaturedContainer.hide();
         $('#hero-profile-image').show();
       }
