@@ -67,6 +67,8 @@ img {
   transition: all 0.3s ease;
   padding: 0.75rem 0;
   min-height: 64px;
+  z-index: 1040 !important;
+  position: relative;
 }
 .navbar-custom .container {
   padding-left: 1rem;
@@ -90,6 +92,9 @@ img {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  z-index: 1060 !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
 }
 
 .navbar-custom .navbar-toggler::before {

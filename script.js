@@ -10,6 +10,7 @@ $(function() {
   // ---------- Mobile menu backdrop and body lock ----------
   const $navbarCollapse = $('#mainNav');
   const $body = $('body');
+  const $navbarToggler = $('.navbar-toggler');
   
   // Create backdrop element if it doesn't exist
   let $backdrop = $('.menu-backdrop');
@@ -17,6 +18,24 @@ $(function() {
     $backdrop = $('<div class="menu-backdrop"></div>');
     $body.append($backdrop);
   }
+  
+  // Ensure hamburger button is clickable and works
+  $navbarToggler.on('click', function(e) {
+    // Don't prevent default - let Bootstrap handle it
+    // But ensure menu opens/closes properly
+    console.log('Hamburger clicked');
+    const isExpanded = $(this).attr('aria-expanded') === 'true';
+    if (window.innerWidth < 992) {
+      if (!isExpanded) {
+        // Menu will open - Bootstrap handles this
+        setTimeout(function() {
+          if (!$navbarCollapse.hasClass('show')) {
+            $navbarCollapse.addClass('show');
+          }
+        }, 50);
+      }
+    }
+  });
   
   // Handle menu show
   $navbarCollapse.on('show.bs.collapse', function() {
