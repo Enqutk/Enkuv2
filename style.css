@@ -5791,7 +5791,7 @@ h2::after, .section-title-animated::after {
 }
 @media (min-width: 992px) {
   .hero-left {
-    padding-top: 120px;
+    padding-top: 1rem;
     padding-bottom: 70px;
   }
 .hero-left .hero-title {
