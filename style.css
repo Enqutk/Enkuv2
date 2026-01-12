@@ -2285,9 +2285,27 @@ body.dark-mode .badge-collab.solo { background: rgba(25,135,84,0.18); color: #a7
     margin-bottom: 0.75rem;
   }
   
-  /* Profile image mobile */
+  /* Profile card mobile */
   #hero-profile-image {
     margin-top: 2rem;
+    width: 100%;
+  }
+  #hero-profile-image .about-profile-card {
+    position: relative !important;
+    top: auto !important;
+    padding: 2rem 1.5rem !important;
+    margin: 0 auto;
+    max-width: 100%;
+  }
+  #hero-profile-image .profile-img {
+    width: 160px !important;
+    height: 160px !important;
+  }
+  #hero-profile-image .profile-name {
+    font-size: 1.5rem !important;
+  }
+  #hero-profile-image .profile-role {
+    font-size: 0.95rem !important;
   }
   .hero-illustration-mobile {
     max-width: 240px !important;
