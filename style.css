@@ -3996,8 +3996,7 @@ body.dark-mode .testimonial-modal-content #testimonial-message .alert-danger {
     --bs-gutter-x: 1rem;
   }
 }
-  border-color: var(--gold);
-}
+
 body.dark-mode .carousel-indicators [type="button"] {
   background: rgba(184,134,11,0.3);
 }
@@ -5698,6 +5697,7 @@ h2::after, .section-title-animated::after {
   line-height: 1.3;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -5708,6 +5708,7 @@ h2::after, .section-title-animated::after {
   line-height: 1.5;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -6336,7 +6337,10 @@ body:not(.dark-mode) #stack {
   100% { transform: translateY(0) scale(1); }
 }
 
-.stack-item[data-rot] { /* rotation set by JS */ }
+.stack-item[data-rot] { 
+  /* rotation set by JS */
+  transform: rotate(var(--rot, 0deg));
+}
 
 .stack-item.clicked { transform: scale(.985); transition: transform .12s ease; }
 
@@ -6457,7 +6461,6 @@ body:not(.dark-mode) #stack {
 }
 
 /* Legacy testimonial styles removed - using enhanced styles above */
-}
 
 /* Loading spinner for buttons */
 .btn-submit.loading::after {
