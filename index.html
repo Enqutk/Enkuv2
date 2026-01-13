@@ -989,7 +989,7 @@
       (nonFeaturedBlogs.length > 0 ? nonFeaturedBlogs : allBlogs.slice(0, 3)).forEach(blog => {
         const date = new Date(blog.date).toLocaleDateString();
         const featuredBadge = '';
-        const imageHtml = blog.image ? `<img src="${escapeHtml(blog.image)}" alt="${escapeHtml(blog.title)}" class="card-img-top" style="height: 320px; object-fit: cover;">` : '';
+        const imageHtml = blog.image ? `<img src="${escapeHtml(blog.image)}" alt="${escapeHtml(blog.title)}" class="card-img-top" style="height: 320px; object-fit: contain; object-position: center; background-color: #f8f9fa;">` : '';
         const $card = $(`
           <div class="col-md-4">
             <div class="card h-100 border-0 shadow-sm project-tile" style="cursor: pointer;" onclick="window.location.href='blog.html?id=${blog.id}'">
