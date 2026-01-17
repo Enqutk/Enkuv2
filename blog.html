@@ -240,10 +240,10 @@
     </section>
 
     <!-- Blog Detail View -->
-    <section id="blog-detail-view" class="py-5" style="display: none; margin-top: 80px;">
+    <section id="blog-detail-view" class="py-4" style="display: none; margin-top: 80px;">
         <div class="container">
             <div class="blog-detail-wrapper">
-                <a href="blog.html" class="back-link mb-4 d-inline-flex align-items-center gap-2">
+                <a href="blog.html" class="back-link mb-3 d-inline-flex align-items-center gap-2">
                     <span>←</span>
                     <span>Back to Blog</span>
                 </a>
@@ -649,12 +649,7 @@
                                 <div class="comment-input-container">
                                     <input type="text" class="comment-name-input" name="name" placeholder="Your name" required style="display: none;" id="comment-name-${id}">
                                     <textarea class="comment-textarea" name="comment" rows="1" placeholder="Add a comment..." required></textarea>
-                                    <button type="submit" class="comment-post-btn" title="Post">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <line x1="22" y1="2" x2="11" y2="13"></line>
-                                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                                        </svg>
-                                    </button>
+                                    <button type="submit" class="comment-post-btn" title="Post">Post</button>
                                 </div>
                                 <div class="comment-name-toggle" onclick="toggleCommentName('${id}')">
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -759,12 +754,7 @@
                                         <form class="reply-form" onsubmit="submitReply(event, '${comment.id}', '${blogId}'); return false;">
                                             <div class="reply-input-container">
                                                 <textarea class="reply-textarea" name="reply" rows="1" placeholder="Write a reply..." required></textarea>
-                                                <button type="submit" class="reply-post-btn" title="Post reply">
-                                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                        <line x1="22" y1="2" x2="11" y2="13"></line>
-                                                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                                                    </svg>
-                                                </button>
+                                                <button type="submit" class="reply-post-btn" title="Post reply">Post</button>
                                             </div>
                                             <input type="text" class="reply-name-input" name="name" placeholder="Your name" required style="display: none;" id="reply-name-${comment.id}">
                                             <div class="reply-name-toggle" onclick="toggleReplyName('${comment.id}')">
