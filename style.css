@@ -5429,6 +5429,35 @@ body.dark-mode .blog-hero-title {
   display: none;
 }
 
+/* Instagram-style Toast Notification */
+.ig-toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: rgba(38, 38, 38, 0.9);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  z-index: 10000;
+  opacity: 0;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  backdrop-filter: blur(10px);
+}
+
+.ig-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Dark mode adjustments */
+.dark-mode .ig-toast {
+  background: rgba(250, 250, 250, 0.9);
+  color: #262626;
+}
+
 /* Comments List - Instagram Style */
 .ig-comments-list .blog-comment-item {
   display: flex;

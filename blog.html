@@ -564,6 +564,9 @@
                 const likeCount = likes[id] || 0;
                 const isLiked = JSON.parse(localStorage.getItem('blog_liked_posts') || '[]').includes(id);
                 
+                // Get bookmarked state
+                const isBookmarked = JSON.parse(localStorage.getItem('blog_bookmarked_posts') || '[]').includes(id);
+                
                 // Get comments from localStorage
                 let comments = JSON.parse(localStorage.getItem('blog_comments') || '{}');
                 const postComments = comments[id] || [];
@@ -590,7 +593,16 @@
                         </button>
                     </div>
                     
-                    <!-- Action buttons -->
+                    <!-- Caption -->
+                    <div class="ig-caption">
+                        <span class="ig-caption-username">${username}</span>
+                        <span class="ig-caption-text">${escapeHtml(blog.title)}</span>
+                    </div>
+                    <div class="ig-caption-content">
+                        ${formatBlogContent(blog.content)}
+                    </div>
+                    
+                    <!-- Action buttons (moved below content) -->
                     <div class="ig-post-actions">
                         <div class="ig-actions-left">
                             <button class="ig-action-btn ${isLiked ? 'liked' : ''}" onclick="toggleBlogLike('${id}')">
@@ -598,20 +610,20 @@
                                     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                                 </svg>
                             </button>
-                            <button class="ig-action-btn">
+                            <button class="ig-action-btn" onclick="document.querySelector('.ig-comment-textarea').focus()">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                                 </svg>
                             </button>
-                            <button class="ig-action-btn">
+                            <button class="ig-action-btn" onclick="copyBlogLink()">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <line x1="22" y1="2" x2="11" y2="13"></line>
                                     <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                                 </svg>
                             </button>
                         </div>
-                        <button class="ig-action-btn">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <button class="ig-action-btn" onclick="toggleBookmark('${id}')">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="${isBookmarked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" class="bookmark-icon">
                                 <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
                             </svg>
                         </button>
@@ -620,15 +632,6 @@
                     <!-- Likes count -->
                     <div class="ig-likes">
                         <strong>${likeCount > 0 ? likeCount : 'No'} ${likeCount === 1 ? 'like' : 'likes'}</strong>
-                    </div>
-                    
-                    <!-- Caption -->
-                    <div class="ig-caption">
-                        <span class="ig-caption-username">${username}</span>
-                        <span class="ig-caption-text">${escapeHtml(blog.title)}</span>
-                    </div>
-                    <div class="ig-caption-content">
-                        ${formatBlogContent(blog.content)}
                     </div>
                     
                     <!-- View comments link -->
@@ -905,12 +908,104 @@
                 localStorage.setItem('blog_likes', JSON.stringify(likes));
                 localStorage.setItem('blog_liked_posts', JSON.stringify(likedPosts));
                 
-                // Update UI
-                const likeBtn = $('.blog-like-btn');
-                const likeCount = $('.like-count');
-                likeBtn.toggleClass('liked', !isLiked);
-                likeCount.text(likes[blogId] || 0);
+                // Update UI - find button and likes count
+                const likeBtn = document.querySelector(`.ig-action-btn.liked, button[onclick*="toggleBlogLike"]`);
+                if (likeBtn) {
+                    if (isLiked) {
+                        likeBtn.classList.remove('liked');
+                        likeBtn.querySelector('svg').setAttribute('fill', 'none');
+                    } else {
+                        likeBtn.classList.add('liked');
+                        likeBtn.querySelector('svg').setAttribute('fill', 'currentColor');
+                    }
+                }
+                
+                // Update likes count
+                const likesDiv = document.querySelector('.ig-likes strong');
+                if (likesDiv) {
+                    const count = likes[blogId] || 0;
+                    likesDiv.textContent = `${count > 0 ? count : 'No'} ${count === 1 ? 'like' : 'likes'}`;
+                }
             };
+            
+            window.toggleBookmark = function(blogId) {
+                let bookmarkedPosts = JSON.parse(localStorage.getItem('blog_bookmarked_posts') || '[]');
+                const isBookmarked = bookmarkedPosts.includes(blogId);
+                
+                if (isBookmarked) {
+                    bookmarkedPosts = bookmarkedPosts.filter(id => id !== blogId);
+                } else {
+                    bookmarkedPosts.push(blogId);
+                }
+                
+                localStorage.setItem('blog_bookmarked_posts', JSON.stringify(bookmarkedPosts));
+                
+                // Update UI
+                const bookmarkBtn = document.querySelector(`button[onclick*="toggleBookmark"]`);
+                if (bookmarkBtn) {
+                    const svg = bookmarkBtn.querySelector('svg');
+                    if (isBookmarked) {
+                        svg.setAttribute('fill', 'none');
+                    } else {
+                        svg.setAttribute('fill', 'currentColor');
+                    }
+                }
+                
+                // Show feedback
+                const feedback = isBookmarked ? 'Removed from bookmarks' : 'Saved to bookmarks';
+                showToast(feedback);
+            };
+            
+            window.copyBlogLink = function() {
+                const url = window.location.href;
+                
+                // Try using modern clipboard API
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(url).then(() => {
+                        showToast('Link copied to clipboard!');
+                    }).catch(() => {
+                        fallbackCopy(url);
+                    });
+                } else {
+                    fallbackCopy(url);
+                }
+            };
+            
+            function fallbackCopy(text) {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+                
+                try {
+                    document.execCommand('copy');
+                    showToast('Link copied to clipboard!');
+                } catch (err) {
+                    showToast('Failed to copy link');
+                }
+                
+                document.body.removeChild(textarea);
+            }
+            
+            function showToast(message) {
+                // Remove existing toast if any
+                const existingToast = document.querySelector('.ig-toast');
+                if (existingToast) existingToast.remove();
+                
+                // Create and show toast
+                const toast = document.createElement('div');
+                toast.className = 'ig-toast';
+                toast.textContent = message;
+                document.body.appendChild(toast);
+                
+                setTimeout(() => toast.classList.add('show'), 10);
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    setTimeout(() => toast.remove(), 300);
+                }, 2000);
+            }
             
             window.submitBlogComment = function(event, blogId) {
                 event.preventDefault();
