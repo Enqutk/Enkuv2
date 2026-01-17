@@ -634,34 +634,44 @@
                         ${formatBlogContent(blog.content)}
                     </div>
                     
-                    <!-- Comments Section -->
+                    <!-- Comments Section - Instagram/LinkedIn Style -->
                     <div class="blog-comments-section">
-                        <h3 class="blog-comments-title">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;">
-                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                            </svg>
-                            Comments <span class="comment-count">(${postComments.length})</span>
-                        </h3>
+                        <div class="blog-comments-header">
+                            <h3 class="blog-comments-title">
+                                <span class="comment-count">${postComments.length}</span>
+                                ${postComments.length === 1 ? 'Comment' : 'Comments'}
+                            </h3>
+                        </div>
                         
-                        <!-- Comment Form -->
-                        <div class="blog-comment-form-wrapper">
-                            <form class="blog-comment-form" onsubmit="submitBlogComment(event, '${id}'); return false;">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" name="name" placeholder="Your name" required>
+                        <!-- Comment Form - Inline Style -->
+                        <div class="blog-comment-input-wrapper">
+                            <form class="blog-comment-input-form" onsubmit="submitBlogComment(event, '${id}'); return false;">
+                                <div class="comment-input-container">
+                                    <input type="text" class="comment-name-input" name="name" placeholder="Your name" required style="display: none;" id="comment-name-${id}">
+                                    <textarea class="comment-textarea" name="comment" rows="1" placeholder="Add a comment..." required></textarea>
+                                    <button type="submit" class="comment-post-btn" title="Post">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                        </svg>
+                                    </button>
                                 </div>
-                                <div class="form-group">
-                                    <textarea class="form-control" name="comment" rows="4" placeholder="Write a comment..." required></textarea>
+                                <div class="comment-name-toggle" onclick="toggleCommentName('${id}')">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="8.5" cy="7" r="4"></circle>
+                                    </svg>
+                                    Add name
                                 </div>
-                                <button type="submit" class="btn btn-gold btn-sm">Post Comment</button>
                             </form>
                         </div>
                         
                         <!-- Comments List -->
                         <div class="blog-comments-list" id="blog-comments-${id}">
-                            ${renderComments(postComments)}
+                            ${renderComments(postComments, id)}
                         </div>
                         
-                        ${postComments.length === 0 ? '<p class="blog-no-comments">No comments yet. Be the first to comment!</p>' : ''}
+                        ${postComments.length === 0 ? '<p class="blog-no-comments">No comments yet. Start the conversation!</p>' : ''}
                     </div>
                 `);
             }
@@ -699,31 +709,205 @@
             }
             
             // Make renderComments available globally
-            function renderComments(comments) {
+            function renderComments(comments, blogId) {
                 if (!comments || comments.length === 0) return '';
                 
-                return comments.map(comment => {
-                    const date = new Date(comment.date).toLocaleDateString('en-US', { 
-                        year: 'numeric', 
-                        month: 'short', 
-                        day: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                    });
+                // Sort comments by date (newest first)
+                const sortedComments = [...comments].sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                return sortedComments.map(comment => {
+                    const timeAgo = getTimeAgo(new Date(comment.date));
+                    
+                    // Get comment likes
+                    let commentLikes = JSON.parse(localStorage.getItem('comment_likes') || '{}');
+                    const commentLikeCount = commentLikes[comment.id] || 0;
+                    const isCommentLiked = JSON.parse(localStorage.getItem('comment_liked_ids') || '[]').includes(comment.id);
+                    
+                    // Get replies
+                    let replies = JSON.parse(localStorage.getItem('comment_replies') || '{}');
+                    const commentReplies = replies[comment.id] || [];
+                    
                     return `
-                        <div class="blog-comment-item">
-                            <div class="blog-comment-author">
-                                <div class="blog-comment-avatar">${(comment.name || 'Anonymous')[0].toUpperCase()}</div>
-                                <div class="blog-comment-info">
-                                    <div class="blog-comment-name">${escapeHtml(comment.name || 'Anonymous')}</div>
-                                    <div class="blog-comment-date">${date}</div>
+                        <div class="blog-comment-item" data-comment-id="${comment.id}">
+                            <div class="comment-main">
+                                <div class="blog-comment-avatar">${(comment.name || 'A')[0].toUpperCase()}</div>
+                                <div class="comment-content">
+                                    <div class="comment-header">
+                                        <span class="blog-comment-name">${escapeHtml(comment.name || 'Anonymous')}</span>
+                                        <span class="blog-comment-date">${timeAgo}</span>
+                                    </div>
+                                    <div class="blog-comment-text">${escapeHtml(comment.comment)}</div>
+                                    <div class="comment-actions">
+                                        <button class="comment-action-btn like-btn ${isCommentLiked ? 'liked' : ''}" onclick="toggleCommentLike('${comment.id}')">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="${isCommentLiked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2">
+                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                            </svg>
+                                            ${commentLikeCount > 0 ? `<span class="action-count">${commentLikeCount}</span>` : ''}
+                                        </button>
+                                        <button class="comment-action-btn reply-btn" onclick="toggleReplyForm('${comment.id}', '${blogId}')">
+                                            Reply
+                                        </button>
+                                    </div>
+                                    
+                                    ${commentReplies.length > 0 ? `
+                                        <div class="comment-replies">
+                                            ${renderReplies(commentReplies, comment.id)}
+                                        </div>
+                                    ` : ''}
+                                    
+                                    <div class="reply-form-wrapper" id="reply-form-${comment.id}" style="display: none;">
+                                        <form class="reply-form" onsubmit="submitReply(event, '${comment.id}', '${blogId}'); return false;">
+                                            <div class="reply-input-container">
+                                                <textarea class="reply-textarea" name="reply" rows="1" placeholder="Write a reply..." required></textarea>
+                                                <button type="submit" class="reply-post-btn" title="Post reply">
+                                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                                                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                            <input type="text" class="reply-name-input" name="name" placeholder="Your name" required style="display: none;" id="reply-name-${comment.id}">
+                                            <div class="reply-name-toggle" onclick="toggleReplyName('${comment.id}')">
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                                    <circle cx="8.5" cy="7" r="4"></circle>
+                                                </svg>
+                                                Add name
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="blog-comment-text">${escapeHtml(comment.comment)}</div>
                         </div>
                     `;
                 }).join('');
             }
+            
+            function renderReplies(replies, parentId) {
+                if (!replies || replies.length === 0) return '';
+                
+                const sortedReplies = [...replies].sort((a, b) => new Date(a.date) - new Date(b.date));
+                
+                return sortedReplies.map(reply => {
+                    const timeAgo = getTimeAgo(new Date(reply.date));
+                    return `
+                        <div class="comment-reply-item">
+                            <div class="blog-comment-avatar small">${(reply.name || 'A')[0].toUpperCase()}</div>
+                            <div class="reply-content">
+                                <div class="comment-header">
+                                    <span class="blog-comment-name">${escapeHtml(reply.name || 'Anonymous')}</span>
+                                    <span class="blog-comment-date">${timeAgo}</span>
+                                </div>
+                                <div class="blog-comment-text">${escapeHtml(reply.reply)}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+            
+            function getTimeAgo(date) {
+                const seconds = Math.floor((new Date() - date) / 1000);
+                let interval = seconds / 31536000;
+                
+                if (interval > 1) return Math.floor(interval) + 'y';
+                interval = seconds / 2592000;
+                if (interval > 1) return Math.floor(interval) + 'mo';
+                interval = seconds / 86400;
+                if (interval > 1) return Math.floor(interval) + 'd';
+                interval = seconds / 3600;
+                if (interval > 1) return Math.floor(interval) + 'h';
+                interval = seconds / 60;
+                if (interval > 1) return Math.floor(interval) + 'm';
+                return Math.floor(seconds) + 's';
+            }
+            
+            window.toggleCommentName = function(blogId) {
+                const nameInput = document.getElementById(`comment-name-${blogId}`);
+                nameInput.style.display = nameInput.style.display === 'none' ? 'block' : 'none';
+            };
+            
+            window.toggleReplyName = function(commentId) {
+                const nameInput = document.getElementById(`reply-name-${commentId}`);
+                nameInput.style.display = nameInput.style.display === 'none' ? 'block' : 'none';
+            };
+            
+            window.toggleReplyForm = function(commentId, blogId) {
+                const replyForm = document.getElementById(`reply-form-${commentId}`);
+                replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
+                if (replyForm.style.display === 'block') {
+                    const textarea = replyForm.querySelector('.reply-textarea');
+                    textarea.focus();
+                }
+            };
+            
+            window.toggleCommentLike = function(commentId) {
+                let commentLikes = JSON.parse(localStorage.getItem('comment_likes') || '{}');
+                let likedComments = JSON.parse(localStorage.getItem('comment_liked_ids') || '[]');
+                
+                const isLiked = likedComments.includes(commentId);
+                
+                if (isLiked) {
+                    commentLikes[commentId] = Math.max(0, (commentLikes[commentId] || 1) - 1);
+                    likedComments = likedComments.filter(id => id !== commentId);
+                } else {
+                    commentLikes[commentId] = (commentLikes[commentId] || 0) + 1;
+                    likedComments.push(commentId);
+                }
+                
+                localStorage.setItem('comment_likes', JSON.stringify(commentLikes));
+                localStorage.setItem('comment_liked_ids', JSON.stringify(likedComments));
+                
+                // Update UI
+                const btn = $(`.like-btn[onclick*="${commentId}"]`);
+                const countSpan = btn.find('.action-count');
+                btn.toggleClass('liked', !isLiked);
+                
+                if (commentLikes[commentId] > 0) {
+                    if (countSpan.length) {
+                        countSpan.text(commentLikes[commentId]);
+                    } else {
+                        btn.append(`<span class="action-count">${commentLikes[commentId]}</span>`);
+                    }
+                } else {
+                    countSpan.remove();
+                }
+            };
+            
+            window.submitReply = function(event, parentId, blogId) {
+                event.preventDefault();
+                const form = event.target;
+                const formData = new FormData(form);
+                const name = (formData.get('name') || 'Anonymous').trim();
+                const reply = formData.get('reply').trim();
+                
+                if (!reply) return;
+                
+                let replies = JSON.parse(localStorage.getItem('comment_replies') || '{}');
+                if (!replies[parentId]) replies[parentId] = [];
+                
+                const newReply = {
+                    id: Date.now().toString(),
+                    name: name,
+                    reply: reply,
+                    date: new Date().toISOString()
+                };
+                
+                replies[parentId].push(newReply);
+                localStorage.setItem('comment_replies', JSON.stringify(replies));
+                
+                // Update UI
+                const commentItem = $(`.blog-comment-item[data-comment-id="${parentId}"]`);
+                const repliesContainer = commentItem.find('.comment-replies');
+                
+                if (repliesContainer.length) {
+                    repliesContainer.append(renderReplies([newReply], parentId));
+                } else {
+                    commentItem.find('.comment-content').append(`<div class="comment-replies">${renderReplies([newReply], parentId)}</div>`);
+                }
+                
+                form.reset();
+                document.getElementById(`reply-form-${parentId}`).style.display = 'none';
+            };
             
             window.toggleBlogLike = function(blogId) {
                 let likes = JSON.parse(localStorage.getItem('blog_likes') || '{}');
@@ -754,10 +938,10 @@
                 
                 const form = event.target;
                 const formData = new FormData(form);
-                const name = formData.get('name').trim();
+                const name = (formData.get('name') || 'Anonymous').trim();
                 const comment = formData.get('comment').trim();
                 
-                if (!name || !comment) return;
+                if (!comment) return;
                 
                 let comments = JSON.parse(localStorage.getItem('blog_comments') || '{}');
                 if (!comments[blogId]) comments[blogId] = [];
@@ -774,23 +958,36 @@
                 
                 // Update UI
                 const commentsList = $(`#blog-comments-${blogId}`);
-                const commentsSection = $('.blog-comments-section');
                 const commentCount = $('.comment-count');
                 
-                commentsList.prepend(renderComments([newComment]));
-                commentCount.text(`(${comments[blogId].length})`);
+                commentsList.prepend(renderComments([newComment], blogId));
+                commentCount.text(comments[blogId].length);
                 
                 if ($('.blog-no-comments').length) {
                     $('.blog-no-comments').remove();
                 }
                 
                 form.reset();
+                const nameInput = form.querySelector('.comment-name-input');
+                if (nameInput) nameInput.style.display = 'none';
+                
+                // Auto-resize textarea back
+                const textarea = form.querySelector('.comment-textarea');
+                textarea.style.height = 'auto';
                 
                 // Scroll to new comment
-                $('html, body').animate({
-                    scrollTop: commentsList.offset().top - 100
-                }, 500);
+                setTimeout(() => {
+                    $('html, body').animate({
+                        scrollTop: commentsList.offset().top - 100
+                    }, 300);
+                }, 100);
             };
+            
+            // Auto-resize textareas
+            $(document).on('input', '.comment-textarea, .reply-textarea', function() {
+                this.style.height = 'auto';
+                this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+            });
             
             window.copyBlogLink = function(url) {
                 navigator.clipboard.writeText(url).then(() => {
