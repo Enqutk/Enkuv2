@@ -64,7 +64,21 @@ router.post('/', [
     });
   } catch (error) {
     console.error('Contact error:', error);
-    res.status(500).json({ error: 'Server error' });
+    
+    // Provide more specific error messages
+    let errorMessage = 'Server error';
+    if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT') {
+      errorMessage = 'Database connection failed. Please check database credentials.';
+    } else if (error.code === 'ER_NO_SUCH_TABLE') {
+      errorMessage = 'Database table not found. Please run database setup.';
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+    
+    res.status(500).json({ 
+      error: errorMessage,
+      details: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    });
   }
 });
 

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Theme Toggle</title>
+    <style>
+        body {
+            background: white;
+            color: black;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        body.dark-mode {
+            background: #0a0d12 !important;
+            color: #e9eef5 !important;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        window.toggleTheme = function(e) {
+            console.log('toggleTheme called!');
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            const body = document.body;
+            const isDark = !body.classList.contains('dark-mode');
+            
+            if (isDark) {
+                body.classList.add('dark-mode');
+                console.log('Added dark-mode');
+            } else {
+                body.classList.remove('dark-mode');
+                console.log('Removed dark-mode');
+            }
+        };
+        
+        // Set default to dark
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.add('dark-mode');
+        });
+    </script>
+</head>
+<body>
+    <h1>Theme Toggle Test</h1>
+    <p>Click the button below to toggle dark mode.</p>
+    <button id="theme-toggle" onclick="window.toggleTheme(event)">🌙 Toggle</button>
+    <p>If this works, the background should change from white to dark.</p>
+</body>
+</html>

@@ -195,13 +195,24 @@ class ApiService {
   // Contact
   async sendContactMessage(name, email, subject, message) {
     try {
-    const response = await fetch(`${API_BASE_URL}/contact`, {
-      method: 'POST',
-      headers: this.getHeaders(false),
-      body: JSON.stringify({ name, email, subject, message })
-    });
+      console.log('Sending contact message to:', `${API_BASE_URL}/contact`);
+      const response = await fetch(`${API_BASE_URL}/contact`, {
+        method: 'POST',
+        headers: this.getHeaders(false),
+        body: JSON.stringify({ name, email, subject, message })
+      });
+      
+      console.log('Contact response status:', response.status);
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+        console.error('Contact error response:', errorData);
+        throw new Error(errorData.error || errorData.message || `Server error: ${response.status}`);
+      }
+      
       return await this.handleResponse(response);
     } catch (error) {
+      console.error('Contact message error:', error);
       // If API is not available, throw a user-friendly error
       if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
         throw new Error('Unable to connect to server. Please check your connection or contact me directly via email.');

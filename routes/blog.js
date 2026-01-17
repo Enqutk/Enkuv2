@@ -85,6 +85,7 @@ router.post('/',
 
       // If file uploaded, use file path
       if (req.file) {
+        // On Vercel, files are in /tmp, but we serve them via /uploads route
         imageUrl = `/uploads/images/${req.file.filename}`;
       }
 
