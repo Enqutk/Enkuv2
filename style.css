@@ -4924,33 +4924,31 @@ body.dark-mode .blog-detail-title {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 1.5rem;
-  padding: 2rem 0;
-  margin: 2.5rem 0;
-  border-top: 2px solid rgba(0,0,0,0.08);
-  border-bottom: 2px solid rgba(0,0,0,0.08);
-  background: linear-gradient(90deg, transparent, rgba(184,134,11,0.02), transparent);
+  gap: 1rem;
+  padding: 1.5rem 0;
+  margin: 2rem 0;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
 }
 
 .blog-share-section {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
   flex-wrap: wrap;
 }
 
 .blog-share-label {
-  font-size: 0.875rem;
-  font-weight: 700;
+  font-size: 0.8125rem;
+  font-weight: 600;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  margin-right: 0.25rem;
 }
 
 .blog-share-buttons {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
   flex-wrap: wrap;
 }
 
@@ -4958,22 +4956,34 @@ body.dark-mode .blog-detail-title {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(0,0,0,0.1);
-  background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.08);
+  background: #fff;
   color: var(--muted);
   text-decoration: none;
-  transition: all 0.3s cubic-bezier(.2,.9,.3,1);
+  transition: all 0.25s ease;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  position: relative;
+  overflow: hidden;
 }
 
 .blog-share-btn:hover {
-  transform: translateY(-3px) scale(1.1);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   border-color: currentColor;
+}
+
+.blog-share-btn svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.25s ease;
+}
+
+.blog-share-btn:hover svg {
+  transform: scale(1.1);
 }
 
 .blog-share-btn.twitter {
@@ -5029,35 +5039,60 @@ body.dark-mode .blog-detail-title {
 .blog-like-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.625rem;
-  padding: 0.75rem 1.5rem;
-  border-radius: 50px;
-  border: 1.5px solid rgba(184,134,11,0.2);
-  background: linear-gradient(135deg, rgba(184,134,11,0.05) 0%, rgba(184,134,11,0.02) 100%);
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  border: 1px solid rgba(184,134,11,0.15);
+  background: rgba(184,134,11,0.04);
   color: var(--gold);
-  font-weight: 700;
-  font-size: 0.875rem;
+  font-weight: 600;
+  font-size: 0.8125rem;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(.2,.9,.3,1);
-  box-shadow: 0 2px 8px rgba(184,134,11,0.1);
+  transition: all 0.25s ease;
+  box-shadow: 0 1px 3px rgba(184,134,11,0.08);
 }
 
 .blog-like-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(184,134,11,0.2);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(184,134,11,0.15);
   border-color: var(--gold);
-  background: linear-gradient(135deg, rgba(184,134,11,0.1) 0%, rgba(184,134,11,0.05) 100%);
+  background: rgba(184,134,11,0.08);
+}
+
+.blog-like-btn svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.25s ease;
+}
+
+.blog-like-btn:hover svg {
+  transform: scale(1.1);
 }
 
 .blog-like-btn.liked {
-  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+  background: var(--gold);
   color: #0b0b0b;
   border-color: transparent;
-  box-shadow: 0 6px 20px rgba(184,134,11,0.3);
+  box-shadow: 0 2px 6px rgba(184,134,11,0.2);
+}
+
+.blog-like-btn.liked svg {
+  animation: heartPulse 0.4s ease;
+}
+
+@keyframes heartPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
 }
 
 .blog-like-btn.liked:hover {
-  box-shadow: 0 8px 24px rgba(184,134,11,0.4);
+  box-shadow: 0 3px 8px rgba(184,134,11,0.3);
+  transform: translateY(-1px);
+}
+
+.like-count {
+  font-size: 0.8125rem;
+  font-weight: 600;
 }
 
 .like-count {
@@ -5157,9 +5192,9 @@ body.dark-mode .blog-detail-title {
 
 .comment-post-btn,
 .reply-post-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
   border: none;
   background: var(--gold);
   color: #0b0b0b;
@@ -5169,14 +5204,31 @@ body.dark-mode .blog-detail-title {
   cursor: pointer;
   transition: all 0.2s ease;
   flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(184,134,11,0.2);
+  box-shadow: 0 1px 3px rgba(184,134,11,0.2);
 }
 
 .comment-post-btn:hover,
 .reply-post-btn:hover {
   background: var(--gold-dark);
-  transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(184,134,11,0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(184,134,11,0.3);
+}
+
+.comment-post-btn:active,
+.reply-post-btn:active {
+  transform: translateY(0);
+}
+
+.comment-post-btn svg,
+.reply-post-btn svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s ease;
+}
+
+.comment-post-btn:hover svg,
+.reply-post-btn:hover svg {
+  transform: translateX(1px);
 }
 
 .comment-post-btn:disabled,
@@ -5184,6 +5236,7 @@ body.dark-mode .blog-detail-title {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
+  box-shadow: 0 1px 2px rgba(184,134,11,0.15);
 }
 
 .comment-name-toggle,
@@ -5194,16 +5247,50 @@ body.dark-mode .blog-detail-title {
   font-size: 0.75rem;
   color: var(--muted);
   cursor: pointer;
-  padding: 0.25rem 0.5rem;
-  border-radius: 6px;
-  transition: all 0.2s ease;
+  padding: 0.375rem 0.625rem;
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(.2,.9,.3,1);
   margin-top: 0.25rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.comment-name-toggle::before,
+.reply-name-toggle::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(184,134,11,0.1);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease;
+}
+
+.comment-name-toggle:hover::before,
+.reply-name-toggle:hover::before {
+  width: 100%;
+  height: 100%;
 }
 
 .comment-name-toggle:hover,
 .reply-name-toggle:hover {
   color: var(--gold);
-  background: rgba(184,134,11,0.05);
+  transform: translateX(2px);
+}
+
+.comment-name-toggle svg,
+.reply-name-toggle svg {
+  transition: transform 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.comment-name-toggle:hover svg,
+.reply-name-toggle:hover svg {
+  transform: scale(1.15) rotate(5deg);
 }
 
 /* Comments List - Instagram/LinkedIn Style */
@@ -5226,8 +5313,8 @@ body.dark-mode .blog-detail-title {
 }
 
 .blog-comment-avatar {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
   color: #0b0b0b;
@@ -5235,15 +5322,27 @@ body.dark-mode .blog-detail-title {
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   flex-shrink: 0;
-  box-shadow: 0 2px 6px rgba(184,134,11,0.2);
+  box-shadow: 0 1px 3px rgba(184,134,11,0.2);
+  transition: all 0.2s ease;
+}
+
+.blog-comment-avatar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 5px rgba(184,134,11,0.3);
 }
 
 .blog-comment-avatar.small {
-  width: 24px;
-  height: 24px;
-  font-size: 0.75rem;
+  width: 20px;
+  height: 20px;
+  font-size: 0.625rem;
+  box-shadow: 0 1px 2px rgba(184,134,11,0.15);
+}
+
+.blog-comment-avatar.small:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 4px rgba(184,134,11,0.25);
 }
 
 .comment-content {
@@ -5301,8 +5400,18 @@ body.dark-mode .blog-detail-title {
 }
 
 .comment-action-btn:hover {
-  background: rgba(0,0,0,0.05);
   color: #050505;
+  background: rgba(0,0,0,0.04);
+}
+
+.comment-action-btn svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s ease;
+}
+
+.comment-action-btn:hover svg {
+  transform: scale(1.1);
 }
 
 .comment-action-btn.liked {
@@ -5311,11 +5420,28 @@ body.dark-mode .blog-detail-title {
 
 .comment-action-btn.liked svg {
   fill: currentColor;
+  animation: heartBeat 0.3s ease;
+}
+
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+.comment-action-btn.liked:hover {
+  color: #c2185b;
+  background: rgba(233,30,99,0.08);
+}
+
+.comment-action-btn.reply-btn:hover {
+  color: var(--gold);
+  background: rgba(184,134,11,0.08);
 }
 
 .action-count {
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   font-weight: 600;
+  margin-left: 0.125rem;
 }
 
 /* Replies - Instagram/LinkedIn Style */
