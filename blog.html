@@ -578,31 +578,7 @@
                     <!-- Image at top -->
                     ${imageHtml}
                     
-                    <!-- Header with username and menu -->
-                    <div class="ig-post-header">
-                        <div class="ig-post-user">
-                            <div class="ig-avatar">${username[0].toUpperCase()}</div>
-                            <span class="ig-username">${username}</span>
-                        </div>
-                        <button class="ig-menu-btn">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                <circle cx="12" cy="12" r="1.5"></circle>
-                                <circle cx="6" cy="12" r="1.5"></circle>
-                                <circle cx="18" cy="12" r="1.5"></circle>
-                            </svg>
-                        </button>
-                    </div>
-                    
-                    <!-- Caption -->
-                    <div class="ig-caption">
-                        <span class="ig-caption-username">${username}</span>
-                        <span class="ig-caption-text">${escapeHtml(blog.title)}</span>
-                    </div>
-                    <div class="ig-caption-content">
-                        ${formatBlogContent(blog.content)}
-                    </div>
-                    
-                    <!-- Action buttons (moved below content) -->
+                    <!-- Action buttons - Instagram style (right after image) -->
                     <div class="ig-post-actions">
                         <div class="ig-actions-left">
                             <button class="ig-action-btn ${isLiked ? 'liked' : ''}" onclick="toggleBlogLike('${id}')">
@@ -622,7 +598,7 @@
                                 </svg>
                             </button>
                         </div>
-                        <button class="ig-action-btn" onclick="toggleBookmark('${id}')">
+                        <button class="ig-action-btn ${isBookmarked ? 'bookmarked' : ''}" onclick="toggleBookmark('${id}')">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="${isBookmarked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" class="bookmark-icon">
                                 <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
                             </svg>
@@ -631,7 +607,18 @@
                     
                     <!-- Likes count -->
                     <div class="ig-likes">
-                        <strong>${likeCount > 0 ? likeCount : 'No'} ${likeCount === 1 ? 'like' : 'likes'}</strong>
+                        <strong class="like-count">${likeCount > 0 ? likeCount : 'No'} ${likeCount === 1 ? 'like' : 'likes'}</strong>
+                    </div>
+                    
+                    <!-- Caption with username and title -->
+                    <div class="ig-caption">
+                        <span class="ig-caption-username">${username}</span>
+                        <span class="ig-caption-text">${escapeHtml(blog.title)}</span>
+                    </div>
+                    
+                    <!-- Full description/content -->
+                    <div class="ig-caption-content">
+                        ${formatBlogContent(blog.content)}
                     </div>
                     
                     <!-- View comments link -->
@@ -908,20 +895,21 @@
                 localStorage.setItem('blog_likes', JSON.stringify(likes));
                 localStorage.setItem('blog_liked_posts', JSON.stringify(likedPosts));
                 
-                // Update UI - find button and likes count
-                const likeBtn = document.querySelector(`.ig-action-btn.liked, button[onclick*="toggleBlogLike"]`);
+                // Update UI - find the like button
+                const likeBtn = document.querySelector(`button[onclick*="toggleBlogLike"]`);
                 if (likeBtn) {
+                    const svg = likeBtn.querySelector('svg');
                     if (isLiked) {
                         likeBtn.classList.remove('liked');
-                        likeBtn.querySelector('svg').setAttribute('fill', 'none');
+                        if (svg) svg.setAttribute('fill', 'none');
                     } else {
                         likeBtn.classList.add('liked');
-                        likeBtn.querySelector('svg').setAttribute('fill', 'currentColor');
+                        if (svg) svg.setAttribute('fill', 'currentColor');
                     }
                 }
                 
                 // Update likes count
-                const likesDiv = document.querySelector('.ig-likes strong');
+                const likesDiv = document.querySelector('.ig-likes .like-count');
                 if (likesDiv) {
                     const count = likes[blogId] || 0;
                     likesDiv.textContent = `${count > 0 ? count : 'No'} ${count === 1 ? 'like' : 'likes'}`;
@@ -945,9 +933,11 @@
                 if (bookmarkBtn) {
                     const svg = bookmarkBtn.querySelector('svg');
                     if (isBookmarked) {
-                        svg.setAttribute('fill', 'none');
+                        bookmarkBtn.classList.remove('bookmarked');
+                        if (svg) svg.setAttribute('fill', 'none');
                     } else {
-                        svg.setAttribute('fill', 'currentColor');
+                        bookmarkBtn.classList.add('bookmarked');
+                        if (svg) svg.setAttribute('fill', 'currentColor');
                     }
                 }
                 

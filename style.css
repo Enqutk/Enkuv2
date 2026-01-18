@@ -4772,8 +4772,9 @@ body.dark-mode .blog-hero-title {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.375rem 0.75rem;
-  border-bottom: 1px solid #efefef;
+  padding: 0.5rem 1rem;
+  border-bottom: none;
+  margin-bottom: 0;
 }
 
 .ig-actions-left {
@@ -4798,8 +4799,18 @@ body.dark-mode .blog-hero-title {
   opacity: 0.6;
 }
 
-.ig-action-btn.liked {
+.ig-action-btn.liked,
+.ig-action-btn.bookmarked {
   color: #ed4956;
+}
+
+.ig-action-btn:hover {
+  opacity: 0.6;
+}
+
+.ig-action-btn:active {
+  opacity: 0.4;
+  transform: scale(0.95);
 }
 
 .ig-action-btn.liked svg {
@@ -4809,39 +4820,50 @@ body.dark-mode .blog-hero-title {
 
 /* Instagram Likes */
 .ig-likes {
-  padding: 0.375rem 1rem;
+  padding: 0 1rem 0.5rem;
   font-size: 0.875rem;
   font-weight: 600;
   color: #262626;
-  border-bottom: 1px solid #efefef;
+  border-bottom: none;
+}
+
+.ig-likes .like-count {
+  font-weight: 600;
 }
 
 /* Instagram Caption */
 .ig-caption {
-  padding: 0.375rem 1rem;
+  padding: 0 1rem 0.5rem;
   font-size: 0.875rem;
   line-height: 1.5;
   color: #262626;
-  border-bottom: 1px solid #efefef;
+  border-bottom: none;
 }
 
 .ig-caption-username {
   font-weight: 600;
   margin-right: 0.5rem;
-  color: #262626;
+  color: #262626 !important;
 }
 
 .ig-caption-text {
-  font-weight: 600;
-  color: #262626;
+  font-weight: 400;
+  color: #262626 !important;
 }
 
 .ig-caption-content {
-  padding: 0.375rem 1rem 0.75rem;
+  padding: 0 1rem 0.75rem;
   font-size: 0.875rem;
   line-height: 1.5;
-  color: #262626;
-  border-bottom: 1px solid #efefef;
+  color: #262626 !important;
+  border-bottom: none;
+}
+
+.ig-caption-content p,
+.ig-caption-content h2,
+.ig-caption-content h3,
+.ig-caption-content li {
+  color: #262626 !important;
 }
 
 /* Instagram View Comments */
