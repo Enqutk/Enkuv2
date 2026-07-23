@@ -5,410 +5,234 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Enku Taddesse — Portfolio</title>
 
-    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- CSS from GitHub CDN (temporary fix for Vercel static file issue) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Enqutk/Enkuv2@main/style.css">
-    <!-- Fallback to local if CDN fails -->
     <link rel="stylesheet" href="style.css" onerror="this.onerror=null; this.href='style.css';">
+    <link rel="stylesheet" href="minimal.css?v=4">
 
-    <!-- Apply theme immediately to prevent flash - DEFAULT TO DARK MODE -->
     <script>
-      // Global theme toggle function - works with inline onclick
       window.toggleTheme = function(e) {
-        console.log('toggleTheme called!');
-        if (e) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
-        
+        if (e) { e.preventDefault(); e.stopPropagation(); }
         const body = document.body;
         const html = document.documentElement;
         const toggle = document.getElementById('theme-toggle');
-        
-        console.log('Current body classes:', body.className);
         const isDark = !body.classList.contains('dark-mode');
-        console.log('Will set to dark mode:', isDark);
-        
         if (isDark) {
           body.classList.add('dark-mode');
           html.classList.add('dark-mode');
-          console.log('Added dark-mode class');
-          if (toggle) {
-            toggle.textContent = '☀️';
-            console.log('Updated toggle to sun');
-          }
+          if (toggle) toggle.textContent = '☀️';
           try {
             localStorage.setItem('theme', 'dark-mode');
             localStorage.setItem('theme_preference', 'dark');
-          } catch(err) {
-            console.error('localStorage error:', err);
-          }
+          } catch(err) {}
         } else {
           body.classList.remove('dark-mode');
           html.classList.remove('dark-mode');
-          console.log('Removed dark-mode class');
-          if (toggle) {
-            toggle.textContent = '🌙';
-            console.log('Updated toggle to moon');
-          }
+          if (toggle) toggle.textContent = '🌙';
           try {
             localStorage.setItem('theme', 'light-mode');
             localStorage.setItem('theme_preference', 'light');
-          } catch(err) {
-            console.error('localStorage error:', err);
-          }
+          } catch(err) {}
         }
-        console.log('Final body classes:', body.className);
       };
-      
-      // Make sure function is available immediately
-      console.log('toggleTheme function defined:', typeof window.toggleTheme);
-      
-      // Initialize theme on page load
+
       (function() {
         try {
           let theme = localStorage.getItem('theme');
           if (!theme) {
             const oldTheme = localStorage.getItem('theme_preference');
-            if (oldTheme === 'dark') {
-              theme = 'dark-mode';
-            } else if (oldTheme === 'light') {
-              theme = 'light-mode';
-            } else {
-              // DEFAULT TO DARK MODE if no preference exists
+            if (oldTheme === 'dark') theme = 'dark-mode';
+            else if (oldTheme === 'light') theme = 'light-mode';
+            else {
               theme = 'dark-mode';
               localStorage.setItem('theme', 'dark-mode');
               localStorage.setItem('theme_preference', 'dark');
             }
           }
-          
-          // Apply theme immediately
           if (theme === 'dark-mode') {
             document.documentElement.classList.add('dark-mode');
             document.body.classList.add('dark-mode');
           }
         } catch(e) {
-          // If localStorage fails, default to dark mode
           document.documentElement.classList.add('dark-mode');
           document.body.classList.add('dark-mode');
         }
       })();
-      
-      // Update button icon when DOM is ready
+
       function updateToggleIcon() {
         const toggle = document.getElementById('theme-toggle');
         if (toggle) {
-          if (document.body.classList.contains('dark-mode')) {
-            toggle.textContent = '☀️';
-          } else {
-            toggle.textContent = '🌙';
-          }
+          toggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
         } else {
           setTimeout(updateToggleIcon, 50);
         }
       }
-      
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', updateToggleIcon);
       } else {
         updateToggleIcon();
       }
     </script>
-
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
 
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-black fixed-top navbar-custom">
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-custom">
   <div class="container">
-    <a class="navbar-brand fw-bold" href="index.html">Enku Taddesse</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+    <a class="navbar-brand" href="index.html">Enku Taddesse</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="Menu">
       <span class="navbar-toggler-icon"></span>
     </button>
-
     <div class="collapse navbar-collapse" id="mainNav">
-                <button class="menu-close-btn d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="Close menu">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-                <ul class="navbar-nav ms-auto align-items-lg-center">
-                    <li class="nav-item">
-                      <a class="nav-link active" href="index.html">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                        </svg>
-                        <span>Home</span>
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="about.html">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                        </svg>
-                        <span>About</span>
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="projects.html">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                        </svg>
-                        <span>Projects</span>
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="blog.html">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                        </svg>
-                        <span>Blog</span>
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="gallery.html">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        <span>Gallery</span>
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="index.html#contact">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                        </svg>
-                        <span>Contact</span>
-                      </a>
-                    </li>
-                </ul>
-
-      
-      <div class="ms-3 d-flex align-items-center gap-2">
-        <a href="admin.html" id="admin-link" class="btn btn-gold btn-sm" style="display: none;">Admin Panel</a>
-        <button id="theme-toggle" class="btn btn-outline-light btn-sm rounded-square" title="Toggle theme" onclick="window.toggleTheme(event)">🌙</button>
+      <button class="menu-close-btn d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="Close menu">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="20" height="20">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="projects.html">Projects</a></li>
+        <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+        <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+      </ul>
+      <div class="ms-lg-3 d-flex align-items-center gap-2 mt-3 mt-lg-0">
+        <a href="admin.html" id="admin-link" class="btn btn-gold btn-sm" style="display: none;">Admin</a>
+        <button id="theme-toggle" class="btn btn-sm" title="Toggle theme" onclick="window.toggleTheme(event)">🌙</button>
       </div>
     </div>
   </div>
 </nav>
 
 
-<header id="home" class="hero hero-left py-2 py-lg-6">
+<header id="home" class="hero hero-left">
   <div class="container">
-    <div class="row align-items-center">
-  
-      <div class="col-lg-6">
+    <div class="row align-items-start gy-5">
+      <div class="col-lg-7">
         <div class="hero-inner">
-          
-          <h1 class="hero-title mb-3">
-            <span id="typed-text" aria-hidden="true"></span><span class="typed-cursor" aria-hidden="true">▍</span>
-          </h1>
-
-          <p class="hero-sub text-muted mb-2">
-            <span class="hero-role">Full Stack Developer</span>
+          <p class="ba-label mb-3">Portfolio</p>
+          <h1 class="hero-title mb-3">Enku Taddesse</h1>
+          <p class="hero-sub mb-3">
+            Full Stack Developer building useful, simple tools that solve real problems.
           </p>
-          
-          <div class="hero-location mb-2">
-            <small class="text-muted d-flex align-items-center gap-2">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                <circle cx="12" cy="10" r="3"></circle>
-              </svg>
-              <span>Dire Dawa University, Ethiopia</span>
-            </small>
+          <p class="text-muted mb-4" style="font-size:0.875rem;">Dire Dawa University, Ethiopia</p>
+          <div class="d-flex flex-wrap gap-2 mb-4">
+            <a href="projects.html" class="btn btn-gold">View Projects</a>
+            <a href="about.html" class="btn btn-outline-dark">About Me</a>
           </div>
-
-       
-          <blockquote class="hero-quote mb-3">
-            "I build useful, simple tools that solve real problems."
-          </blockquote>
-
-          <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start gap-2 mb-3">
-            <a href="projects.html" class="btn btn-gold btn-sm">View Projects</a>
-            <a href="about.html" class="btn btn-outline-dark btn-sm">About Me</a>
-          </div>
-
-          <div class="mt-4 d-flex flex-row gap-3 align-items-center justify-content-center justify-content-lg-start">
-            <a class="social-btn" href="https://t.me/your_channel" title="Telegram Channel" aria-label="Telegram Channel" target="_blank" rel="noopener">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.329-.913.489-1.302.481-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.648 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+          <div class="d-flex gap-2">
+            <a class="social-btn" href="https://t.me/your_channel" title="Telegram" aria-label="Telegram" target="_blank" rel="noopener">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.329-.913.489-1.302.481-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.648 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
             </a>
             <a class="social-btn" href="#" title="GitHub" aria-label="GitHub" target="_blank" rel="noopener">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
             </a>
             <a class="social-btn" href="mailto:enkukokob@gmail.com" title="Email" aria-label="Email">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             </a>
-          </div>
-          
-          <!-- Profile Card - Mobile only, under welcome text -->
-          <div class="text-center d-lg-none mt-4" id="hero-profile-mobile">
-            <div class="about-profile-card" style="max-width: 100%; margin: 0 auto;">
-              <div class="profile-image-wrapper">
-                <img src="profile.jpg" alt="Enku Taddesse" class="profile-img">
-                <div class="profile-badge">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
-                  </svg>
-                </div>
-              </div>
-              <div class="profile-info">
-                <h3 class="profile-name mb-2">Enku Taddesse</h3>
-                <p class="profile-role mb-3">Full Stack Developer · Core Team Lead</p>
-                <div class="profile-badges mb-4">
-                  <span class="badge badge-org">DDU ICT Club</span>
-                  <span class="badge badge-org">ABOL Solution</span>
-                </div>
-                <div class="profile-location mb-4">
-                  <svg class="location-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                    <circle cx="12" cy="10" r="3"></circle>
-                  </svg>
-                  <span class="location-text">Dire Dawa University, Ethiopia</span>
-                </div>
-                <div class="profile-actions d-flex flex-row gap-2 justify-content-center">
-                  <a href="Enku_Taddesse_CV.pdf" class="btn btn-outline-dark btn-sm">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;">
-                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                      <polyline points="14 2 14 8 20 8"></polyline>
-                      <line x1="16" y1="13" x2="8" y2="13"></line>
-                      <line x1="16" y1="17" x2="8" y2="17"></line>
-                    </svg>
-                    <span>Download CV</span>
-                  </a>
-                  <a href="index.html#contact" class="btn btn-gold btn-sm">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;">
-                      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                    </svg>
-                    <span>Contact Me</span>
-                  </a>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
 
-    
-      <div class="col-12 col-lg-6 mt-4 mt-lg-0">
-        <!-- Featured Posts Section -->
-        <div id="hero-featured-posts" class="hero-featured-posts" style="display: block;">
-          <h5 class="fw-bold mb-3">Featured Posts</h5>
-          <div id="hero-featured-list" class="hero-featured-list">
-            <!-- Featured posts will be loaded here -->
-            <div class="text-muted text-center py-3">Loading featured posts...</div>
-          </div>
+      <div class="col-lg-5">
+        <div id="hero-featured-posts" class="hero-featured-posts" style="display: none;">
+          <h5>Featured</h5>
+          <div id="hero-featured-list"></div>
         </div>
-        
-        <!-- Profile Image - Desktop only (show when no featured posts) -->
-        <div class="text-center" id="hero-profile-image" style="display: none;">
-          <div class="float-wrap mx-auto d-none d-lg-block" style="max-width:380px;">
-            <img src="profile.jpg" alt="Profile" class="hero-illustration parallax">
-          </div>
+        <div class="d-none d-lg-block" id="hero-profile-image">
+          <img src="profile.jpg" alt="Enku Taddesse" class="profile-img" style="width:100%; max-width:320px; aspect-ratio:1; object-fit:cover;">
         </div>
       </div>
     </div>
   </div>
-
-
-  <div class="hero-decor"></div>
 </header>
 
 
-<section id="about" class="py-5 bg-light">
+<section id="about">
   <div class="container">
-    <div class="row align-items-center gy-4">
-      
-      <div class="col-lg-4 text-center about-reveal d-none d-lg-block">
-        <img src="profile.jpg" alt="Profile" class="profile-img rounded-circle shadow-sm mb-3">
-        <h5 class="mb-1">Enku Taddesse</h5>
-        <p class="text-muted mb-2">Full Stack Developer · Core Team Lead</p>
-        <div class="d-flex justify-content-center gap-2">
+    <div class="ba-section-head">
+      <p class="ba-label">About</p>
+      <hr class="ba-line">
+      <a href="about.html" class="ba-action">More →</a>
+    </div>
+    <div class="row gy-4">
+      <div class="col-lg-3 d-none d-lg-block">
+        <img src="profile.jpg" alt="Profile" class="profile-img mb-3" style="width:100%; aspect-ratio:1; object-fit:cover;">
+        <h5 class="mb-1" style="font-size:1rem;">Enku Taddesse</h5>
+        <p class="text-muted mb-2" style="font-size:0.85rem;">Full Stack Developer</p>
+        <div class="d-flex flex-wrap gap-1 mb-3">
           <span class="badge badge-gold">DDU ICT Club</span>
-          <span class="badge bg-secondary">ABOL Solution</span>
+          <span class="badge badge-org">ABOL Solution</span>
         </div>
-        <div class="mt-3">
-          <a href="Enku_Taddesse_CV.pdf" class="btn btn-outline-dark btn-sm me-2">Download CV</a>
-          <a href="index.html#contact" class="btn btn-gold btn-sm">Contact Me</a>
-        </div>
+        <a href="Enku_Taddesse_CV.pdf" class="btn btn-outline-dark btn-sm me-1">CV</a>
+        <a href="#contact" class="btn btn-gold btn-sm">Contact</a>
       </div>
-
-      <div class="col-lg-5 about-reveal">
-        <h2 class="fw-bold">My Story</h2>
+      <div class="col-lg-6">
+        <h2 class="fw-bold mb-3" style="font-size:1.5rem;">My Story</h2>
         <p class="text-muted">I lead the DDU ICT Club core activities and mentor student developers — organizing study sessions, project-based learning and building useful tools for local communities. With 10 months of hands-on experience, I focus on creating practical solutions.</p>
-
-        <ul class="timeline mt-3">
+        <ul class="timeline">
           <li><strong>2025</strong> — Built LegnaPath mentorship features.</li>
           <li><strong>2025</strong> — CookBook Pro training & custom WordPress plugins.</li>
           <li><strong>2025</strong> — Memory Maze interactive game and reading system.</li>
         </ul>
-
-        <div class="stats-grid mt-4">
+        <div class="stats-grid">
           <div class="stat-item text-center">
-            <div class="stat-number h3 mb-1" id="stat-projects">0</div>
-            <small class="text-muted d-block">Projects</small>
+            <div class="stat-number" id="stat-projects">0</div>
+            <small class="text-muted">Projects</small>
           </div>
           <div class="stat-item text-center">
-            <div class="stat-number h3 mb-1" id="stat-clients">0</div>
-            <small class="text-muted d-block">Happy Clients</small>
+            <div class="stat-number" id="stat-clients">0</div>
+            <small class="text-muted">Clients</small>
           </div>
           <div class="stat-item text-center">
-            <div class="stat-number h3 mb-1" id="stat-experience">10</div>
-            <small class="text-muted d-block">Months Experience</small>
+            <div class="stat-number" id="stat-experience">10</div>
+            <small class="text-muted">Months</small>
           </div>
         </div>
       </div>
-
-      <div class="col-lg-3" id="skills-column">
-  
-      </div>
+      <div class="col-lg-3" id="skills-column"></div>
     </div>
   </div>
 </section>
 
 
-<section id="services" class="py-5">
+<section id="services">
   <div class="container">
-    <div class="text-center mb-5">
-      <h3 class="fw-bold">Services</h3>
-      <p class="text-muted">What I offer — focused, practical services with measurable results.</p>
+    <div class="ba-section-head">
+      <p class="ba-label">Services</p>
+      <hr class="ba-line">
     </div>
-
-    <div class="row g-4">
+    <div class="row g-3">
       <div class="col-md-4">
-        <div class="card service-card h-100 border-0 shadow-sm">
-          <div class="card-body text-center">
-           
-            <div class="mb-3 icon-wrap">
-              <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 7h18M3 12h18M3 17h18" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <div class="card service-card h-100">
+          <div class="card-body">
+            <div class="icon-wrap mb-3">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 7h18M3 12h18M3 17h18" stroke-width="1.6" stroke-linecap="round"/></svg>
             </div>
             <h5 class="card-title">Web Development</h5>
             <p class="card-text text-muted">Full stack sites, CMS plugins and web apps with clean UI and robust backends.</p>
           </div>
         </div>
       </div>
-
       <div class="col-md-4">
-        <div class="card service-card h-100 border-0 shadow-sm">
-          <div class="card-body text-center">
-            <div class="mb-3 icon-wrap">
-              <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v20M2 12h20" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <div class="card service-card h-100">
+          <div class="card-body">
+            <div class="icon-wrap mb-3">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v20M2 12h20" stroke-width="1.6" stroke-linecap="round"/></svg>
             </div>
             <h5 class="card-title">Product Design</h5>
             <p class="card-text text-muted">Simple, user-centered designs focused on clarity and usefulness for local needs.</p>
           </div>
         </div>
       </div>
-
       <div class="col-md-4">
-        <div class="card service-card h-100 border-0 shadow-sm">
-          <div class="card-body text-center">
-            <div class="mb-3 icon-wrap">
-              <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 6v6l4 2" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <div class="card service-card h-100">
+          <div class="card-body">
+            <div class="icon-wrap mb-3">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 6v6l4 2" stroke-width="1.6" stroke-linecap="round"/></svg>
             </div>
-            <h5 class="card-title">Mentorship & Training</h5>
+            <h5 class="card-title">Mentorship</h5>
             <p class="card-text text-muted">Workshops, guided projects and mentorship for students and junior developers.</p>
           </div>
         </div>
@@ -418,45 +242,33 @@
 </section>
 
 
-<section id="stack" class="py-5">
+<section id="stack">
   <div class="container">
-    <div class="text-center mb-4">
-      <h4 class="fw-bold section-title-animated">Tech Stack</h4>
-      <p class="text-muted">Technologies I use regularly — hover or tap to explore.</p>
+    <div class="ba-section-head">
+      <p class="ba-label">Tech Stack</p>
+      <hr class="ba-line">
     </div>
-
-    <div id="stack-grid" class="mx-auto">
-      
-    </div>
+    <div id="stack-grid" class="mx-auto"></div>
   </div>
 </section>
 
 
-<!-- Clients & Partners Section -->
-<section id="clients" class="py-5">
+<section id="clients">
   <div class="container">
-    <div class="text-center mb-5">
-      <h4 class="fw-bold section-title-animated mb-3">Clients & Partners</h4>
-      <p class="text-muted">Organizations and teams I've worked with — tap a logo for details</p>
+    <div class="ba-section-head">
+      <p class="ba-label">Clients & Partners</p>
+      <hr class="ba-line">
     </div>
-
-    <!-- Marquee for desktop (featured partners) -->
     <div class="clients-marquee mb-4 d-none d-lg-block">
       <div class="marquee-track" id="marquee-track"></div>
     </div>
-
-    <!-- Grid for all clients -->
-    <div id="clients-grid" class="row g-4 align-items-center justify-content-center"></div>
-
-    <!-- Mobile carousel -->
+    <div id="clients-grid" class="row g-3 align-items-center justify-content-center"></div>
     <div id="clients-carousel" class="d-lg-none mt-4"></div>
   </div>
-
- 
   <div class="modal fade" id="partnerModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-md modal-dialog-centered">
-      <div class="modal-content border-0 shadow-lg">
-        <div class="modal-body p-5 text-center">
+      <div class="modal-content">
+        <div class="modal-body p-4 text-center">
           <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
           <div id="partner-modal-content"></div>
         </div>
@@ -466,170 +278,100 @@
 </section>
 
 
-<!-- Projects Preview -->
-<section id="projects-preview" class="py-5 bg-white" style="display: none;">
+<section id="projects-preview" style="display: none;">
   <div class="container">
-    <div class="preview-section-header">
-      <div>
-        <h3 class="fw-bold mb-1">Featured Projects</h3>
-        <p class="text-muted mb-0">Selected work and prototypes</p>
-      </div>
-      <a href="projects.html" class="btn btn-outline-secondary">View All Projects</a>
+    <div class="ba-section-head">
+      <p class="ba-label">Projects</p>
+      <hr class="ba-line">
+      <a href="projects.html" class="ba-action">View all →</a>
     </div>
-    <div id="projects-preview-grid" class="row g-4">
-      <!-- Project previews will be loaded here -->
-    </div>
+    <div id="projects-preview-grid" class="row g-3"></div>
   </div>
 </section>
 
-<!-- Featured Blog Posts Preview -->
-<section id="blog-preview" class="py-5 bg-light">
+
+<section id="blog-preview">
   <div class="container">
-    <div class="preview-section-header">
-      <div>
-        <h3 class="fw-bold mb-1">Latest Blog Posts</h3>
-        <p class="text-muted mb-0">Recent thoughts and updates</p>
-      </div>
-      <a href="blog.html" class="btn btn-outline-secondary">View All Posts</a>
+    <div class="ba-section-head">
+      <p class="ba-label">Blog</p>
+      <hr class="ba-line">
+      <a href="blog.html" class="ba-action">View all →</a>
     </div>
-    <div id="blog-preview-grid" class="row g-4">
-      <!-- Blog previews will be loaded here -->
-    </div>
+    <div id="blog-preview-grid" class="row g-3"></div>
   </div>
 </section>
 
-<!-- Gallery Preview -->
-<section id="gallery-preview" class="py-5">
+
+<section id="gallery-preview">
   <div class="container">
-    <div class="preview-section-header">
-      <div>
-        <h3 class="fw-bold mb-1">Gallery</h3>
-        <p class="text-muted mb-0">Visual highlights and moments</p>
-      </div>
-      <a href="gallery.html" class="btn btn-outline-secondary">View Full Gallery</a>
+    <div class="ba-section-head">
+      <p class="ba-label">Gallery</p>
+      <hr class="ba-line">
+      <a href="gallery.html" class="ba-action">View all →</a>
     </div>
-    <div id="gallery-preview-grid" class="row g-4">
-      <!-- Gallery previews will be loaded here -->
-    </div>
+    <div id="gallery-preview-grid" class="row g-3"></div>
   </div>
 </section>
 
-<section id="testimonials" class="py-5">
+
+<section id="testimonials">
   <div class="container">
-    <div class="testimonials-header text-center mb-5">
-      <h2 class="testimonials-title mb-3">What People Say</h2>
-      <p class="testimonials-subtitle text-muted mb-4">Testimonials from clients, colleagues, and collaborators</p>
-      <button type="button" class="btn btn-gold btn-lg" data-bs-toggle="modal" data-bs-target="#testimonialModal">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 8px;">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-        </svg>
-        Give Testimony
-      </button>
+    <div class="ba-section-head">
+      <p class="ba-label">Testimonials</p>
+      <hr class="ba-line">
     </div>
-
-    <div id="testimonialsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4200" data-bs-wrap="true">
-      <div class="carousel-inner">
-        <!-- Testimonials will be loaded here -->
-      </div>
-
-      <div class="carousel-controls-wrapper">
-        <button class="carousel-control-prev testimonial-control" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="prev">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+      <p class="text-muted mb-0" style="font-size:0.95rem;">What clients and collaborators say</p>
+      <button type="button" class="btn btn-gold btn-sm" data-bs-toggle="modal" data-bs-target="#testimonialModal">Give Testimony</button>
+    </div>
+    <div id="testimonialsCarousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false" data-bs-wrap="true">
+      <div class="carousel-inner"></div>
+      <div class="carousel-controls-wrapper mt-3 d-flex gap-2">
+        <button class="carousel-control-prev testimonial-control position-relative" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="prev" style="left:0;">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next testimonial-control" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="next">
+        <button class="carousel-control-next testimonial-control position-relative" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="next" style="right:0;">
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
         </button>
       </div>
     </div>
-
   </div>
 </section>
 
-<!-- Testimonial Modal -->
+
 <div class="modal fade" id="testimonialModal" tabindex="-1" aria-hidden="true" aria-labelledby="testimonialModalLabel">
-  <div class="modal-dialog modal-dialog-centered testimonial-modal-dialog">
-    <div class="modal-content testimonial-modal-content border-0">
-      <div class="modal-header testimonial-modal-header border-0">
-        <div class="modal-header-content">
-          <div class="modal-icon-wrapper">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-            </svg>
-          </div>
-          <div>
-            <h5 class="modal-title fw-bold mb-1" id="testimonialModalLabel">Share Your Experience</h5>
-            <p class="modal-subtitle mb-0">Help others learn about working with me</p>
-          </div>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <div>
+          <h5 class="modal-title fw-bold mb-1" id="testimonialModalLabel">Share Your Experience</h5>
+          <p class="text-muted mb-0 small">Your testimonial will be reviewed before publishing</p>
         </div>
-        <button type="button" class="btn-close-modal" data-bs-dismiss="modal" aria-label="Close">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body testimonial-modal-body">
-        <div class="testimonial-info-box mb-4">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"></circle>
-            <line x1="12" y1="16" x2="12" y2="12"></line>
-            <line x1="12" y1="8" x2="12.01" y2="8"></line>
-          </svg>
-          <span>Your testimonial will be reviewed before being published</span>
-        </div>
+      <div class="modal-body">
         <form id="testimonial-form">
           <div class="row g-3">
             <div class="col-md-6">
-              <label for="testimonial-name" class="form-label fw-semibold">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="12" cy="7" r="4"></circle>
-                </svg>
-                Full Name <span class="text-danger">*</span>
-              </label>
-              <input type="text" class="form-control" id="testimonial-name" name="name" required placeholder="Enter your full name">
+              <label for="testimonial-name" class="form-label">Full Name *</label>
+              <input type="text" class="form-control" id="testimonial-name" name="name" required placeholder="Your name">
             </div>
             <div class="col-md-6">
-              <label for="testimonial-email" class="form-label fw-semibold">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="2" y="4" width="20" height="16" rx="2"></rect>
-                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-                </svg>
-                Email Address <span class="text-danger">*</span>
-              </label>
-              <input type="email" class="form-control" id="testimonial-email" name="email" required placeholder="your.email@example.com">
+              <label for="testimonial-email" class="form-label">Email *</label>
+              <input type="email" class="form-control" id="testimonial-email" name="email" required placeholder="you@example.com">
             </div>
             <div class="col-12">
-              <label for="testimonial-role" class="form-label fw-semibold">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="9" cy="7" r="4"></circle>
-                  <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                </svg>
-                Your Role/Title
-              </label>
-              <input type="text" class="form-control" id="testimonial-role" name="role" placeholder="e.g., CEO at Company, Client, Colleague">
+              <label for="testimonial-role" class="form-label">Role / Title</label>
+              <input type="text" class="form-control" id="testimonial-role" name="role" placeholder="e.g. Client, Colleague">
             </div>
             <div class="col-12">
-              <label for="testimonial-quote" class="form-label fw-semibold">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                </svg>
-                Your Testimonial <span class="text-danger">*</span>
-              </label>
-              <textarea class="form-control" id="testimonial-quote" name="quote" rows="4" required placeholder="Share your experience working with me..."></textarea>
-              <small class="form-text text-muted mt-1">Minimum 20 characters</small>
+              <label for="testimonial-quote" class="form-label">Testimonial *</label>
+              <textarea class="form-control" id="testimonial-quote" name="quote" rows="4" required placeholder="Share your experience..."></textarea>
             </div>
             <div class="col-12">
-              <label for="testimonial-rating" class="form-label fw-semibold">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                </svg>
-                Rating
-              </label>
+              <label for="testimonial-rating" class="form-label">Rating</label>
               <select class="form-select" id="testimonial-rating" name="rating">
                 <option value="5" selected>★★★★★ Excellent</option>
                 <option value="4">★★★★☆ Very Good</option>
@@ -639,9 +381,9 @@
               </select>
             </div>
           </div>
-          <div class="testimonial-form-actions mt-4">
+          <div class="mt-4">
             <button type="submit" class="btn btn-gold w-100 btn-submit-testimonial">
-              <span class="submit-text">Submit Testimonial</span>
+              <span class="submit-text">Submit</span>
               <span class="spinner-border spinner-border-sm d-none ms-2" role="status" aria-hidden="true"></span>
             </button>
             <div id="testimonial-message" class="mt-3"></div>
@@ -653,197 +395,110 @@
 </div>
 
 
-<section id="contact" class="py-5">
+<section id="contact">
   <div class="container">
-    <div class="contact-hero text-center mb-5">
-      <h2 class="contact-title mb-3">Get In Touch</h2>
-      <p class="contact-subtitle text-muted">Let's collaborate on your next project or discuss opportunities</p>
+    <div class="ba-section-head">
+      <p class="ba-label">Contact</p>
+      <hr class="ba-line">
     </div>
+    <p class="text-muted mb-4" style="max-width:36rem;">Let's collaborate on your next project or discuss opportunities.</p>
 
-    <div class="row justify-content-center">
-      <div class="col-lg-11">
-        <div class="contact-wrap">
-          <!-- Contact Form Section -->
-          <div class="contact-form-section">
-            <div class="contact-card">
-              <div class="contact-card-header mb-4">
-                <h3 class="contact-form-title mb-2">Send a Message</h3>
-                <p class="contact-form-subtitle text-muted">Fill out the form below and I'll get back to you as soon as possible.</p>
+    <div class="contact-wrap">
+      <div class="contact-form-section">
+        <h3 class="contact-form-title mb-3">Send a message</h3>
+        <form id="contact-form" novalidate>
+          <input type="text" name="hp_field" class="d-none" autocomplete="off" tabindex="-1" aria-hidden="true">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label" for="cf-name">Name</label>
+              <input id="cf-name" name="name" type="text" class="form-control form-input" required autocomplete="name" />
+              <div class="form-error" data-for="name" aria-live="polite"></div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="cf-email">Email</label>
+              <input id="cf-email" name="email" type="email" class="form-control form-input" required autocomplete="email" />
+              <div class="form-error" data-for="email" aria-live="polite"></div>
+            </div>
+            <div class="col-12">
+              <label class="form-label" for="cf-subject">Subject</label>
+              <input id="cf-subject" name="subject" type="text" class="form-control form-input" required />
+              <div class="form-error" data-for="subject" aria-live="polite"></div>
+            </div>
+            <div class="col-12">
+              <label class="form-label" for="cf-message">Message</label>
+              <textarea id="cf-message" name="message" rows="5" class="form-control form-input" required></textarea>
+              <div class="form-error" data-for="message" aria-live="polite"></div>
+            </div>
+            <div class="col-12">
+              <div class="d-flex align-items-start gap-2">
+                <input id="cf-consent" name="consent" type="checkbox" class="form-check-input mt-1" required />
+                <label for="cf-consent" class="form-check-label small text-muted">
+                  I agree to be contacted about this inquiry.
+                </label>
               </div>
-              
-              <form id="contact-form" novalidate>
-                <input type="text" name="hp_field" class="d-none" autocomplete="off" tabindex="-1" aria-hidden="true">
-
-                <div class="row g-4">
-                  <div class="col-md-6">
-                    <label class="form-field">
-                      <input id="cf-name" name="name" type="text" class="form-input" required autocomplete="name" />
-                      <span class="form-label">
-                        <svg class="form-label-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                          <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                        Your Name
-                      </span>
-                    </label>
-                    <div class="form-error" data-for="name" aria-live="polite"></div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <label class="form-field">
-                      <input id="cf-email" name="email" type="email" class="form-input" required autocomplete="email" />
-                      <span class="form-label">
-                        <svg class="form-label-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                          <polyline points="22,6 12,13 2,6"></polyline>
-                        </svg>
-                        Email Address
-                      </span>
-                    </label>
-                    <div class="form-error" data-for="email" aria-live="polite"></div>
-                  </div>
-
-                  <div class="col-12">
-                    <label class="form-field">
-                      <input id="cf-subject" name="subject" type="text" class="form-input" required />
-                      <span class="form-label">
-                        <svg class="form-label-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <line x1="3" y1="12" x2="21" y2="12"></line>
-                          <line x1="3" y1="6" x2="21" y2="6"></line>
-                          <line x1="3" y1="18" x2="21" y2="18"></line>
-                        </svg>
-                        Subject
-                      </span>
-                    </label>
-                    <div class="form-error" data-for="subject" aria-live="polite"></div>
-                  </div>
-
-                  <div class="col-12">
-                    <label class="form-field textarea">
-                      <textarea id="cf-message" name="message" rows="6" class="form-input" required placeholder=" "></textarea>
-                      <span class="form-label">
-                        <svg class="form-label-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                        </svg>
-                        Your Message
-                      </span>
-                    </label>
-                    <div class="form-error" data-for="message" aria-live="polite"></div>
-                  </div>
-
-                  <div class="col-12">
-                    <div class="form-consent d-flex align-items-start gap-2">
-                      <input id="cf-consent" name="consent" type="checkbox" class="form-check-input mt-1" required />
-                      <label for="cf-consent" class="form-check-label small text-muted">
-                        I agree to be contacted about this inquiry and understand that my information will be used to respond to my message.
-                      </label>
-                    </div>
-                    <div class="form-error" data-for="consent" aria-live="polite"></div>
-                  </div>
-
-                  <div class="col-12">
-                    <div class="contact-form-actions d-flex gap-3 flex-wrap">
-                      <button id="contact-send" type="submit" class="btn btn-gold btn-lg btn-submit">
-                        <span class="btn-icon" aria-hidden="true">✉️</span>
-                        <span class="btn-text">Send Message</span>
-                        <span class="btn-spinner spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
-                        <span class="btn-check d-none" aria-hidden="true">✓</span>
-                      </button>
-                      <button id="contact-reset" type="button" class="btn btn-outline-secondary btn-lg">Clear Form</button>
-                    </div>
-                  </div>
-                </div>
-              </form>
-
-              <div id="contact-result" class="mt-4" aria-live="polite"></div>
+              <div class="form-error" data-for="consent" aria-live="polite"></div>
+            </div>
+            <div class="col-12 d-flex gap-2 flex-wrap">
+              <button id="contact-send" type="submit" class="btn btn-gold btn-submit">
+                <span class="btn-text">Send Message</span>
+                <span class="btn-spinner spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                <span class="btn-check d-none" aria-hidden="true">✓</span>
+              </button>
+              <button id="contact-reset" type="button" class="btn btn-outline-secondary">Clear</button>
             </div>
           </div>
+        </form>
+        <div id="contact-result" class="mt-3" aria-live="polite"></div>
+      </div>
 
-          <!-- Contact Info Section -->
-          <div class="contact-info-section">
-            <div class="contact-info">
-              <div class="contact-info-header mb-4">
-                <h3 class="contact-info-title mb-2">Contact Information</h3>
-                <p class="contact-info-subtitle text-muted">Feel free to reach out through any of these channels</p>
-              </div>
-
-              <div class="info-list">
-                <div class="info-item">
-                  <div class="info-icon">📧</div>
-                  <div class="info-content">
-                    <strong class="info-label">Email</strong>
-                    <a href="mailto:enkukokob@gmail.com" class="info-value">enkukokob@gmail.com</a>
-                  </div>
-                </div>
-
-                <div class="info-item">
-                  <div class="info-icon">📱</div>
-                  <div class="info-content">
-                    <strong class="info-label">Phone</strong>
-                    <a href="tel:+251931727965" class="info-value">+251 931 727 965</a>
-                  </div>
-                </div>
-
-                <div class="info-item">
-                  <div class="info-icon">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                      <circle cx="12" cy="10" r="3"></circle>
-                    </svg>
-                  </div>
-                  <div class="info-content">
-                    <strong class="info-label">Location</strong>
-                    <div class="info-value">Dire Dawa University, Ethiopia</div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="contact-social-section mt-5">
-                <h6 class="contact-social-title mb-3">Connect With Me</h6>
-                <div class="contact-social-buttons d-flex gap-2 flex-wrap">
-                  <a class="social-btn-contact" href="https://t.me/your_channel" aria-label="Telegram Channel" target="_blank" rel="noopener" title="Telegram Channel">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.329-.913.489-1.302.481-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.648 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-                    <span>Telegram</span>
-                  </a>
-                  <a class="social-btn-contact" href="#" aria-label="GitHub" target="_blank" rel="noopener" title="GitHub">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                    <span>GitHub</span>
-                  </a>
-                </div>
-              </div>
-
-              <div class="contact-availability mt-5">
-                <div class="availability-card">
-                  <div class="availability-icon">⏰</div>
-                  <div class="availability-content">
-                    <strong>Response Time</strong>
-                    <p class="mb-0 small text-muted">I typically respond within 24-48 hours</p>
-                  </div>
-                </div>
-              </div>
+      <div class="contact-info-section">
+        <h3 class="contact-info-title mb-3">Details</h3>
+        <div class="info-list">
+          <div class="info-item">
+            <div class="info-content">
+              <strong class="info-label">Email</strong>
+              <a href="mailto:enkukokob@gmail.com" class="info-value">enkukokob@gmail.com</a>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-content">
+              <strong class="info-label">Phone</strong>
+              <a href="tel:+251931727965" class="info-value">+251 931 727 965</a>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-content">
+              <strong class="info-label">Location</strong>
+              <div class="info-value">Dire Dawa University, Ethiopia</div>
             </div>
           </div>
         </div>
+        <div class="mt-4">
+          <p class="info-label mb-2">Connect</p>
+          <div class="d-flex gap-2 flex-wrap">
+            <a class="social-btn-contact" href="https://t.me/your_channel" target="_blank" rel="noopener">Telegram</a>
+            <a class="social-btn-contact" href="#" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </div>
+        <p class="small text-muted mt-4 mb-0">Typically responds within 24–48 hours.</p>
       </div>
     </div>
   </div>
 </section>
 
 
-<footer class="py-4 bg-dark text-white">
+<footer>
   <div class="container text-center">
     <small>&copy; <span id="footer-year"></span> Enku Taddesse. All rights reserved.</small>
   </div>
 </footer>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Load JS files with CDN fallbacks -->
-    <script src="https://cdn.jsdelivr.net/gh/Enqutk/Enkuv2@main/data.js" onerror="this.onerror=null; this.src='data.js';"></script>
-    <script src="https://cdn.jsdelivr.net/gh/Enqutk/Enkuv2@main/js/api.js" onerror="this.onerror=null; this.src='js/api.js';"></script>
-    <script src="https://cdn.jsdelivr.net/gh/Enqutk/Enkuv2@main/script.js" onerror="this.onerror=null; this.src='script.js';"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Enqutk/Enkuv2@main/data.js" onerror="this.onerror=null; this.src='data.js';"></script>
+<script src="https://cdn.jsdelivr.net/gh/Enqutk/Enkuv2@main/js/api.js" onerror="this.onerror=null; this.src='js/api.js';"></script>
+<script src="script.js?v=3"></script>
 <script>
-  // Load blog and gallery previews on home page
   $(async function() {
     function escapeHtml(text) {
       const div = document.createElement('div');
@@ -851,7 +506,6 @@
       return div.innerHTML;
     }
 
-    // Load project previews (first 6 projects)
     const projects = [
       { id: 'legnapath', title: "LegnaPath Mentorship Platform", year: "2025", desc: "Mentorship features, match-making and micro-payments.", img: "assets/projects/legnapath.png", tags:['web'], collab:'team' },
       { id: 'custom-user-form', title: "Custom User Form Plugin", year: "2025", desc: "Shortcode based capture & management.", img: "assets/projects/custom-user-form.png", tags:['wp'], collab:'solo' },
@@ -868,178 +522,117 @@
     const $projectGrid = $('#projects-preview-grid');
     const $projectsSection = $('#projects-preview');
     $projectGrid.empty();
-    
-    // Filter for featured projects only
     const featuredProjects = projects.filter(project => project.featured === true);
-    
-    // Only show section if there are featured projects
     if (featuredProjects.length > 0) {
       $projectsSection.show();
-      const projectsToShow = featuredProjects.slice(0, 6);
-      projectsToShow.forEach(project => {
-      const $card = $(`
-        <div class="col-md-4 col-lg-3">
-          <div class="project-tile" style="cursor: pointer;" onclick="window.location.href='projects.html'">
-            <img src="${escapeHtml(project.img)}" alt="${escapeHtml(project.title)}" style="width: 100%; height: 220px; object-fit: cover; border-radius: 12px;">
-            <div class="project-overlay">
-              <div>
+      featuredProjects.slice(0, 6).forEach(project => {
+        $projectGrid.append(`
+          <div class="col-md-4 col-lg-3">
+            <div class="project-tile" style="cursor:pointer;" onclick="window.location.href='projects.html'">
+              <img src="${escapeHtml(project.img)}" alt="${escapeHtml(project.title)}" style="width:100%; height:200px; object-fit:cover;">
+              <div class="project-body p-3">
                 <div class="project-title">${escapeHtml(project.title)}</div>
-                <div class="small project-meta">${escapeHtml(project.year)} • ${escapeHtml(project.desc)}</div>
-              </div>
-            </div>
-            <div class="project-body d-md-none d-lg-block d-xl-block">
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <div class="project-title">${escapeHtml(project.title)}</div>
-                  <div class="text-muted project-meta">${escapeHtml(project.year)} • ${escapeHtml(project.tags.join(', '))}</div>
-                </div>
-                <span class="badge badge-collab ${project.collab==='team' ? 'team' : 'solo'}">${project.collab==='team' ? 'Team' : 'Individual'}</span>
+                <div class="text-muted small">${escapeHtml(project.year)}</div>
               </div>
             </div>
           </div>
-        </div>
-      `);
-      $projectGrid.append($card);
+        `);
       });
     } else {
-      // Hide featured projects section if no featured projects
       $projectsSection.hide();
     }
-    // Load featured posts in hero section
-    (async function() {
-      const $heroFeatured = $('#hero-featured-list');
-      const $heroFeaturedContainer = $('#hero-featured-posts');
-      let featuredBlogs = [];
-      
-      // Try API first, fallback to localStorage
-      try {
-        if (typeof api !== 'undefined' && api.getBlogPosts) {
-          const apiBlogs = await api.getBlogPosts(true, 3);
-          featuredBlogs = Array.isArray(apiBlogs) ? apiBlogs : [];
-        }
-      } catch (error) {
-        console.log('API not available, using localStorage');
-      }
-      
-      // Fallback to localStorage if API didn't work
-      if (featuredBlogs.length === 0) {
-        const allBlogsLocal = DataManager.getBlogs();
-        featuredBlogs = allBlogsLocal.filter(blog => blog.featured).slice(0, 3);
-      }
-    
-      if (featuredBlogs.length > 0) {
-        // Show featured posts
-        $heroFeatured.empty();
-        $heroFeaturedContainer.show();
-        // Desktop: hide profile when featured posts exist
-        if (window.innerWidth >= 992) {
-          $('#hero-profile-image').hide();
-        }
-        
-        featuredBlogs.forEach(blog => {
-          const dateStr = blog.date || blog.created_at || new Date().toISOString();
-          const date = new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-          const imageHtml = blog.image ? `<div class="hero-featured-image" style="background-image: url('${escapeHtml(blog.image)}');"></div>` : '';
-          const $item = $(`
-            <div class="hero-featured-item" onclick="window.location.href='blog.html?id=${blog.id}'">
-              ${imageHtml}
-              <div class="hero-featured-content">
-                <h6 class="hero-featured-title">${escapeHtml(blog.title)}</h6>
-                <p class="hero-featured-excerpt">${escapeHtml((blog.excerpt || blog.content || '').substring(0, 80))}...</p>
-                <div class="hero-featured-meta">
-                  <small class="text-muted">${date}</small>
-                  ${blog.category ? `<span class="badge bg-secondary ms-2">${escapeHtml(blog.category)}</span>` : ''}
-                </div>
-              </div>
-            </div>
-          `);
-          $heroFeatured.append($item);
-        });
-      } else {
-        // No featured posts - hide featured section and show profile image (desktop only)
-        $heroFeaturedContainer.hide();
-        if (window.innerWidth >= 992) {
-          $('#hero-profile-image').show();
-        }
-      }
-    })();
 
-    // Get all blogs for blog preview section
+    let featuredBlogs = [];
+    try {
+      if (typeof api !== 'undefined' && api.getBlogPosts) {
+        const apiBlogs = await api.getBlogPosts(true, 3);
+        featuredBlogs = Array.isArray(apiBlogs) ? apiBlogs : [];
+      }
+    } catch (error) {}
+    if (featuredBlogs.length === 0 && typeof DataManager !== 'undefined') {
+      featuredBlogs = DataManager.getBlogs().filter(blog => blog.featured).slice(0, 3);
+    }
+
+    const $heroFeatured = $('#hero-featured-list');
+    const $heroFeaturedContainer = $('#hero-featured-posts');
+    if (featuredBlogs.length > 0) {
+      $heroFeatured.empty();
+      $heroFeaturedContainer.show();
+      $('#hero-profile-image').hide();
+      featuredBlogs.forEach(blog => {
+        const dateStr = blog.date || blog.created_at || new Date().toISOString();
+        const date = new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        $heroFeatured.append(`
+          <div class="hero-featured-item p-3" style="cursor:pointer;" onclick="window.location.href='blog.html?id=${blog.id}'">
+            <h6 class="hero-featured-title mb-1">${escapeHtml(blog.title)}</h6>
+            <p class="hero-featured-excerpt text-muted small mb-1">${escapeHtml((blog.excerpt || blog.content || '').substring(0, 80))}...</p>
+            <small class="text-muted">${date}</small>
+          </div>
+        `);
+      });
+    } else {
+      $heroFeaturedContainer.hide();
+      if (window.innerWidth >= 992) $('#hero-profile-image').show();
+    }
+
     let allBlogs = [];
     try {
       if (typeof api !== 'undefined' && api.getBlogPosts) {
         const apiBlogs = await api.getBlogPosts(false, 10);
         allBlogs = Array.isArray(apiBlogs) ? apiBlogs : [];
       }
-    } catch (error) {
-      console.log('Using localStorage for blogs');
-    }
-    if (allBlogs.length === 0) {
+    } catch (error) {}
+    if (allBlogs.length === 0 && typeof DataManager !== 'undefined') {
       allBlogs = DataManager.getBlogs();
     }
 
-    // Load blog previews (non-featured, latest 3, or all if no featured exist)
     const nonFeaturedBlogs = allBlogs.filter(blog => !blog.featured).slice(0, 3);
     const $blogGrid = $('#blog-preview-grid');
     $blogGrid.empty();
-    
     if (nonFeaturedBlogs.length === 0 && featuredBlogs.length === 0) {
-      $blogGrid.html('<div class="col-12"><p class="text-muted text-center">No blog posts yet. Check back soon!</p></div>');
+      $blogGrid.html('<div class="col-12"><p class="text-muted">No blog posts yet.</p></div>');
     } else {
       (nonFeaturedBlogs.length > 0 ? nonFeaturedBlogs : allBlogs.slice(0, 3)).forEach(blog => {
         const date = new Date(blog.date).toLocaleDateString();
-        const featuredBadge = '';
-        const imageHtml = blog.image ? `<img src="${escapeHtml(blog.image)}" alt="${escapeHtml(blog.title)}" class="card-img-top" style="height: 320px; object-fit: contain; object-position: center; background-color: #f8f9fa;">` : '';
-        const $card = $(`
+        const imageHtml = blog.image
+          ? `<img src="${escapeHtml(blog.image)}" alt="${escapeHtml(blog.title)}" class="card-img-top" style="height:200px; object-fit:cover;">`
+          : '';
+        $blogGrid.append(`
           <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm project-tile" style="cursor: pointer;" onclick="window.location.href='blog.html?id=${blog.id}'">
-              <div class="position-relative">
-                ${imageHtml}
-                ${featuredBadge}
-              </div>
+            <div class="card h-100" style="cursor:pointer;" onclick="window.location.href='blog.html?id=${blog.id}'">
+              ${imageHtml}
               <div class="card-body">
-                <h5 class="card-title">${escapeHtml(blog.title)}</h5>
-                <p class="card-text text-muted small">${escapeHtml(blog.excerpt)}</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <small class="text-muted">${date}</small>
-                  ${blog.category ? `<span class="badge bg-secondary">${escapeHtml(blog.category)}</span>` : ''}
-                </div>
+                <h5 class="card-title" style="font-size:1rem;">${escapeHtml(blog.title)}</h5>
+                <p class="card-text text-muted small">${escapeHtml(blog.excerpt || '')}</p>
+                <small class="text-muted">${date}</small>
               </div>
             </div>
           </div>
         `);
-        $blogGrid.append($card);
       });
     }
 
-    // Load gallery previews (latest 6)
-    const gallery = DataManager.getGallery();
+    const gallery = typeof DataManager !== 'undefined' ? DataManager.getGallery() : [];
     const $galleryGrid = $('#gallery-preview-grid');
     $galleryGrid.empty();
-    
     const galleryToShow = gallery.slice(0, 6);
     if (galleryToShow.length === 0) {
-      $galleryGrid.html('<div class="col-12"><p class="text-muted text-center">No gallery items yet. Check back soon!</p></div>');
+      $galleryGrid.html('<div class="col-12"><p class="text-muted">No gallery items yet.</p></div>');
     } else {
       galleryToShow.forEach(item => {
-        const $card = $(`
+        $galleryGrid.append(`
           <div class="col-md-4 col-lg-3">
-            <div class="project-tile" style="cursor: pointer;" onclick="window.location.href='gallery.html'">
-              <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" style="width: 100%; height: 220px; object-fit: cover; border-radius: 12px;">
-              <div class="project-overlay">
-                <div>
-                  <div class="project-title">${escapeHtml(item.title)}</div>
-                  ${item.description ? `<div class="small project-meta">${escapeHtml(item.description.substring(0, 60))}...</div>` : ''}
-                </div>
+            <div class="project-tile" style="cursor:pointer;" onclick="window.location.href='gallery.html'">
+              <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" style="width:100%; height:200px; object-fit:cover;">
+              <div class="p-2">
+                <div class="project-title" style="font-size:0.9rem;">${escapeHtml(item.title)}</div>
               </div>
             </div>
           </div>
         `);
-        $galleryGrid.append($card);
       });
     }
 
-    // Check if user is logged in as admin and show admin link
     (async function() {
       if (typeof api !== 'undefined' && api.token) {
         try {
@@ -1047,10 +640,7 @@
           if (user && user.user && user.user.role === 'admin') {
             $('#admin-link').show();
           }
-        } catch (error) {
-          // Not logged in or not admin, hide the link
-          console.log('Admin check failed:', error);
-        }
+        } catch (error) {}
       }
     })();
   });
