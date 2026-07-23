@@ -166,16 +166,16 @@ $(function() {
   function loadProjects() {
   
     const projects = [
-      { id: 'legnapath', title: "LegnaPath Mentorship Platform", year: "2025", desc: "Mentorship features, match-making and micro-payments.", img: "assets/projects/legnapath.png", tags:['web'], collab:'team' },
-      { id: 'custom-user-form', title: "Custom User Form Plugin", year: "2025", desc: "Shortcode based capture & management.", img: "assets/projects/custom-user-form.png", tags:['wp'], collab:'solo' },
-      { id: 'food-ordering', title: "Food Ordering System", year: "2025", desc: "Ordering web app with guest checkout.", img: "assets/projects/food-ordering.png", tags:['web','mobile'], collab:'team' },
-      { id: 'memory-maze', title: "Memory Maze", year: "2025", desc: "Interactive memory game and book unlocks.", img: "assets/projects/memory-maze.png", tags:['game'], collab:'solo' },
-      { id: 'cookbook', title: "CookBook Pro", year: "2025", desc: "Recipe training web app.", img: "assets/projects/cookbook.png", tags:['web'], collab:'solo' },
-      { id: 'waste-collection', title: "Waste Collection App", year: "2025", desc: "Localized waste collection planning and mapping.", img: "assets/projects/waste-collection.png", tags:['web','mobile'], collab:'team' },
-      { id: 'freelance-dire', title: "Freelance Dire", year: "2025", desc: "Student hiring platform & community features.", img: "assets/projects/freelance-dire.png", tags:['web'], collab:'team' },
-      { id: 'keyboard-crush', title: "Keyboard Crush Pro", year: "2025", desc: "Typing speed and accuracy test platform.", img: "assets/projects/keyboard-crush.png", tags:['web','game'], collab:'solo' },
-      { id: 'java-delivery', title: "Online Food Delivery (Java)", year: "2025", desc: "OOP simulation of delivery process.", img: "assets/projects/java-delivery.png", tags:['java'], collab:'solo' },
-      { id: 'memory-reading', title: "Memory Based Reading System", year: "2025", desc: "Book unlocking app based on recall.", img: "assets/projects/memory-reading.png", tags:['web'], collab:'solo' }
+      { id: 'legnapath', title: "LegnaPath Mentorship Platform", year: "2025", desc: "Mentorship features, match-making and micro-payments.", img: "assets/projects/legnapath.png", tags:['web'], collab:'team', github: 'https://github.com/Enqutk' },
+      { id: 'custom-user-form', title: "Custom User Form Plugin", year: "2025", desc: "Shortcode based capture & management.", img: "assets/projects/custom-user-form.png", tags:['wp'], collab:'solo', github: 'https://github.com/Enqutk' },
+      { id: 'food-ordering', title: "Food Ordering System", year: "2025", desc: "Ordering web app with guest checkout.", img: "assets/projects/food-ordering.png", tags:['web','mobile'], collab:'team', github: 'https://github.com/Enqutk/shopping' },
+      { id: 'memory-maze', title: "Memory Maze", year: "2025", desc: "Interactive memory game and book unlocks.", img: "assets/projects/memory-maze.png", tags:['game'], collab:'solo', github: 'https://github.com/Enqutk/memory_maze' },
+      { id: 'cookbook', title: "CookBook Pro", year: "2025", desc: "Recipe training web app.", img: "assets/projects/cookbook.png", tags:['web'], collab:'solo', github: 'https://github.com/Enqutk' },
+      { id: 'waste-collection', title: "Waste Collection App", year: "2025", desc: "Localized waste collection planning and mapping.", img: "assets/projects/waste-collection.png", tags:['web','mobile'], collab:'team', github: 'https://github.com/Enqutk' },
+      { id: 'freelance-dire', title: "Freelance Dire", year: "2025", desc: "Student hiring platform & community features.", img: "assets/projects/freelance-dire.png", tags:['web'], collab:'team', github: 'https://github.com/Enqutk/jeffery-job' },
+      { id: 'keyboard-crush', title: "Keyboard Crush Pro", year: "2025", desc: "Typing speed and accuracy test platform.", img: "assets/projects/keyboard-crush.png", tags:['web','game'], collab:'solo', github: 'https://github.com/Enqutk/Keyboard-crush-pro' },
+      { id: 'java-delivery', title: "Online Food Delivery (Java)", year: "2025", desc: "OOP simulation of delivery process.", img: "assets/projects/java-delivery.png", tags:['java'], collab:'solo', github: 'https://github.com/Enqutk' },
+      { id: 'memory-reading', title: "Memory Based Reading System", year: "2025", desc: "Book unlocking app based on recall.", img: "assets/projects/memory-reading.png", tags:['web'], collab:'solo', github: 'https://github.com/Enqutk/ReadItOut' }
     ];
 
     const $grid = $('#projects-grid');
@@ -198,7 +198,12 @@ $(function() {
             <div class="project-meta">${escapeHtml(p.year)} • ${escapeHtml(p.tags.join(', '))}</div>
             <div class="project-footer">
               <div class="project-tags-small">${tagsList}</div>
-              <span class="badge badge-collab ${p.collab==='team' ? 'team' : 'solo'}">${p.collab==='team' ? 'Team' : 'Individual'}</span>
+              <div class="d-flex align-items-center gap-2">
+                <a class="project-github-link" href="${p.github || 'https://github.com/Enqutk'}" target="_blank" rel="noopener" title="View on GitHub" aria-label="GitHub" onclick="event.stopPropagation()">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                </a>
+                <span class="badge badge-collab ${p.collab==='team' ? 'team' : 'solo'}">${p.collab==='team' ? 'Team' : 'Individual'}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -254,7 +259,7 @@ $(function() {
             <p>Key features include responsive design, user-friendly interface, and robust functionality that addresses real-world needs.</p>
           </div>
           <div class="proj-actions">
-            <a class="btn btn-outline-secondary" href="#" onclick="return false;">View Repository</a>
+            <a class="btn btn-gold" href="${proj.github || 'https://github.com/Enqutk'}" target="_blank" rel="noopener">View on GitHub</a>
           </div>
         </div>
       `;
@@ -350,75 +355,26 @@ $(function() {
 
     let $col = $('#skills-column');
     if (!$col.length) return;
-    let html = '<div class="row g-4">';
-    skills.forEach((s, i) => {
-      html += `
-        <div class="col-md-6">
-          <div class="skill-entry" data-percent="${s.percent}">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <span class="fw-bold skill-name">${s.name}</span>
-              <span class="percent-value">0%</span>
-            </div>
-            <div class="skill-progress progress">
-              <div class="progress-bar" role="progressbar" style="width:0%" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
+
+    const rows = skills.map(s => `
+      <div class="skill-entry visible" data-percent="${s.percent}">
+        <div class="skill-meta">
+          <span class="skill-name">${escapeHtml(s.name)}</span>
+          <span class="percent-value">${s.percent}%</span>
         </div>
-      `;
-    });
-    html += '</div>';
-    $col.html(html);
+        <div class="skill-progress">
+          <div class="progress-bar" style="width:${s.percent}%" role="progressbar" aria-valuenow="${s.percent}" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+      </div>
+    `).join('');
 
-    const container = document.querySelector('#skills-column');
-    const entries = container.querySelectorAll('.skill-entry');
-
-    function animateAll() {
-      entries.forEach((el, i) => {
-        setTimeout(() => {
-          const $el = $(el);
-          $el.addClass('visible');
-          const p = Number($el.data('percent')) || 0;
-          const $bar = $el.find('.progress-bar');
-          const $label = $el.find('.percent-value');
-
-         
-          $bar[0].offsetWidth;
-          $bar.css('width', p + '%').attr('aria-valuenow', p);
-
-          $({ val: 0 }).animate({ val: p }, {
-            duration: 900,
-            easing: 'swing',
-            step(now){ $label.text(Math.floor(now) + '%'); },
-            complete(){ $label.text(p + '%'); }
-          });
-        }, i * 130);
-      });
-    }
-
-    if ('IntersectionObserver' in window) {
-      const obs = new IntersectionObserver((entriesObs, o) => {
-        entriesObs.forEach(en => {
-          if (en.isIntersecting) {
-            animateAll();
-            o.disconnect();
-          }
-        });
-      }, { threshold: 0.25 });
-      obs.observe(container);
-    } else {
-     
-      setTimeout(animateAll, 400);
-    }
+    $col.html(`<div class="skills-list">${rows}</div>`);
   }
 
  
   function animateCounter($el, to) {
-    $({ val: 0 }).animate({ val: to }, {
-      duration: 900,
-      easing: 'swing',
-      step(now){ $el.text(Math.floor(now)); },
-      complete(){ $el.text(to); }
-    });
+    // Minimal UI: set instantly, no count-up
+    if ($el && $el.length) $el.text(String(to));
   }
   function updateStats(projects, clients) {
     animateCounter($('#stat-projects'), projects || 11);
@@ -634,69 +590,12 @@ $(function(){
 
 
 $(function() {
- 
-  (function typingEffect() {
-    const text = "Welcome to My Portfolio";
-    const $target = $('#typed-text');
-    const $cursor = $('.typed-cursor');
-    if (!$target.length) return;
-    let i = 0;
-    const speed = 55; 
-    $target.text(''); $cursor.show();
-    const typer = setInterval(() => {
-      $target.text($target.text() + text.charAt(i));
-      i++;
-      if (i >= text.length) {
-        clearInterval(typer);
-      
-        setTimeout(() => $cursor.fadeOut(600), 700);
-      }
-    }, speed);
-  })();
-
- 
-  (function parallaxIllustration() {
-    const $hero = $('.hero');
-    const $par = $('.parallax');
-    if (!$hero.length || !$par.length) return;
-
-    let raf = null;
-    let lastX = 0, lastY = 0;
-
-    function updateTransform() {
-      // gentle easing toward target
-      const tx = lastX;
-      const ty = lastY;
-      // scale down the movement a bit
-      $par.css('transform', `translate3d(${tx}px, ${ty}px, 0) rotate(${tx * 0.08}deg)`);
-      raf = null;
-    }
-
-    function onPointerMove(e) {
-      const rect = $hero[0].getBoundingClientRect();
-      // use clientX/clientY for mouse and touch (pointer events handled)
-      const x = e.clientX || (e.touches && e.touches[0] && e.touches[0].clientX) || (rect.left + rect.width/2);
-      const y = e.clientY || (e.touches && e.touches[0] && e.touches[0].clientY) || (rect.top + rect.height/2);
-      const px = (x - rect.left) / rect.width - 0.5; // -0.5..0.5
-      const py = (y - rect.top) / rect.height - 0.5;
-      // target offsets (px * scale)
-      lastX = px * 26; // horizontal movement
-      lastY = py * 10; // vertical movement
-      if (!raf) raf = requestAnimationFrame(updateTransform);
-    }
-
-    function resetParallax() {
-      lastX = 0; lastY = 0;
-      if (!raf) raf = requestAnimationFrame(updateTransform);
-    }
-
-    // pointer events (covers mouse + touch)
-    $hero.on('pointermove', onPointerMove);
-    $hero.on('pointerleave pointercancel', resetParallax);
-    // Also add touch handlers for older devices
-    $hero.on('touchmove', onPointerMove);
-    $hero.on('touchend touchcancel', resetParallax);
-  })();
+  // Minimal UI: no typing / parallax motion
+  const $target = $('#typed-text');
+  if ($target.length && !$target.text().trim()) {
+    $target.text('Enku Taddesse');
+  }
+  $('.typed-cursor').hide();
 });
 
 // reveal About section elements and trigger stats when visible
@@ -722,134 +621,20 @@ $(function() {
   targets.forEach(t => obs.observe(t));
 })();
 
-// Animate & reveal services with IntersectionObserver + small pointer tilt
+// Animate & reveal services — minimal UI: show immediately, no tilt
 (function servicesRevealAndTilt() {
   const serviceCards = Array.from(document.querySelectorAll('.service-card'));
   if (!serviceCards.length) return;
-
-  // IntersectionObserver to add .visible with small stagger
-  if ('IntersectionObserver' in window) {
-    const obs = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          // reveal children with stagger
-          const cards = Array.from(document.querySelectorAll('.service-card'));
-          cards.forEach((card, i) => {
-            setTimeout(() => card.classList.add('visible'), i * 120);
-          });
-          observer.disconnect();
-        }
-      });
-    }, { threshold: 0.18 });
-    obs.observe(document.querySelector('#services') || document.body);
-  } else {
-    // fallback: reveal after short delay
-    setTimeout(() => serviceCards.forEach((c,i) => setTimeout(()=>c.classList.add('visible'), i*120)), 300);
-  }
-
-  // Pointer/touch tilt for each card (subtle)
-  serviceCards.forEach(card => {
-    function onMove(e) {
-      const rect = card.getBoundingClientRect();
-      const clientX = (e.clientX !== undefined) ? e.clientX : (e.touches && e.touches[0] && e.touches[0].clientX);
-      const clientY = (e.clientY !== undefined) ? e.clientY : (e.touches && e.touches[0] && e.touches[0].clientY);
-      if (!clientX) return;
-      const px = (clientX - rect.left) / rect.width - 0.5; // -0.5..0.5
-      const py = (clientY - rect.top) / rect.height - 0.5;
-      const rx = (-py * 6).toFixed(2); // rotateX
-      const ry = (px * 6).toFixed(2);  // rotateY
-      const sx = 1.008;
-      card.style.transform = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(0) scale(${sx})`;
-      card.classList.add('tilt');
-    }
-    function onLeave() {
-      card.style.transform = '';
-      card.classList.remove('tilt');
-    }
-    card.addEventListener('pointermove', onMove, { passive: true });
-    card.addEventListener('pointerleave', onLeave);
-    card.addEventListener('touchmove', onMove, { passive: true });
-    card.addEventListener('touchend', onLeave);
-  });
+  serviceCards.forEach(card => card.classList.add('visible'));
 })();
 
-// About section enhanced animations: photo float + pointer parallax and staggered text reveal
+// About section — minimal UI: no float / parallax / stagger
 (function aboutPhotoAndTextAnimation() {
   const aboutEl = document.getElementById('about');
   if (!aboutEl) return;
-
-  const photo = aboutEl.querySelector('.profile-img') || aboutEl.querySelector('.about-photo') || null;
-  const textContainer = aboutEl.querySelector('.about-reveal') || aboutEl; // fallback
-  // build list of text nodes to animate: heading, paragraphs, timeline items, stats
-  const textItems = [];
-  const heading = aboutEl.querySelector('h2');
-  if (heading) textItems.push(heading);
-  const paragraphs = Array.from(aboutEl.querySelectorAll('p'));
-  paragraphs.forEach(p => textItems.push(p));
-  const timelineItems = Array.from(aboutEl.querySelectorAll('.timeline li'));
-  timelineItems.forEach(li => textItems.push(li));
-  const stats = Array.from(aboutEl.querySelectorAll('.stat-number'));
-  stats.forEach(s => textItems.push(s));
-
-  // ensure elements have helper classes for CSS
-  textItems.forEach(el => el.classList.add('text-reveal'));
-
-  // IntersectionObserver trigger
-  const obs = ('IntersectionObserver' in window) ? new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      // photo: add float + visible
-      if (photo) {
-        photo.classList.add('float', 'visible');
-      }
-
-      // stagger text reveal
-      textItems.forEach((el, i) => {
-        setTimeout(() => el.classList.add('visible'), i * 110);
-      });
-
-      // initialize a simple pointer parallax on the photo (mouse + touch)
-      if (photo) {
-        let raf = null;
-        let lastX = 0, lastY = 0;
-        function update() {
-          photo.style.transform = `translate3d(${lastX}px, ${lastY}px, 0) rotate(${lastX * 0.06}deg)`;
-          raf = null;
-        }
-        function onPointer(e) {
-          const rect = aboutEl.getBoundingClientRect();
-          const x = (e.clientX !== undefined) ? e.clientX : (e.touches && e.touches[0] && e.touches[0].clientX);
-          const y = (e.clientY !== undefined) ? e.clientY : (e.touches && e.touches[0] && e.touches[0].clientY);
-          if (x == null || y == null) return;
-          const px = (x - rect.left) / rect.width - 0.5;
-          const py = (y - rect.top) / rect.height - 0.5;
-          lastX = px * 16;
-          lastY = py * 8;
-          if (!raf) raf = requestAnimationFrame(update);
-        }
-        function reset() {
-          lastX = 0; lastY = 0;
-          if (!raf) raf = requestAnimationFrame(update);
-        }
-        aboutEl.addEventListener('pointermove', onPointer);
-        aboutEl.addEventListener('pointerleave', reset);
-        aboutEl.addEventListener('touchmove', onPointer, { passive: true });
-        aboutEl.addEventListener('touchend', reset);
-      }
-
-      observer.disconnect();
-    });
-  }, { threshold: 0.2 }) : null;
-
-  if (obs) {
-    obs.observe(aboutEl);
-  } else {
-    // fallback: run animations after short delay
-    setTimeout(() => {
-      if (photo) photo.classList.add('float','visible');
-      textItems.forEach((el,i) => setTimeout(()=>el.classList.add('visible'), i*110));
-    }, 300);
-  }
+  aboutEl.querySelectorAll('.text-reveal, .profile-img, h2, p, .timeline li, .stat-number').forEach(el => {
+    el.classList.add('visible');
+  });
 })();
 
 // reveal hero inner and quote when hero is visible
@@ -858,21 +643,8 @@ $(function() {
   if (!hero) return;
   const quote = hero.querySelector('.hero-quote');
   const inner = hero.querySelector('.hero-inner');
-  if (!('IntersectionObserver' in window)) {
-    if (quote) quote.classList.add('visible');
-    if (inner) inner.classList.add('visible');
-    return;
-  }
-  const obs = new IntersectionObserver((entries, o) => {
-    entries.forEach(en => {
-      if (en.isIntersecting) {
-        if (quote) quote.classList.add('visible');
-        if (inner) inner.classList.add('visible');
-        o.disconnect();
-      }
-    });
-  }, { threshold: 0.2 });
-  obs.observe(hero);
+  if (quote) quote.classList.add('visible');
+  if (inner) inner.classList.add('visible');
 })();
 
 // Tech Stack loader: randomized sizes, rotation and packing
@@ -907,205 +679,13 @@ function loadStack() {
   }).join('');
   $grid.html(html);
 
-  // apply random rotation/offset and reveal
-  const items = Array.from(document.querySelectorAll('#stack-grid .stack-item'));
-  const isMobile = window.innerWidth <= 576;
-  const gridRect = $grid[0]?.getBoundingClientRect();
-  const gridWidth = isMobile && gridRect ? gridRect.width - 40 : 0;
-  const gridHeight = isMobile && gridRect ? Math.max(600, items.length * 100) : 0;
-  
-  // Track placed items for overlap detection on mobile
-  const placedItems = [];
-  
-  items.forEach((el,i) => {
-    const rot = (Math.random()*16 - 8).toFixed(2);
-    let tx, ty;
-    
-    if (isMobile) {
-      // Random positioning on mobile with overlap avoidance, keeping items close together
-      const itemWidth = el.classList.contains('size-lg') ? 110 : el.classList.contains('size-md') ? 90 : 70;
-      const itemHeight = itemWidth;
-      
-      // Use a tighter container area to keep items grouped
-      const containerPadding = 20;
-      const maxX = Math.max(0, gridWidth - itemWidth - containerPadding * 2);
-      const maxY = Math.max(0, gridHeight - itemHeight - containerPadding * 2);
-      
-      // If no items placed yet, start from a central/random position
-      if (placedItems.length === 0) {
-        tx = containerPadding + Math.random() * Math.min(maxX, 200); // Keep first items in a smaller area
-        ty = containerPadding + Math.random() * Math.min(maxY, 300);
-      } else {
-        // For subsequent items, try placing near existing items
-        const baseItem = placedItems[Math.floor(Math.random() * placedItems.length)];
-        const clusterRadius = 150; // Maximum distance from base item
-        const angle = Math.random() * Math.PI * 2;
-        const distance = Math.random() * clusterRadius;
-        
-        tx = baseItem.x + Math.cos(angle) * distance;
-        ty = baseItem.y + Math.sin(angle) * distance;
-        
-        // Constrain to grid bounds
-        tx = Math.max(containerPadding, Math.min(maxX + containerPadding, tx));
-        ty = Math.max(containerPadding, Math.min(maxY + containerPadding, ty));
-      }
-      
-      // Try to find a non-overlapping position near the calculated position
-      let attempts = 0;
-      let foundPosition = false;
-      const searchRadius = 80; // Smaller search radius for tighter grouping
-      
-      while (attempts < 30 && !foundPosition) {
-        if (attempts > 0) {
-          // Slightly randomize position if first attempt overlapped
-          const offsetX = (Math.random() - 0.5) * searchRadius;
-          const offsetY = (Math.random() - 0.5) * searchRadius;
-          tx = Math.max(containerPadding, Math.min(maxX + containerPadding, tx + offsetX));
-          ty = Math.max(containerPadding, Math.min(maxY + containerPadding, ty + offsetY));
-        }
-        
-        // Check for overlaps with already placed items (reduced padding for closer placement)
-        const overlaps = placedItems.some(placed => {
-          const dx = Math.abs(tx - placed.x);
-          const dy = Math.abs(ty - placed.y);
-          const minDistance = (itemWidth + placed.width) / 2 + 5; // Reduced from 10px to 5px padding
-          return dx < minDistance && dy < minDistance;
-        });
-        
-        if (!overlaps) {
-          foundPosition = true;
-          placedItems.push({ x: tx, y: ty, width: itemWidth, height: itemHeight });
-        }
-        attempts++;
-      }
-      
-      // If still overlapping after attempts, use the position anyway (they'll be close)
-      if (!foundPosition) {
-        placedItems.push({ x: tx, y: ty, width: itemWidth, height: itemHeight });
-      }
-      
-      el.style.left = tx.toFixed(1) + 'px';
-      el.style.top = ty.toFixed(1) + 'px';
-      el.style.transform = `rotate(${rot}deg) scale(.98)`;
-    } else {
-      // Desktop: subtle offset
-      tx = (Math.random()*14 - 7).toFixed(1);
-      ty = (Math.random()*10 - 5).toFixed(1);
-      el.style.transform = `translate3d(${tx}px, ${ty}px,0) rotate(${rot}deg) scale(.98)`;
-    }
-    
-    el.setAttribute('data-rot', rot);
-
-    setTimeout(() => {
-      el.classList.add('visible');
-      if (isMobile) {
-        // Mobile: settle to lighter rotation
-        const sRot = (rot * 0.45).toFixed(2);
-        el.style.transition = 'transform 650ms cubic-bezier(.2,.9,.3,1), box-shadow .28s';
-        el.style.transform = `rotate(${sRot}deg) scale(1)`;
-      } else {
-        // Desktop: settle to lighter offset
-        const sTx = (tx * 0.45).toFixed(1), sTy = (ty * 0.45).toFixed(1), sRot = (rot * 0.45).toFixed(2);
-        el.style.transition = 'transform 650ms cubic-bezier(.2,.9,.3,1), box-shadow .28s';
-        el.style.transform = `translate3d(${sTx}px, ${sTy}px,0) rotate(${sRot}deg) scale(1)`;
-      }
-      setTimeout(()=> el.classList.add('float'), 600 + i*40);
-    }, 120 + i*80);
-  });
-  
-  // Update grid height on mobile
-  if (isMobile && gridRect) {
-    const maxBottom = Math.max(...items.map(el => {
-      const rect = el.getBoundingClientRect();
-      return rect.bottom - gridRect.top;
-    }));
-    if (maxBottom > 0) {
-      $grid[0].style.minHeight = (maxBottom + 40) + 'px';
-    }
-  }
-
-  // pointer parallax / tilt
-  items.forEach(item => {
-    let raf=null, tx=0, ty=0;
-    const isMobileItem = window.innerWidth <= 576;
-    function apply(){ 
-      const base = parseFloat(item.getAttribute('data-rot')||'0');
-      if (isMobileItem) {
-        item.style.transform = `rotate(${(base + (tx*0.12)).toFixed(2)}deg) scale(1.02)`;
-      } else {
-        item.style.transform = `translate3d(${tx}px, ${ty}px,0) rotate(${(base + (tx*0.12)).toFixed(2)}deg) scale(1.02)`;
-      }
-      raf=null; 
-    }
-    function onMove(e){
-      const rect=item.getBoundingClientRect();
-      const cx = e.clientX !== undefined ? e.clientX : (e.touches && e.touches[0] && e.touches[0].clientX);
-      const cy = e.clientY !== undefined ? e.clientY : (e.touches && e.touches[0] && e.touches[0].clientY);
-      if (cx==null) return;
-      const px=(cx - rect.left)/rect.width - 0.5;
-      const py=(cy - rect.top)/rect.height - 0.5;
-      tx = px*10; ty = py*6;
-      if(!raf) raf=requestAnimationFrame(apply);
-    }
-    function onLeave(){
-      const baseRot = parseFloat(item.getAttribute('data-rot')||'0') * 0.45;
-      item.style.transition = 'transform 500ms cubic-bezier(.2,.9,.3,1)';
-      if (isMobileItem) {
-        item.style.transform = `rotate(${baseRot}deg) scale(1)`;
-      } else {
-        item.style.transform = `translate3d(0px,0px,0) rotate(${baseRot}deg) scale(1)`;
-      }
-    }
-    item.addEventListener('pointermove', onMove, { passive:true });
-    item.addEventListener('pointerleave', onLeave);
-    item.addEventListener('touchmove', onMove, { passive:true });
-    item.addEventListener('touchend', onLeave);
-
-    item.addEventListener('click', function(){ $(this).addClass('clicked'); setTimeout(()=> $(this).removeClass('clicked'),420); });
-  });
-  
-  // Handle window resize - recalculate positions on mobile
-  let resizeTimeout;
-  $(window).on('resize', function() {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(function() {
-      if (window.innerWidth <= 576) {
-        // Recalculate positions on mobile resize using clustering approach
-        const gridRect = $grid[0]?.getBoundingClientRect();
-        if (gridRect) {
-          const gridWidth = gridRect.width - 40;
-          const gridHeight = Math.max(400, items.length * 80); // Reduced height
-          const containerPadding = 20;
-          
-          const resizePlacedItems = [];
-          items.forEach((el, i) => {
-            const itemWidth = el.classList.contains('size-lg') ? 110 : el.classList.contains('size-md') ? 90 : 70;
-            const maxX = Math.max(0, gridWidth - itemWidth - containerPadding * 2);
-            const maxY = Math.max(0, gridHeight - itemWidth - containerPadding * 2);
-            
-            let tx, ty;
-            if (resizePlacedItems.length === 0) {
-              tx = containerPadding + Math.random() * Math.min(maxX, 200);
-              ty = containerPadding + Math.random() * Math.min(maxY, 250);
-            } else {
-              const baseItem = resizePlacedItems[Math.floor(Math.random() * resizePlacedItems.length)];
-              const clusterRadius = 150;
-              const angle = Math.random() * Math.PI * 2;
-              const distance = Math.random() * clusterRadius;
-              
-              tx = baseItem.x + Math.cos(angle) * distance;
-              ty = baseItem.y + Math.sin(angle) * distance;
-              tx = Math.max(containerPadding, Math.min(maxX + containerPadding, tx));
-              ty = Math.max(containerPadding, Math.min(maxY + containerPadding, ty));
-            }
-            
-            resizePlacedItems.push({ x: tx, y: ty, width: itemWidth, height: itemWidth });
-            el.style.left = tx.toFixed(1) + 'px';
-            el.style.top = ty.toFixed(1) + 'px';
-          });
-        }
-      }
-    }, 250);
+  // Minimal UI: flat grid, no rotation / stagger / tilt
+  Array.from(document.querySelectorAll('#stack-grid .stack-item')).forEach(el => {
+    el.classList.add('visible');
+    el.style.transform = 'none';
+    el.style.left = '';
+    el.style.top = '';
+    el.style.transition = 'none';
   });
 }
 
@@ -1161,33 +741,22 @@ function loadClients() {
       slides.push(`<div class="carousel-item ${i===0? 'active':''}"><div class="d-flex justify-content-center align-items-center">${itemsHtml}</div></div>`);
     }
     const carouselHtml = `
-      <div id="clientsMobileCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2800">
+      <div id="clientsMobileCarousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
         <div class="carousel-inner">${slides.join('')}</div>
       </div>`;
     $carousel.html(carouselHtml);
-    // bootstrap auto-init happens via data attributes; ensure instance
     const el = document.getElementById('clientsMobileCarousel');
-    if (el) bootstrap.Carousel.getOrCreateInstance(el, { interval: 2800 });
+    if (el) bootstrap.Carousel.getOrCreateInstance(el, { interval: false, ride: false });
   }
 
-  // Stagger reveal and pointer tilt for desktop grid
-  const tiles = Array.from(document.querySelectorAll('#clients-grid .client-tile'));
-  tiles.forEach((tile, i) => {
-    setTimeout(() => {
-      tile.classList.add('revealed');
-      // small pointer tilt
-      tile.addEventListener('pointermove', function(e){
-        const rect = tile.getBoundingClientRect();
-        const px = ((e.clientX - rect.left) / rect.width - 0.5);
-        const py = ((e.clientY - rect.top) / rect.height - 0.5);
-        tile.style.transform = `perspective(700px) rotateX(${(-py*6).toFixed(2)}deg) rotateY(${(px*6).toFixed(2)}deg) translateZ(0)`;
-      }, { passive:true });
-      tile.addEventListener('pointerleave', function(){ tile.style.transform=''; });
-    }, 120 + i * 70);
+  // Minimal UI: show clients immediately, no tilt / stagger
+  Array.from(document.querySelectorAll('#clients-grid .client-tile')).forEach(tile => {
+    tile.classList.add('revealed');
+    tile.style.transform = 'none';
   });
 
-  // marquee infinite loop (CSS-free JS small loop)
-  if ($marquee.length) {
+  // marquee disabled for minimal UI
+  if (false && $marquee.length) {
     const track = $marquee[0];
     let pos = 0;
     // duplicate content for seamless loop
@@ -1326,34 +895,16 @@ async function loadTestimonials() {
   // Remove fade class if present - we want sliding animation
   carouselRoot.classList.remove('carousel-fade');
 
-  // init carousel with automatic sliding from right to left
-  const carouselInstance = bootstrap.Carousel.getOrCreateInstance(carouselRoot, {
-    interval: 4200,
-    ride: true, // Enable automatic sliding
-    pause: 'hover', // Pause on hover
+  // Minimal UI: manual carousel only, no autoplay / reveal stagger
+  bootstrap.Carousel.getOrCreateInstance(carouselRoot, {
+    interval: false,
+    ride: false,
     keyboard: true,
     touch: true,
-    wrap: true // Loop back to first slide
+    wrap: true
   });
-
-  // reveal testimonial-cards when the testimonials section scrolls into view
-  const cards = Array.from(carouselRoot.querySelectorAll('.testimonial-card'));
-  cards.forEach(c => c.classList.remove('visible'));
-
-  if ('IntersectionObserver' in window) {
-    const obs = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          carouselRoot.classList.add('in-view');
-          cards.forEach((c, i) => setTimeout(() => c.classList.add('visible'), i * 140));
-          observer.disconnect();
-        }
-      });
-    }, { threshold: 0.18 });
-    obs.observe(carouselRoot);
-  } else {
-    setTimeout(() => cards.forEach((c, i) => setTimeout(() => c.classList.add('visible'), i * 140)), 240);
-  }
+  carouselRoot.classList.add('in-view');
+  carouselRoot.querySelectorAll('.testimonial-card').forEach(c => c.classList.add('visible'));
 }
 
 // Handle testimonial form submission
