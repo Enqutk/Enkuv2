@@ -11,153 +11,108 @@ $(function() {
   const $navbarCollapse = $('#mainNav');
   const $body = $('body');
   const $navbarToggler = $('.navbar-toggler');
-  
-  // Create backdrop element if it doesn't exist
+
   let $backdrop = $('.menu-backdrop');
   if ($backdrop.length === 0) {
     $backdrop = $('<div class="menu-backdrop"></div>');
     $body.append($backdrop);
   }
-  
-  // Ensure hamburger button is clickable and works
-  // Make sure Bootstrap collapse is initialized
-  if (typeof bootstrap !== 'undefined' && bootstrap.Collapse) {
-    // Bootstrap is loaded, ensure collapse works
-    $navbarToggler.on('click', function(e) {
-      console.log('Hamburger button clicked');
-      // Let Bootstrap handle the collapse
-    });
-  } else {
-    // Fallback if Bootstrap isn't loaded - manually toggle
+
+  function setMenuOpen(isOpen) {
+    $body.toggleClass('menu-open', isOpen);
+    $backdrop.toggleClass('show', isOpen);
+    $navbarToggler.attr('aria-expanded', isOpen ? 'true' : 'false');
+    $navbarToggler.attr('aria-label', isOpen ? 'Close menu' : 'Open menu');
+  }
+
+  if (typeof bootstrap === 'undefined' || !bootstrap.Collapse) {
     $navbarToggler.on('click', function(e) {
       e.preventDefault();
-      e.stopPropagation();
-      console.log('Hamburger clicked (fallback)');
-      const isExpanded = $(this).attr('aria-expanded') === 'true';
-      if (window.innerWidth < 992) {
-        if (isExpanded) {
-          $navbarCollapse.removeClass('show');
-          $body.removeClass('menu-open');
-          $backdrop.removeClass('show');
-          $(this).attr('aria-expanded', 'false');
-        } else {
-          $navbarCollapse.addClass('show');
-          $body.addClass('menu-open');
-          $backdrop.addClass('show');
-          $(this).attr('aria-expanded', 'true');
-        }
-      }
+      const isOpen = !$navbarCollapse.hasClass('show');
+      $navbarCollapse.toggleClass('show', isOpen);
+      setMenuOpen(isOpen);
     });
   }
-  
-  // Handle menu show
+
   $navbarCollapse.on('show.bs.collapse', function() {
-    if (window.innerWidth < 992) {
-      $body.addClass('menu-open');
-      $backdrop.addClass('show');
-      // Reset animations for menu items
-      $('.navbar-collapse .nav-item').css('animation', 'none');
-      setTimeout(function() {
-        $('.navbar-collapse .nav-item').css('animation', '');
-      }, 10);
-    }
+    if (window.innerWidth < 992) setMenuOpen(true);
   });
-  
-  // Handle menu hide
+
   $navbarCollapse.on('hide.bs.collapse', function() {
-    $body.removeClass('menu-open');
-    $backdrop.removeClass('show');
+    setMenuOpen(false);
   });
-  
-  // Handle menu shown (after animation)
-  $navbarCollapse.on('shown.bs.collapse', function() {
-    if (window.innerWidth < 992) {
-      $navbarCollapse.addClass('show');
-    }
-  });
-  
-  // Handle menu hidden (after animation)
-  $navbarCollapse.on('hidden.bs.collapse', function() {
-    $navbarCollapse.removeClass('show');
-  });
-  
-  // Close menu when clicking backdrop
-  $backdrop.on('click', function(e) {
-    e.preventDefault();
-    e.stopPropagation();
+
+  $backdrop.on('click', function() {
     if (window.innerWidth < 992) {
       $navbarCollapse.collapse('hide');
-    }
-  });
-  
-  // Close menu when clicking nav links on mobile (but allow navigation to work)
-  $(document).on('click', '.navbar-collapse .nav-link', function(e) {
-    const href = $(this).attr('href');
-    // Only close menu on mobile, don't prevent navigation
-    if (window.innerWidth < 992) {
-      // If it's a page link (not just an anchor), allow navigation immediately
-      if (href && !href.startsWith('#')) {
-        // It's a page link like blog.html, about.html, etc. - allow navigation
-        // Don't prevent default - let the browser navigate
-        // Close menu immediately so navigation can proceed
-        $navbarCollapse.collapse('hide');
-        // Allow the click to proceed normally
-        return true;
-      } else {
-        // It's an anchor link - close menu but don't prevent default (smooth scroll handler will handle it)
-        setTimeout(function() {
-          $navbarCollapse.collapse('hide');
-        }, 100);
-      }
-    }
-  });
-  
-  // Close menu when clicking close button
-  $(document).on('click', '.menu-close-btn', function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    if (window.innerWidth < 992) {
-      $navbarCollapse.collapse('hide');
-    }
-  });
-  
-  // Handle window resize
-  $(window).on('resize', function() {
-    if (window.innerWidth >= 992) {
-      $body.removeClass('menu-open');
-      $backdrop.removeClass('show');
-      if ($navbarCollapse.hasClass('show')) {
-        $navbarCollapse.removeClass('show');
-      }
-    }
-  });
-  
-  // ---------- Smooth scroll for anchor links only ----------
-  $(document).on('click', 'a[href^="#"]', function(e) {
-    const href = this.getAttribute('href');
-    // Only handle pure anchor links (starting with #) on the same page
-    if (href && href.startsWith('#') && href.length > 1) {
-      const target = $(href);
-      if (target.length) {
-        e.preventDefault();
-        $('html,body').animate({ scrollTop: target.offset().top - 70 }, 600);
-        // collapse navbar on mobile after click
-        $('.navbar-collapse').collapse('hide');
-      }
     }
   });
 
-  // ---------- Active nav link on scroll ----------
-  const sections = $('section[id], header#home');
+  $(document).on('click', '.navbar-collapse .nav-link', function() {
+    if (window.innerWidth < 992) {
+      $navbarCollapse.collapse('hide');
+    }
+  });
+
+  $(window).on('resize', function() {
+    if (window.innerWidth >= 992) {
+      setMenuOpen(false);
+      $navbarCollapse.removeClass('show');
+    }
+  });
+
+  // ---------- Smooth scroll for anchor links only ----------
+  $(document).on('click', 'a[href*="#"]', function(e) {
+    const href = this.getAttribute('href');
+    if (!href) return;
+
+    const hashIndex = href.indexOf('#');
+    if (hashIndex === -1 || href.length === hashIndex + 1) return;
+
+    const path = href.slice(0, hashIndex);
+    const hash = href.slice(hashIndex);
+    const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
+    const targetPath = (!path || path === '/') ? '/' : path.replace(/\/$/, '');
+
+    if (targetPath !== currentPath && !(currentPath === '/' && (targetPath === '/' || targetPath === ''))) {
+      return;
+    }
+
+    const target = $(hash);
+    if (target.length) {
+      e.preventDefault();
+      $('html,body').animate({ scrollTop: target.offset().top - 70 }, 600);
+      $('.navbar-collapse').collapse('hide');
+    }
+  });
+
+  // ---------- Active nav link ----------
+  function currentPath() {
+    return window.location.pathname.replace(/\/$/, '') || '/';
+  }
+
   function updateActiveNav() {
-    const pos = $(window).scrollTop() + 80;
-    let currentId = null;
-    sections.each(function() {
-      const top = $(this).offset().top;
-      if (pos >= top) { currentId = $(this).attr('id'); }
-    });
+    const path = currentPath();
     $('.navbar .nav-link').removeClass('active');
-    if (currentId) $('.navbar .nav-link[href="#' + currentId + '"]').addClass('active');
+    $('.navbar .nav-link').each(function() {
+      const href = ($(this).attr('href') || '').split('#')[0];
+      const linkPath = !href || href === '/' ? '/' : href.replace(/\/$/, '');
+      if (linkPath === path) {
+        $(this).addClass('active');
+      }
+    });
+
+    if (path === '/') {
+      const pos = $(window).scrollTop() + 80;
+      let currentId = 'home';
+      $('section[id], header#home').each(function() {
+        if (pos >= $(this).offset().top) currentId = $(this).attr('id');
+      });
+      if (currentId === 'contact') {
+        $('.navbar .nav-link').removeClass('active');
+        $('.navbar .nav-link[href="/#contact"], .navbar .nav-link[href="#contact"]').addClass('active');
+      }
+    }
   }
   $(window).on('scroll resize', updateActiveNav);
   updateActiveNav();
