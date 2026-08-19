@@ -330,6 +330,9 @@ body.menu-open .hamburger span:nth-child(3) {
 }
 
 @media (min-width: 992px) {
+  .navbar-custom .navbar-toggler {
+    display: none !important;
+  }
   .navbar-custom .navbar-brand {
     font-size: 1.25rem;
   }
@@ -342,6 +345,12 @@ body.menu-open .hamburger span:nth-child(3) {
     background: transparent;
     border: none;
     box-shadow: none;
+    display: flex !important;
+    position: static !important;
+    height: auto !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
   }
   .navbar-collapse::before,
   .navbar-collapse::after {

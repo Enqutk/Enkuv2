@@ -1553,6 +1553,23 @@ body {
 }
 
 @media (min-width: 992px) {
+  .navbar-custom .navbar-toggler {
+    display: none !important;
+  }
+
+  .navbar-custom .navbar-collapse {
+    display: flex !important;
+    position: static !important;
+    height: auto !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
   .hero,
   .hero-left,
   header.hero {
@@ -1612,11 +1629,11 @@ body {
     gap: 0.5rem 0.75rem;
   }
 
-  .d-flex.gap-3 {
+  .hero-inner .d-flex.gap-3 {
     flex-direction: column;
   }
 
-  .d-flex.gap-3 .btn {
+  .hero-inner .d-flex.gap-3 .btn {
     width: 100%;
   }
 }

@@ -104,7 +104,9 @@ $(function() {
     const path = currentPath();
     $('.navbar .nav-link').removeClass('active');
     $('.navbar .nav-link').each(function() {
-      const href = ($(this).attr('href') || '').split('#')[0];
+      const fullHref = $(this).attr('href') || '';
+      if (fullHref.includes('#')) return;
+      const href = fullHref.split('#')[0];
       const linkPath = !href || href === '/' ? '/' : href.replace(/\/$/, '');
       if (linkPath === path) {
         $(this).addClass('active');
