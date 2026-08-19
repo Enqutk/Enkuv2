@@ -42,6 +42,8 @@ $(function() {
       setMenuOpen(false);
     }
   }
+
+  $navbarCollapse.on('show.bs.collapse', function() {
     if (window.innerWidth < 992) setMenuOpen(true);
   });
 
@@ -58,9 +60,7 @@ $(function() {
   });
 
   $(document).on('click', '.navbar-collapse .nav-link', function() {
-    if (window.innerWidth < 992) {
-      $navbarCollapse.collapse('hide');
-    }
+    if (window.innerWidth < 992) closeMenu();
   });
 
   $(window).on('resize', function() {
