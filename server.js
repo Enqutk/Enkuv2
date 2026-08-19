@@ -81,6 +81,44 @@ if (process.env.VERCEL || process.env.VERCEL_ENV) {
   app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 }
 
+// Clean URLs: /projects instead of /projects.html
+const PAGE_FILES = {
+  '/': 'index.html',
+  '/about': 'about.html',
+  '/projects': 'projects.html',
+  '/blog': 'blog.html',
+  '/gallery': 'gallery.html',
+  '/admin': 'admin.html',
+  '/admin-login': 'admin-login.html',
+  '/login': 'admin-login.html'
+};
+
+const HTML_REDIRECTS = {
+  '/index.html': '/',
+  '/about.html': '/about',
+  '/projects.html': '/projects',
+  '/blog.html': '/blog',
+  '/gallery.html': '/gallery',
+  '/admin.html': '/admin',
+  '/admin-login.html': '/admin-login'
+};
+
+app.use((req, res, next) => {
+  const pathname = req.path.replace(/\/+$/, '') || '/';
+  const query = req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : '';
+
+  if (HTML_REDIRECTS[req.path] || HTML_REDIRECTS[pathname]) {
+    const dest = HTML_REDIRECTS[req.path] || HTML_REDIRECTS[pathname];
+    return res.redirect(301, dest + query);
+  }
+
+  if (req.path !== '/' && req.path.endsWith('/')) {
+    return res.redirect(301, pathname + query);
+  }
+
+  next();
+});
+
 // Explicit CSS route with file existence check
 app.get('/style.css', (req, res) => {
   const cssPath = path.join(__dirname, 'style.css');
@@ -103,6 +141,7 @@ app.get('/style.css', (req, res) => {
 app.use(express.static(path.join(__dirname), {
   dotfiles: 'ignore',
   index: false,
+  extensions: ['html'],
   setHeaders: (res, filePath) => {
     // Set proper content type for CSS
     if (filePath.endsWith('.css')) {
@@ -110,6 +149,13 @@ app.use(express.static(path.join(__dirname), {
     }
   }
 }));
+
+// Explicit clean page routes (in case static miss)
+Object.keys(PAGE_FILES).forEach((route) => {
+  app.get(route, (req, res) => {
+    res.sendFile(path.join(__dirname, PAGE_FILES[route]));
+  });
+});
 
 // Routes (with error handling) - MUST come after static files for API routes
 try {

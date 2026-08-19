@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Enqutk/Enkuv2@main/style.css">
     <link rel="stylesheet" href="style.css" onerror="this.onerror=null; this.href='style.css';">
-    <link rel="stylesheet" href="minimal.css?v=4">
+    <link rel="stylesheet" href="/minimal.css?v=5">
 
     <script>
       window.toggleTheme = function(e) {
@@ -79,26 +79,21 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-custom">
   <div class="container">
-    <a class="navbar-brand" href="index.html">Enku Taddesse</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="Menu">
-      <span class="navbar-toggler-icon"></span>
+    <a class="navbar-brand" href="/">Enku Taddesse</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Open menu">
+      <span class="hamburger" aria-hidden="true"><span></span><span></span><span></span></span>
     </button>
     <div class="collapse navbar-collapse" id="mainNav">
-      <button class="menu-close-btn d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="Close menu">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="20" height="20">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
       <ul class="navbar-nav ms-auto align-items-lg-center">
-        <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-        <li class="nav-item"><a class="nav-link" href="projects.html">Projects</a></li>
-        <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
-        <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
-        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="/projects">Projects</a></li>
+        <li class="nav-item"><a class="nav-link" href="/blog">Blog</a></li>
+        <li class="nav-item"><a class="nav-link" href="/gallery">Gallery</a></li>
+        <li class="nav-item"><a class="nav-link" href="/#contact">Contact</a></li>
       </ul>
-      <div class="ms-lg-3 d-flex align-items-center gap-2 mt-3 mt-lg-0">
-        <a href="admin.html" id="admin-link" class="btn btn-gold btn-sm" style="display: none;">Admin</a>
+      <div class="nav-actions">
+        <a href="/admin" id="admin-link" class="btn btn-gold btn-sm" style="display: none;">Admin</a>
         <button id="theme-toggle" class="btn btn-sm" title="Toggle theme" onclick="window.toggleTheme(event)">🌙</button>
       </div>
     </div>
@@ -118,8 +113,8 @@
           </p>
           <p class="text-muted mb-4" style="font-size:0.875rem;">Dire Dawa University, Ethiopia</p>
           <div class="d-flex flex-wrap gap-2 mb-4">
-            <a href="projects.html" class="btn btn-gold">View Projects</a>
-            <a href="about.html" class="btn btn-outline-dark">About Me</a>
+            <a href="/projects" class="btn btn-gold">View Projects</a>
+            <a href="/about" class="btn btn-outline-dark">About Me</a>
           </div>
           <div class="d-flex gap-2">
             <a class="social-btn" href="https://t.me/your_channel" title="Telegram" aria-label="Telegram" target="_blank" rel="noopener">
@@ -154,7 +149,7 @@
     <div class="ba-section-head">
       <p class="ba-label">About</p>
       <hr class="ba-line">
-      <a href="about.html" class="ba-action">More →</a>
+      <a href="/about" class="ba-action">More →</a>
     </div>
     <div class="row gy-4">
       <div class="col-lg-3 d-none d-lg-block">
@@ -283,7 +278,7 @@
     <div class="ba-section-head">
       <p class="ba-label">Projects</p>
       <hr class="ba-line">
-      <a href="projects.html" class="ba-action">View all →</a>
+      <a href="/projects" class="ba-action">View all →</a>
     </div>
     <div id="projects-preview-grid" class="row g-3"></div>
   </div>
@@ -295,7 +290,7 @@
     <div class="ba-section-head">
       <p class="ba-label">Blog</p>
       <hr class="ba-line">
-      <a href="blog.html" class="ba-action">View all →</a>
+      <a href="/blog" class="ba-action">View all →</a>
     </div>
     <div id="blog-preview-grid" class="row g-3"></div>
   </div>
@@ -307,7 +302,7 @@
     <div class="ba-section-head">
       <p class="ba-label">Gallery</p>
       <hr class="ba-line">
-      <a href="gallery.html" class="ba-action">View all →</a>
+      <a href="/gallery" class="ba-action">View all →</a>
     </div>
     <div id="gallery-preview-grid" class="row g-3"></div>
   </div>
@@ -528,7 +523,7 @@
       featuredProjects.slice(0, 6).forEach(project => {
         $projectGrid.append(`
           <div class="col-md-4 col-lg-3">
-            <div class="project-tile" style="cursor:pointer;" onclick="window.location.href='projects.html'">
+            <div class="project-tile" style="cursor:pointer;" onclick="window.location.href='/projects'">
               <img src="${escapeHtml(project.img)}" alt="${escapeHtml(project.title)}" style="width:100%; height:200px; object-fit:cover;">
               <div class="project-body p-3">
                 <div class="project-title">${escapeHtml(project.title)}</div>
@@ -563,7 +558,7 @@
         const dateStr = blog.date || blog.created_at || new Date().toISOString();
         const date = new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
         $heroFeatured.append(`
-          <div class="hero-featured-item p-3" style="cursor:pointer;" onclick="window.location.href='blog.html?id=${blog.id}'">
+          <div class="hero-featured-item p-3" style="cursor:pointer;" onclick="window.location.href='/blog?id=${blog.id}'">
             <h6 class="hero-featured-title mb-1">${escapeHtml(blog.title)}</h6>
             <p class="hero-featured-excerpt text-muted small mb-1">${escapeHtml((blog.excerpt || blog.content || '').substring(0, 80))}...</p>
             <small class="text-muted">${date}</small>
@@ -599,7 +594,7 @@
           : '';
         $blogGrid.append(`
           <div class="col-md-4">
-            <div class="card h-100" style="cursor:pointer;" onclick="window.location.href='blog.html?id=${blog.id}'">
+            <div class="card h-100" style="cursor:pointer;" onclick="window.location.href='/blog?id=${blog.id}'">
               ${imageHtml}
               <div class="card-body">
                 <h5 class="card-title" style="font-size:1rem;">${escapeHtml(blog.title)}</h5>
@@ -622,7 +617,7 @@
       galleryToShow.forEach(item => {
         $galleryGrid.append(`
           <div class="col-md-4 col-lg-3">
-            <div class="project-tile" style="cursor:pointer;" onclick="window.location.href='gallery.html'">
+            <div class="project-tile" style="cursor:pointer;" onclick="window.location.href='/gallery'">
               <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" style="width:100%; height:200px; object-fit:cover;">
               <div class="p-2">
                 <div class="project-title" style="font-size:0.9rem;">${escapeHtml(item.title)}</div>
