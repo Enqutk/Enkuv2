@@ -226,18 +226,18 @@ h1::after, h2::after, h3::after,
 .navbar-custom .navbar-toggler[aria-expanded="true"] .hamburger span:nth-child(1),
 body.menu-open .hamburger span:nth-child(1) {
   top: 6.25px;
-  transform: rotate(45deg);
+  transform: rotate(45deg) !important;
 }
 
 .navbar-custom .navbar-toggler[aria-expanded="true"] .hamburger span:nth-child(2),
 body.menu-open .hamburger span:nth-child(2) {
-  opacity: 0;
+  opacity: 0 !important;
 }
 
 .navbar-custom .navbar-toggler[aria-expanded="true"] .hamburger span:nth-child(3),
 body.menu-open .hamburger span:nth-child(3) {
   top: 6.25px;
-  transform: rotate(-45deg);
+  transform: rotate(-45deg) !important;
 }
 
 .nav-actions {
