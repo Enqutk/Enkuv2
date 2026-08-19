@@ -34,7 +34,14 @@ $(function() {
     });
   }
 
-  $navbarCollapse.on('show.bs.collapse', function() {
+  function closeMenu() {
+    if (typeof $navbarCollapse.collapse === 'function') {
+      $navbarCollapse.collapse('hide');
+    } else {
+      $navbarCollapse.removeClass('show');
+      setMenuOpen(false);
+    }
+  }
     if (window.innerWidth < 992) setMenuOpen(true);
   });
 
@@ -43,9 +50,11 @@ $(function() {
   });
 
   $backdrop.on('click', function() {
-    if (window.innerWidth < 992) {
-      $navbarCollapse.collapse('hide');
-    }
+    if (window.innerWidth < 992) closeMenu();
+  });
+
+  $(document).on('keydown', function(e) {
+    if (e.key === 'Escape' && $body.hasClass('menu-open')) closeMenu();
   });
 
   $(document).on('click', '.navbar-collapse .nav-link', function() {
