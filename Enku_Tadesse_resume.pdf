@@ -6,7 +6,7 @@ endobj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
 endobj
 3 0 obj
-<< /Length 3812 >>
+<< /Length 3229 >>
 stream
 0.040 0.040 0.060 rg
 0.00 700.00 612.00 92.00 re f
@@ -15,7 +15,7 @@ stream
 1.000 1.000 1.000 rg
 BT /F2 22 Tf 48.00 754.00 Td (ENKU TADESSE) Tj ET
 0.850 0.850 0.850 rg
-BT /F1 9 Tf 48.00 734.00 Td (Full Stack Developer  |  Intern, Teter Trending PLC) Tj ET
+BT /F1 9 Tf 48.00 734.00 Td (Full Stack Developer  |  Intern & Intern Project Manager, Teter Trending PLC) Tj ET
 0.450 0.450 0.450 rg
 BT /F1 8.5 Tf 48.00 676.00 Td (Addis Ababa, Ethiopia  |  +251 931 727 965  |  enkukokob@gmail.com) Tj ET
 BT /F1 8.5 Tf 48.00 664.00 Td (enkuv2.vercel.app  |  github.com/Enqutk) Tj ET
@@ -33,53 +33,45 @@ BT /F2 10 Tf 48.00 584.00 Td (EXPERIENCE) Tj ET
 0.7 w
 48 576.00 m 564 576.00 l S
 0.080 0.080 0.080 rg
-BT /F2 10.5 Tf 48.00 560.00 Td (Software Intern  |  Teter Trending PLC) Tj ET
+BT /F2 10.5 Tf 48.00 560.00 Td (Intern & Intern Project Manager  |  Teter Trending PLC) Tj ET
 0.400 0.400 0.400 rg
 BT /F1 8.5 Tf 48.00 547.00 Td (2026 - Present) Tj ET
 0.080 0.080 0.080 rg
-BT /F1 9.5 Tf 58.00 534.00 Td (-  Contributed to production repositories at Gasha Digital, Abel, and Teter Trending.) Tj ET
-BT /F1 9.5 Tf 58.00 521.00 Td (-  Shipped full-stack intern work across those codebases with the engineering team.) Tj ET
-BT /F1 9.5 Tf 58.00 508.00 Td (-  Supported live client products and day-to-day delivery.) Tj ET
-BT /F2 10.5 Tf 48.00 491.00 Td (Project Manager  |  Akilil Digital Realm Website) Tj ET
-0.400 0.400 0.400 rg
-BT /F1 8.5 Tf 48.00 478.00 Td (2026  |  Teter Trending PLC internship) Tj ET
-0.080 0.080 0.080 rg
-BT /F1 9.5 Tf 58.00 465.00 Td (-  Led the website as project manager from kickoff through delivery.) Tj ET
-BT /F1 9.5 Tf 58.00 452.00 Td (-  Direct client contact for requirements, updates, and sign-off.) Tj ET
-BT /F1 9.5 Tf 58.00 439.00 Td (-  Coordinated scope, timeline, and the build with the team.) Tj ET
-BT /F2 10.5 Tf 48.00 422.00 Td (Vice President  |  DDU ICT Club) Tj ET
-BT /F1 9.5 Tf 58.00 409.00 Td (-  Led a team building interactive web applications and organized workshops.) Tj ET
-BT /F2 10.5 Tf 48.00 394.00 Td (Full Stack Developer  |  Freelance) Tj ET
-BT /F1 9.5 Tf 58.00 381.00 Td (-  Built REST APIs, JWT authentication, and responsive client websites.) Tj ET
+BT /F1 9.5 Tf 58.00 534.00 Td (-  Intern project manager for the Akilil Digital Realm website, with direct client contact.) Tj ET
+BT /F1 9.5 Tf 58.00 521.00 Td (-  Owned requirements, updates, and delivery from kickoff through launch.) Tj ET
+BT /F1 9.5 Tf 58.00 508.00 Td (-  Built and shipped intern project work with the team.) Tj ET
+BT /F2 10.5 Tf 48.00 491.00 Td (Vice President  |  DDU ICT Club) Tj ET
+BT /F1 9.5 Tf 58.00 478.00 Td (-  Led a team building interactive web applications and organized workshops.) Tj ET
+BT /F2 10.5 Tf 48.00 463.00 Td (Full Stack Developer  |  Freelance) Tj ET
+BT /F1 9.5 Tf 58.00 450.00 Td (-  Built REST APIs, JWT authentication, and responsive client websites.) Tj ET
 0.720 0.530 0.040 rg
-BT /F2 10 Tf 48.00 362.00 Td (PROJECTS) Tj ET
+BT /F2 10 Tf 48.00 431.00 Td (PROJECTS) Tj ET
+0.720 0.530 0.040 RG
+0.7 w
+48 423.00 m 564 423.00 l S
+0.080 0.080 0.080 rg
+BT /F1 9.5 Tf 58.00 407.00 Td (-  Akilil Digital Realm website - intern project manager and direct client contact.) Tj ET
+BT /F1 9.5 Tf 58.00 394.00 Td (-  Event Pulse - event registrations and ticket sales.) Tj ET
+BT /F1 9.5 Tf 58.00 381.00 Td (-  Traffic Sign Recognition - machine learning model for traffic-sign classification.) Tj ET
+0.720 0.530 0.040 rg
+BT /F2 10 Tf 48.00 362.00 Td (EDUCATION) Tj ET
 0.720 0.530 0.040 RG
 0.7 w
 48 354.00 m 564 354.00 l S
 0.080 0.080 0.080 rg
-BT /F1 9.5 Tf 58.00 338.00 Td (-  Akilil Digital Realm website - project manager and direct client contact.) Tj ET
-BT /F1 9.5 Tf 58.00 325.00 Td (-  Teter internship repos - Gasha Digital, Abel, and Teter Trending.) Tj ET
-BT /F1 9.5 Tf 58.00 312.00 Td (-  Event Pulse - event registrations and ticket sales.) Tj ET
-BT /F1 9.5 Tf 58.00 299.00 Td (-  Traffic Sign Recognition - machine learning model for traffic-sign classification.) Tj ET
+BT /F2 9.5 Tf 48.00 338.00 Td (BSc in Computer Science  |  Dire Dawa University  |  Expected 2027) Tj ET
 0.720 0.530 0.040 rg
-BT /F2 10 Tf 48.00 280.00 Td (EDUCATION) Tj ET
+BT /F2 10 Tf 48.00 319.00 Td (TECHNICAL SKILLS) Tj ET
 0.720 0.530 0.040 RG
 0.7 w
-48 272.00 m 564 272.00 l S
+48 311.00 m 564 311.00 l S
 0.080 0.080 0.080 rg
-BT /F2 9.5 Tf 48.00 256.00 Td (BSc in Computer Science  |  Dire Dawa University  |  Expected 2027) Tj ET
-0.720 0.530 0.040 rg
-BT /F2 10 Tf 48.00 237.00 Td (TECHNICAL SKILLS) Tj ET
-0.720 0.530 0.040 RG
-0.7 w
-48 229.00 m 564 229.00 l S
-0.080 0.080 0.080 rg
-BT /F1 9.5 Tf 48.00 213.00 Td (Frontend: Next.js, React, JavaScript \(ES6+\), HTML5, CSS3, Tailwind) Tj ET
-BT /F1 9.5 Tf 48.00 200.00 Td (Backend: Node.js, Express.js, PHP) Tj ET
-BT /F1 9.5 Tf 48.00 187.00 Td (Databases: MySQL, PostgreSQL) Tj ET
-BT /F1 9.5 Tf 48.00 174.00 Td (Tools: Git, GitHub, REST APIs, Postman, VS Code, JWT, responsive design) Tj ET
+BT /F1 9.5 Tf 48.00 295.00 Td (Frontend: Next.js, React, JavaScript \(ES6+\), HTML5, CSS3, Tailwind) Tj ET
+BT /F1 9.5 Tf 48.00 282.00 Td (Backend: Node.js, Express.js, PHP) Tj ET
+BT /F1 9.5 Tf 48.00 269.00 Td (Databases: MySQL, PostgreSQL) Tj ET
+BT /F1 9.5 Tf 48.00 256.00 Td (Tools: Git, GitHub, REST APIs, Postman, VS Code, JWT, responsive design) Tj ET
 0.450 0.450 0.450 rg
-BT /F1 8.5 Tf 48.00 151.00 Td (References available upon request) Tj ET
+BT /F1 8.5 Tf 48.00 233.00 Td (References available upon request) Tj ET
 endstream
 endobj
 4 0 obj
@@ -97,11 +89,11 @@ xref
 0000000009 00000 n 
 0000000079 00000 n 
 0000000154 00000 n 
-0000004017 00000 n 
-0000004153 00000 n 
-0000004210 00000 n 
+0000003434 00000 n 
+0000003570 00000 n 
+0000003627 00000 n 
 trailer
 << /Size 7 /Root 6 0 R >>
 startxref
-4259
+3676
 %%EOF

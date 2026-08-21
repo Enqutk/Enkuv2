@@ -132,8 +132,7 @@ $(function() {
   function loadProjects() {
   
     const projects = [
-      { id: 'akilil-digital-realm', title: "Akilil Digital Realm Website", year: "2026", desc: "Project manager with direct client contact for the Akilil Digital Realm website.", img: "assets/projects/akilil-digital-realm.svg", tags:['web','intern'], collab:'team', github: 'https://github.com/Enqutk', featured: true, details: "Led the Akilil Digital Realm website as project manager during my internship at Teter Trending PLC. I was the direct point of contact with the client, managed scope and delivery, and coordinated the build from kickoff through launch." },
-      { id: 'teter-intern', title: "Teter Trending Internship Work", year: "2026", desc: "Intern contributions across Gasha Digital, Abel, and Teter Trending repositories.", img: "assets/projects/teter-intern.svg", tags:['web','intern'], collab:'team', github: 'https://github.com/Enqutk', featured: true, details: "As a software intern at Teter Trending PLC I contributed to production repositories at Gasha Digital, Abel, and Teter Trending — shipping full-stack work, collaborating with the engineering team, and supporting live client products." },
+      { id: 'akilil-digital-realm', title: "Akilil Digital Realm Website", year: "2026", desc: "Intern project manager with direct client contact for the Akilil Digital Realm website.", img: "assets/projects/akilil-digital-realm.svg", tags:['web','intern'], collab:'team', github: 'https://github.com/Enqutk', featured: true, details: "During my 2026 internship at Teter Trending PLC I led the Akilil Digital Realm website as intern project manager. I was the direct point of contact with the client, managed scope and delivery, and coordinated the build from kickoff through launch." },
       { id: 'legnapath', title: "LegnaPath Mentorship Platform", year: "2025", desc: "Mentorship features, match-making and micro-payments.", img: "assets/projects/legnapath.png", tags:['web'], collab:'team', github: 'https://github.com/Enqutk' },
       { id: 'custom-user-form', title: "Custom User Form Plugin", year: "2025", desc: "Shortcode based capture & management.", img: "assets/projects/custom-user-form.png", tags:['wp'], collab:'solo', github: 'https://github.com/Enqutk' },
       { id: 'food-ordering', title: "Food Ordering System", year: "2025", desc: "Ordering web app with guest checkout.", img: "assets/projects/food-ordering.png", tags:['web','mobile'], collab:'team', github: 'https://github.com/Enqutk/shopping' },
@@ -662,9 +661,8 @@ $(function(){ loadStack(); });
 // Clients & Partners loader
 function loadClients() {
   const clients = [
-    { id:'teter', name:'Teter Trending PLC', img:'assets/clients/teter.svg', featured:true, website:'https://github.com/Enqutk', desc:'Internship at Teter Trending PLC. Contributed to repositories at Gasha Digital, Abel, and Teter Trending, and project-managed the Akilil Digital Realm website with direct client contact.' },
-    { id:'gasha', name:'Gasha Digital', img:'assets/clients/gasha.svg', featured:true, website:'https://github.com/gashadigital', desc:'Intern contributions to Gasha Digital repositories as part of the Teter Trending PLC internship.' },
-    { id:'akilil', name:'Akilil Digital Realm', img:'assets/clients/akilil.svg', featured:true, website:'#', desc:'Project manager for the Akilil Digital Realm website, including direct client communication and delivery.' },
+    { id:'teter', name:'Teter Trending PLC', img:'assets/clients/teter.svg', featured:true, website:'#', desc:'Internship at Teter Trending PLC (2026). Intern project manager for the Akilil Digital Realm website, with direct client contact.' },
+    { id:'akilil', name:'Akilil Digital Realm', img:'assets/clients/akilil.svg', featured:true, website:'#', desc:'Intern project manager for the Akilil Digital Realm website, including direct client communication and delivery.' },
     { id:'abol', name:'ABOL Solution', img:'assets/clients/abol.png', featured:true, website:'#', desc:'Technology solutions partner focused on local web tools and community outreach initiatives.' },
     { id:'ddu', name:'DDU ICT Club', img:'assets/clients/dduictclub.jpg', featured:true, website:'#', desc:'University technology club providing mentorship, workshops, and collaborative learning opportunities for students.' }
   ];
